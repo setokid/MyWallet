@@ -1,31 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, ProgressBarAndroid, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
+import AppPages from '../../components/Pages/AppPages';
 
-const App = () => {
-  const option = (200000123000 * 100) / 5231230000 / 100;
-  console.log(option * 100);
+const Pages = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.example}>
-        <Text>Circle Progress Indicator</Text>
-        <ProgressBarAndroid />
+      <View style={styles.title}>
+        <Text style={{fontSize: 16, fontWeight: '500'}}>App Pages</Text>
       </View>
-      <View style={styles.example}>
-        <Text>Horizontal Progress Indicator</Text>
-        <ProgressBarAndroid styleAttr="Horizontal" />
-      </View>
-      <View style={styles.example}>
-        <Text>Colored Progress Indicator</Text>
-        <ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" />
-      </View>
-      <View style={styles.example}>
-        <Text>Fixed Progress Value</Text>
-        <ProgressBarAndroid
-          styleAttr="Horizontal"
-          indeterminate={false}
-          progress={option}
-        />
-      </View>
+      <AppPages />
     </View>
   );
 };
@@ -33,12 +16,17 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#ededf5',
   },
-  example: {
-    marginVertical: 24,
+  title: {
+    color: '#958d9e',
+    paddingTop: 7,
+    paddingRight: 16,
+    paddingBottom: 16,
+    paddingLeft: 16,
+    marginTop: 8,
+    fontWeight: '500',
   },
 });
 
-export default App;
+export default Pages;

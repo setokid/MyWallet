@@ -6,7 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MenuIcon from 'react-native-vector-icons/Entypo';
-
+import {useTheme} from '@react-navigation/native';
 import Home from '../../screen/Home/Home';
 import Pages from '../../screen/Pages/Pages';
 import Profile from '../../screen/Profile/Profile';
@@ -90,6 +90,8 @@ const MainTabScreen = () => (
   <Tab.Navigator
     initialRouteName="Login"
     screenOptions={({route}) => ({
+      tabBarInactiveTintColor: 'gray',
+      tabBarActiveTintColor: '#6236FF',
       tabBarIcon: ({focused, color, size}) => {
         let iconName;
 
