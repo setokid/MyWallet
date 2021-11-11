@@ -1,39 +1,38 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {useTheme} from 'react-native-paper';
+import {View, Text, StyleSheet} from 'react-native';
+import {Switch, TouchableRipple, useTheme} from 'react-native-paper';
 
-import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AppPages = () => {
+import {AuthContext} from '../Context/Context';
+
+const Language = () => {
   const {colors, colors2} = useTheme();
+  const {signOut, toggleLanguage} = React.useContext(AuthContext);
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
+      <TouchableRipple
+        onPress={() => {
+          toggleLanguage();
+        }}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>
-              Transactions
-            </Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
+            <Text style={{color: colors.value, fontSize: 17}}>English</Text>
+            <Switch
+              value={{}}
+              trackColor={{false: '#767577', true: '#6236FF'}}
+              thumbColor={'#6236FF'}
+            />
           </View>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.listItem}>
-          <View style={styles.cube}>
-            <Icon name="cube-outline" size={22} color={'#fff'} />
-          </View>
-          <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Saving</Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
-          </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity>
+      </TouchableRipple>
+      <TouchableRipple
+        onPress={() => {
+          toggleLanguage();
+        }}>
         <View
           style={[
             styles.listItem,
@@ -43,16 +42,20 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Profile</Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
+            <Text style={{color: colors.value, fontSize: 17}}>Vietnamese</Text>
+            <Switch
+              value={{}}
+              trackColor={{false: '#767577', true: '#6236FF'}}
+              thumbColor={'#6236FF'}
+            />
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableRipple>
     </View>
   );
 };
 
-export default AppPages;
+export default Language;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     marginRight: 16,
-    backgroundColor: '#6236FF',
+    backgroundColor: '#222',
     borderRadius: 400,
   },
   item: {

@@ -5,7 +5,7 @@ import {useTheme} from 'react-native-paper';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AppPages = () => {
+const Others = () => {
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -15,9 +15,7 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>
-              Transactions
-            </Text>
+            <Text style={{color: colors.value, fontSize: 17}}>About Us</Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -28,7 +26,7 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Saving</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>Contact</Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -43,7 +41,7 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Profile</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>FAQ</Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -52,7 +50,7 @@ const AppPages = () => {
   );
 };
 
-export default AppPages;
+export default Others;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     marginRight: 16,
-    backgroundColor: '#6236FF',
+    backgroundColor: '#1DCC70',
     borderRadius: 400,
   },
   item: {

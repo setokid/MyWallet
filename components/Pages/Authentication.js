@@ -5,34 +5,10 @@ import {useTheme} from 'react-native-paper';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AppPages = () => {
+const Authentication = () => {
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
-        <View style={styles.listItem}>
-          <View style={styles.cube}>
-            <Icon name="cube-outline" size={22} color={'#fff'} />
-          </View>
-          <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>
-              Transactions
-            </Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
-          </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.listItem}>
-          <View style={styles.cube}>
-            <Icon name="cube-outline" size={22} color={'#fff'} />
-          </View>
-          <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Saving</Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
-          </View>
-        </View>
-      </TouchableOpacity>
       <TouchableOpacity>
         <View
           style={[
@@ -43,7 +19,9 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Profile</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              Forgot Password
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -52,7 +30,7 @@ const AppPages = () => {
   );
 };
 
-export default AppPages;
+export default Authentication;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +68,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     marginRight: 16,
-    backgroundColor: '#6236FF',
+    backgroundColor: '#FF396F',
     borderRadius: 400,
   },
   item: {
@@ -98,7 +76,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-
     height: '100%',
   },
 });

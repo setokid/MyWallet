@@ -6,10 +6,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MenuIcon from 'react-native-vector-icons/Entypo';
-import {useTheme} from '@react-navigation/native';
 import Home from '../../screen/Home/Home';
 import Pages from '../../screen/Pages/Pages';
 import Profile from '../../screen/Profile/Profile';
+// import {useTheme} from 'react-native-paper';
+import {useTheme} from '@react-navigation/native';
+import {color} from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -20,23 +22,25 @@ const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#6236FF',
+        backgroundColor: useTheme().colors.header,
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
+        color: useTheme().colors.value,
       },
       headerTitleAlign: 'center',
     }}>
     <HomeStack.Screen
-      name="MainHome"
+      name="Home"
       component={Home}
       options={{
         headerLeft: () => (
           <MenuIcon.Button
             name="menu"
             size={25}
-            backgroundColor="#6236FF"
+            backgroundColor={useTheme().colors.header}
+            color={'gray'}
             onPress={() => navigation.openDrawer()}
           />
         ),
@@ -58,15 +62,41 @@ const PagesStackScreen = ({navigation}) => (
   <PagesStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: 'gray',
+        backgroundColor: useTheme().colors.header,
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
       headerTitleAlign: 'center',
+      headerTitleStyle: {
+        color: useTheme().colors.value,
+      },
     }}>
-    <PagesStack.Screen name="MainPages" component={Pages} />
+    <PagesStack.Screen
+      name="Pages"
+      component={Pages}
+      options={{
+        headerLeft: () => (
+          <MenuIcon.Button
+            name="menu"
+            size={25}
+            backgroundColor={useTheme().colors.header}
+            color={'gray'}
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
+        headerRight: () => (
+          <ImageBackground
+            source={require('../../assets/avt.jpg')}
+            imageStyle={{
+              borderRadius: 25,
+            }}
+            style={{width: 35, height: 35}}
+          />
+        ),
+      }}
+    />
   </PagesStack.Navigator>
 );
 

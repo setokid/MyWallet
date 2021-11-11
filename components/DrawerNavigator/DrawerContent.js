@@ -97,7 +97,7 @@ export function DrawerContent({navigation, props}) {
                 toggleTheme();
               }}>
               <View style={styles.preference}>
-                <Text>Dark Theme</Text>
+                <Text>Dark Mode</Text>
                 <View pointerEvents="none">
                   <Switch value={paperTheme.dark} />
                 </View>

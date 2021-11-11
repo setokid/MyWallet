@@ -9,7 +9,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import Support from '../../screen/Support/Support';
 import RootStackScreen from '../RootStack/RootStackScreen';
 
-import {CustomDarkTheme, CustomDefaultTheme} from '../Theme/Theme';
+import {CustomDarkTheme, CustomDefaultTheme} from '../DarkMode/DarkMode';
 import {DrawerContent} from './DrawerContent';
 import {AuthContext} from '../Context/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -70,7 +70,7 @@ const DrawerNavigator = () => {
     signIn: async foundUser => {
       const userToken = String(foundUser[0].userToken);
       const userName = foundUser[0].username;
-      console.log(foundUser[0].userToken);
+      // console.log(foundUser[0].userToken);
       try {
         await AsyncStorage.setItem('userToken', userToken);
         // const token1 = await AsyncStorage.getItem('userToken');

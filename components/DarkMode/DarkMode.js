@@ -16,9 +16,13 @@ const CustomDefaultTheme = {
     background: '#ffffff',
     text: '#958d9e',
     value: '#333333',
+    header: '#ffffff',
   },
   colors2: {
+    title: '#958d9e',
+    icon: '#A9ABAD',
     background: '#ededf5',
+    borderBottomWidth: 1,
   },
 };
 
@@ -31,8 +35,12 @@ const CustomDarkTheme = {
     background: '#161129',
     text: '#8f82a5',
     value: '#fff',
+    header: '#161129',
   },
   colors2: {
+    title: '#8f82a5',
+    icon: '#69587f',
+    borderBottomWidth: 0,
     background: '#030108',
   },
 };

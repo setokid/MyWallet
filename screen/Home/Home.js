@@ -13,7 +13,8 @@ const Home = () => {
   return (
     <ScrollView
       style={[styles.container, {backgroundColor: colors2.background}]}
-      nestedScrollEnabled={true}>
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}>
       <WalletCard />
       <StatsCard />
       <TransactionCard />
