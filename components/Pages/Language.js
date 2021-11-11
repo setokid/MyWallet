@@ -1,28 +1,52 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Switch, TouchableRipple, useTheme} from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {AuthContext} from '../Context/Context';
+import {AuthContext} from '../Service/Context';
+import {useTranslation} from 'react-i18next';
+
+const LANGUAGES = [{code: 'en'}, {code: 'vn'}];
 
 const Language = () => {
   const {colors, colors2} = useTheme();
-  const {signOut, toggleLanguage} = React.useContext(AuthContext);
+
+  const {t, i18n} = useTranslation();
+  const selectedLanguageCode = i18n.language;
+  const setLanguage = code => {
+    return i18n.changeLanguage(code);
+  };
+
+  const [isEnabledEn, setIsEnabledEn] = useState(true);
+  const [isEnabledVn, setIsEnabledVn] = useState(false);
+
+  const onOff = () => {
+    if (isEnabledEn == isEnabledEn) {
+      setIsEnabledEn(isEnabledEn => !isEnabledEn);
+      setIsEnabledVn(isEnabledVn => !isEnabledVn);
+    } else if (isEnabledVn == isEnabledVn) {
+      setIsEnabledVn(isEnabledVn => !isEnabledVn);
+      setIsEnabledEn(isEnabledEn => !isEnabledEn);
+    }
+  };
+
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
       <TouchableRipple
         onPress={() => {
-          toggleLanguage();
+          setLanguage('en'), onOff();
         }}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>English</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('English')}
+            </Text>
             <Switch
-              value={{}}
+              value={isEnabledEn}
               trackColor={{false: '#767577', true: '#6236FF'}}
               thumbColor={'#6236FF'}
             />
@@ -31,7 +55,7 @@ const Language = () => {
       </TouchableRipple>
       <TouchableRipple
         onPress={() => {
-          toggleLanguage();
+          setLanguage('vn'), onOff();
         }}>
         <View
           style={[
@@ -42,9 +66,11 @@ const Language = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Vietnamese</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Vietnamese')}
+            </Text>
             <Switch
-              value={{}}
+              value={isEnabledVn}
               trackColor={{false: '#767577', true: '#6236FF'}}
               thumbColor={'#6236FF'}
             />

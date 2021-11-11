@@ -11,7 +11,7 @@ import RootStackScreen from '../RootStack/RootStackScreen';
 
 import {CustomDarkTheme, CustomDefaultTheme} from '../DarkMode/DarkMode';
 import {DrawerContent} from './DrawerContent';
-import {AuthContext} from '../Context/Context';
+import {AuthContext} from '../Service/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainTabScreen from '../StackNavigator/StackNavigator';
 
@@ -19,7 +19,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-
+  const [language, setLanguage] = React.useState();
   const initialLoginState = {
     isLoading: true,
     userName: null,
@@ -70,7 +70,7 @@ const DrawerNavigator = () => {
     signIn: async foundUser => {
       const userToken = String(foundUser[0].userToken);
       const userName = foundUser[0].username;
-      // console.log(foundUser[0].userToken);
+      console.log(foundUser[0].userToken);
       try {
         await AsyncStorage.setItem('userToken', userToken);
         // const token1 = await AsyncStorage.getItem('userToken');
@@ -80,6 +80,7 @@ const DrawerNavigator = () => {
       }
       dispatch({type: 'LOGIN', id: userName, token: userToken});
     },
+
     signOut: async () => {
       try {
         await AsyncStorage.removeItem('userToken');
@@ -88,12 +89,16 @@ const DrawerNavigator = () => {
       }
       dispatch({type: 'LOGOUT'});
     },
+
     signUp: () => {},
+
     toggleTheme: async () => {
       setIsDarkTheme(isDarkTheme => !isDarkTheme);
       await AsyncStorage.setItem('userTheme', userTheme);
       // console.log(userTheme);
     },
+
+    toggleLanguage: async () => {},
   }));
 
   useEffect(() => {
@@ -130,8 +135,7 @@ const DrawerNavigator = () => {
           {loginState.userToken != null ? (
             <Drawer.Navigator
               screenOptions={{headerShown: false}}
-              drawerContent={props => <DrawerContent {...props} />}
-              theme={theme}>
+              drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
               <Drawer.Screen name="SupportScreen" component={Support} />
             </Drawer.Navigator>

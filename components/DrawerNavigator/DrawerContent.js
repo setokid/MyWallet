@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {
@@ -15,13 +15,34 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {AuthContext} from '../Context/Context';
+import {AuthContext} from '../Service/Context';
+import {useTranslation} from 'react-i18next';
+
+const LANGUAGES = [{code: 'en'}, {code: 'vn'}];
 
 export function DrawerContent({navigation, props}) {
   const paperTheme = useTheme();
 
+  const [isEnabledEn, setIsEnabledEn] = useState(true);
+  const [isEnabledVn, setIsEnabledVn] = useState(false);
+
+  const onOff = () => {
+    if (isEnabledEn == isEnabledEn) {
+      setIsEnabledEn(isEnabledEn => !isEnabledEn);
+      setIsEnabledVn(isEnabledVn => !isEnabledVn);
+    } else if (isEnabledVn == isEnabledVn) {
+      setIsEnabledVn(isEnabledVn => !isEnabledVn);
+      setIsEnabledEn(isEnabledEn => !isEnabledEn);
+    }
+  };
+
   const {signOut, toggleTheme} = React.useContext(AuthContext);
 
+  const {t, i18n} = useTranslation();
+
+  const setLanguage = code => {
+    return i18n.changeLanguage(code);
+  };
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -43,7 +64,7 @@ export function DrawerContent({navigation, props}) {
           <View style={styles.blanceRow}>
             <View>
               <Paragraph style={[styles.paragraph, styles.blanceCaption]}>
-                Blance
+                {t('Total Blance')}
               </Paragraph>
               <Caption style={styles.moneyCaption}>100.000.000 đ</Caption>
             </View>
@@ -54,7 +75,7 @@ export function DrawerContent({navigation, props}) {
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
-              label="Home"
+              label={t('Home')}
               onPress={() => {
                 navigation.navigate('Home');
               }}
@@ -63,12 +84,12 @@ export function DrawerContent({navigation, props}) {
               icon={({color, size}) => (
                 <Icon name="view-list-outline" color={color} size={size} />
               )}
-              label="Pages"
+              label={t('Pages')}
               onPress={() => {
                 navigation.navigate('Pages');
               }}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({color, size}) => (
                 <Icon
                   name="account-settings-outline"
@@ -76,22 +97,22 @@ export function DrawerContent({navigation, props}) {
                   size={size}
                 />
               )}
-              label="Profile"
+              label={t('Profile')}
               onPress={() => {
                 navigation.navigate('Profile');
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="account-check-outline" color={color} size={size} />
               )}
-              label="Support"
+              label={t('Support')}
               onPress={() => {
                 navigation.navigate('SupportScreen');
               }}
             />
           </Drawer.Section>
-          <Drawer.Section title="Preferences">
+          <Drawer.Section title="Theme">
             <TouchableRipple
               onPress={() => {
                 toggleTheme();
@@ -100,6 +121,38 @@ export function DrawerContent({navigation, props}) {
                 <Text>Dark Mode</Text>
                 <View pointerEvents="none">
                   <Switch value={paperTheme.dark} />
+                </View>
+              </View>
+            </TouchableRipple>
+          </Drawer.Section>
+          <Drawer.Section title={t('Language')}>
+            <TouchableRipple
+              onPress={() => {
+                setLanguage('en'), onOff();
+              }}>
+              <View style={styles.preference}>
+                <Text>{t('English')}</Text>
+                <View pointerEvents="none">
+                  <Switch
+                    value={isEnabledEn}
+                    trackColor={{false: '#767577', true: '#6236FF'}}
+                    thumbColor={'#6236FF'}
+                  />
+                </View>
+              </View>
+            </TouchableRipple>
+            <TouchableRipple
+              onPress={() => {
+                setLanguage('vn'), onOff();
+              }}>
+              <View style={styles.preference}>
+                <Text>{t('Vietnamese')}</Text>
+                <View pointerEvents="none">
+                  <Switch
+                    value={isEnabledVn}
+                    trackColor={{false: '#767577', true: '#6236FF'}}
+                    thumbColor={'#6236FF'}
+                  />
                 </View>
               </View>
             </TouchableRipple>

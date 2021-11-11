@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-
+import {useTranslation} from 'react-i18next';
 import Transactions from '../../Transactions';
 
 function TransactionDetails(props) {
   // console.log(props.item);
+  const {t} = useTranslation();
   const {colors} = useTheme();
   return (
     <View>
@@ -29,6 +30,7 @@ function TransactionDetails(props) {
 }
 
 const TransactionCard = () => {
+  const {t} = useTranslation();
   const [transaction] = useState(Transactions);
   const {colors} = useTheme();
   return (
@@ -36,10 +38,10 @@ const TransactionCard = () => {
       <View style={styles.transactionHeading}>
         <View style={styles.header}>
           <Text style={[styles.transactionTitle, {color: colors.value}]}>
-            Transaction
+            {t('Transaction')}
           </Text>
           <TouchableOpacity activeOpacity="0.5">
-            <Text style={styles.viewAll}>View All</Text>
+            <Text style={styles.viewAll}>{t('View All')}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.transactions}>

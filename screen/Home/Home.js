@@ -8,6 +8,8 @@ import StatsCard from '../../components/SectionCard/StatsCard';
 import TransactionCard from '../../components/SectionCard/TransactionCard';
 import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
 
+console.disableYellowBox = true;
+
 const Home = () => {
   const {colors2} = useTheme();
   return (

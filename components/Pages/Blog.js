@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from 'react-native-paper';
+import {useTranslation} from 'react-i18next';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Blog = () => {
+  const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -15,7 +17,9 @@ const Blog = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Web Site</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Web Site')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -30,7 +34,9 @@ const Blog = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>New Update</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('New Update')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>

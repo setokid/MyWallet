@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {ProgressBar, Colors} from 'react-native-paper';
-
+import {useTranslation} from 'react-i18next';
 import SavingGoals from '../../SavingGoals';
 
 function SavingGoalsDetails(props) {
@@ -41,6 +41,7 @@ function SavingGoalsDetails(props) {
 }
 
 const SavingGoalsCard = () => {
+  const {t} = useTranslation();
   const [savingGoals] = useState(SavingGoals);
   const {colors} = useTheme();
   return (
@@ -48,10 +49,10 @@ const SavingGoalsCard = () => {
       <View style={styles.savingGoalsHeading}>
         <View style={styles.header}>
           <Text style={[styles.savingGoalsTitle, {color: colors.value}]}>
-            Saving Goals
+            {t('Saving Goals')}
           </Text>
           <TouchableOpacity activeOpacity="0.5">
-            <Text style={styles.viewAll}>View All</Text>
+            <Text style={styles.viewAll}>{t('View All')}</Text>
           </TouchableOpacity>
         </View>
         <View>

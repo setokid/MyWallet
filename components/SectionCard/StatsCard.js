@@ -2,8 +2,10 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 // import {useTheme} from 'react-native-paper';
 import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const StatsCard = () => {
+  const {t} = useTranslation();
   const {colors} = useTheme();
   return (
     <View style={[styles.section]}>
@@ -14,7 +16,9 @@ const StatsCard = () => {
               styles.sectionCardContent,
               {backgroundColor: colors.background},
             ]}>
-            <Text style={[styles.title, {color: colors.text}]}>Income</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              {t('Income')}
+            </Text>
             <Text style={[styles.values, {color: '#1DCC70'}]}>1.000.000</Text>
           </View>
         </View>
@@ -24,7 +28,9 @@ const StatsCard = () => {
               styles.sectionCardContent,
               {backgroundColor: colors.background},
             ]}>
-            <Text style={[styles.title, {color: colors.text}]}>Expenses</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              {t('Expenses')}
+            </Text>
             <Text style={[styles.values, {color: '#FF396F'}]}>1.000.000</Text>
           </View>
         </View>
@@ -37,7 +43,7 @@ const StatsCard = () => {
               {backgroundColor: colors.background},
             ]}>
             <Text style={[styles.title, {color: colors.text}]}>
-              Total Bills
+              {t('Total Bills')}
             </Text>
             <Text style={[styles.values, {color: colors.value}]}>
               1.000.000
@@ -50,7 +56,9 @@ const StatsCard = () => {
               styles.sectionCardContent,
               {backgroundColor: colors.background},
             ]}>
-            <Text style={[styles.title, {color: colors.text}]}>Savings</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              {t('Savings')}
+            </Text>
             <Text style={[styles.values, {color: colors.value}]}>
               1.000.000
             </Text>

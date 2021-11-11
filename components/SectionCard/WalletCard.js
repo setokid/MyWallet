@@ -2,9 +2,11 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
+import {useTranslation} from 'react-i18next';
 
 const WalletCard = () => {
   const {colors} = useTheme();
+  const {t} = useTranslation();
   return (
     <View style={[styles.section, {paddingTop: 16}]}>
       <View
@@ -15,7 +17,7 @@ const WalletCard = () => {
         <View style={styles.blance}>
           <View style={styles.blanceLeft}>
             <Text style={[styles.blanceTitle, {color: colors.value}]}>
-              Total Balance
+              {t('Total Blance')}
             </Text>
             <Text
               style={[
@@ -36,19 +38,19 @@ const WalletCard = () => {
             <TouchableOpacity style={styles.withdraw} activeOpacity={0.5}>
               <Image source={require('../../assets/icon/down-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>Withdraw</Text>
+            <Text style={{color: colors.value}}>{t('Withdraw')}</Text>
           </View>
           <View style={styles.footerButton}>
             <TouchableOpacity style={styles.send} activeOpacity={0.5}>
               <Image source={require('../../assets/icon/right-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>Send</Text>
+            <Text style={{color: colors.value}}>{t('Send')}</Text>
           </View>
           <View style={styles.footerButton}>
             <TouchableOpacity style={styles.deposit} activeOpacity={0.5}>
               <Image source={require('../../assets/icon/up-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>Deposit</Text>
+            <Text style={{color: colors.value}}>{t('Deposit')}</Text>
           </View>
         </View>
       </View>

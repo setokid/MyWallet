@@ -1,16 +1,17 @@
 import React from 'react';
+
 import {View, Text, StyleSheet} from 'react-native';
 import {useTheme, Switch, TouchableRipple} from 'react-native-paper';
+import {useTranslation} from 'react-i18next';
+import {AuthContext} from '../Service/Context';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import {AuthContext} from '../Context/Context';
 
 const Theme = () => {
   const {colors, colors2} = useTheme();
   const paperTheme = useTheme();
-  const {signOut, toggleTheme} = React.useContext(AuthContext);
-
+  const {toggleTheme} = React.useContext(AuthContext);
+  const {t} = useTranslation();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
       <TouchableRipple
@@ -26,7 +27,9 @@ const Theme = () => {
             <Icon name="md-moon-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Dark Mode</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Dark Mode')}
+            </Text>
             <Switch
               value={paperTheme.dark}
               trackColor={{false: '#767577', true: '#6236FF'}}

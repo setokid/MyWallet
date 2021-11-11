@@ -5,6 +5,7 @@ export default Users = [
     username: '1',
     password: '1',
     userToken: 'token123',
+    userTheme: 'isDarkTheme',
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ export default Users = [
     username: 'user2',
     password: 'password1',
     userToken: 'token1234',
+    userTheme: '',
   },
   {
     id: 1,
@@ -19,5 +21,6 @@ export default Users = [
     username: 'user3',
     password: 'password2',
     userToken: 'token12345',
+    userTheme: '',
   },
 ];

@@ -17,7 +17,7 @@ import LinenearGradient from 'react-native-linear-gradient';
 import {useTheme} from 'react-native-paper';
 import Users from '../../Users';
 
-import {AuthContext} from '../../components/Context/Context';
+import {AuthContext} from '../../components/Service/Context';
 
 const SignIn = ({navigation}) => {
   const [data, setData] = React.useState({

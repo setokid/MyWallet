@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useTheme} from 'react-native-paper';
 
@@ -9,44 +10,47 @@ import Language from '../../components/Pages/Language';
 import Others from '../../components/Pages/Others';
 import Theme from '../../components/Pages/Theme';
 
+import {AuthContext} from '../Service/Context';
+
 const Pages = () => {
+  const {t} = useTranslation();
   const {colors2} = useTheme();
   return (
     <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
       <View style={[styles.container, {backgroundColor: colors2.background}]}>
         <View style={[styles.title]}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            App Pages
+            {t('App Pages')}
           </Text>
         </View>
         <AppPages />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            Authentication
+            {t('Authentication')}
           </Text>
         </View>
         <Authentication />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            Blog
+            {t('Blog')}
           </Text>
         </View>
         <Blog />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            Theme
+            {t('Theme')}
           </Text>
         </View>
         <Theme />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            Language
+            {t('Language')}
           </Text>
         </View>
         <Language />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
-            Others
+            {t('Others')}
           </Text>
         </View>
         <Others />

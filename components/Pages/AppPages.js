@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from 'react-native-paper';
+import {useTranslation} from 'react-i18next';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const AppPages = () => {
+  const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -16,7 +18,7 @@ const AppPages = () => {
           </View>
           <View style={styles.item}>
             <Text style={{color: colors.value, fontSize: 17}}>
-              Transactions
+              {t('Transactions')}
             </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
@@ -28,7 +30,9 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Saving</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Saving')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -43,7 +47,9 @@ const AppPages = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Profile</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Profile')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>

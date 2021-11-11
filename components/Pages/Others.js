@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from 'react-native-paper';
+import {useTranslation} from 'react-i18next';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Others = () => {
+  const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -15,7 +17,9 @@ const Others = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>About Us</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('About Us')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -26,7 +30,9 @@ const Others = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>Contact</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Contact')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
@@ -41,7 +47,7 @@ const Others = () => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>FAQ</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>{t('FAQ')}</Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>
