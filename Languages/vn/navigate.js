@@ -28,4 +28,5 @@ export default {
   Contact: 'Liên hệ',
   FAQ: 'Câu hỏi thường gặp',
   Support: 'Hỗ trợ',
+  'Profile Setting': 'Thiết lập tài khoản',
 };

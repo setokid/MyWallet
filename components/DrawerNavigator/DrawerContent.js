@@ -22,6 +22,7 @@ const LANGUAGES = [{code: 'en'}, {code: 'vn'}];
 
 export function DrawerContent({navigation, props}) {
   const paperTheme = useTheme();
+  const {colors, colors2} = useTheme();
 
   const [isEnabledEn, setIsEnabledEn] = useState(true);
   const [isEnabledVn, setIsEnabledVn] = useState(false);
@@ -44,7 +45,7 @@ export function DrawerContent({navigation, props}) {
     return i18n.changeLanguage(code);
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: colors.background}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
@@ -54,7 +55,9 @@ export function DrawerContent({navigation, props}) {
                 size={50}
               />
               <View style={styles.userInfoText}>
-                <Title style={[styles.title]}>Dũng Trần</Title>
+                <Title style={[styles.title, {color: colors.value}]}>
+                  Dũng Trần
+                </Title>
                 <Caption style={styles.caption}>
                   dungtran232000@gmail.com
                 </Caption>
@@ -70,10 +73,15 @@ export function DrawerContent({navigation, props}) {
             </View>
           </View>
 
-          <Drawer.Section style={styles.bottomDrawerSection} title="Menu">
+          <Drawer.Section
+            style={[styles.bottomDrawerSection, {color: colors.text}]}
+            title="Menu">
             <DrawerItem
+              labelStyle={{color: colors.value}}
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <View style={styles.icon}>
+                  <Icon name="home-outline" color={'#fff'} size={size} />
+                </View>
               )}
               label={t('Home')}
               onPress={() => {
@@ -82,8 +90,11 @@ export function DrawerContent({navigation, props}) {
             />
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="view-list-outline" color={color} size={size} />
+                <View style={styles.icon}>
+                  <Icon name="view-list-outline" color={'#fff'} size={size} />
+                </View>
               )}
+              labelStyle={{color: colors.value}}
               label={t('Pages')}
               onPress={() => {
                 navigation.navigate('Pages');
@@ -103,8 +114,15 @@ export function DrawerContent({navigation, props}) {
               }}
             /> */}
             <DrawerItem
+              labelStyle={{color: colors.value}}
               icon={({color, size}) => (
-                <Icon name="account-check-outline" color={color} size={size} />
+                <View style={styles.icon}>
+                  <Icon
+                    name="account-check-outline"
+                    color={'#fff'}
+                    size={size}
+                  />
+                </View>
               )}
               label={t('Support')}
               onPress={() => {
@@ -112,26 +130,30 @@ export function DrawerContent({navigation, props}) {
               }}
             />
           </Drawer.Section>
-          <Drawer.Section title="Theme">
+          <Drawer.Section title="Theme" style={{color: colors.text}}>
             <TouchableRipple
               onPress={() => {
                 toggleTheme();
               }}>
               <View style={styles.preference}>
-                <Text>Dark Mode</Text>
+                <Text style={{color: colors.value}}>Dark Mode</Text>
                 <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
+                  <Switch
+                    value={paperTheme.dark}
+                    trackColor={{false: '#767577', true: '#6236FF'}}
+                    thumbColor={'#6236FF'}
+                  />
                 </View>
               </View>
             </TouchableRipple>
           </Drawer.Section>
-          <Drawer.Section title={t('Language')}>
+          <Drawer.Section title={t('Language')} style={{color: colors.text}}>
             <TouchableRipple
               onPress={() => {
                 setLanguage('en'), onOff();
               }}>
               <View style={styles.preference}>
-                <Text>{t('English')}</Text>
+                <Text style={{color: colors.value}}>{t('English')}</Text>
                 <View pointerEvents="none">
                   <Switch
                     value={isEnabledEn}
@@ -146,7 +168,7 @@ export function DrawerContent({navigation, props}) {
                 setLanguage('vn'), onOff();
               }}>
               <View style={styles.preference}>
-                <Text>{t('Vietnamese')}</Text>
+                <Text style={{color: colors.value}}>{t('Vietnamese')}</Text>
                 <View pointerEvents="none">
                   <Switch
                     value={isEnabledVn}
@@ -161,10 +183,13 @@ export function DrawerContent({navigation, props}) {
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <Drawer.Item
+          labelStyle={{color: colors.value}}
           icon={({color, size}) => (
-            <Icon name="exit-to-app" color={color} size={size} />
+            <View style={styles.icon}>
+              <Icon name="exit-to-app" color={'#fff'} size={size} />
+            </View>
           )}
-          label="Sign Out"
+          label={t('Sign Out')}
           onPress={() => {
             signOut();
           }}
@@ -240,5 +265,13 @@ const styles = StyleSheet.create({
   userInfoText: {
     marginLeft: 15,
     flexDirection: 'column',
+  },
+  icon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#6236FF',
+    width: 36,
+    height: 36,
+    borderRadius: 100,
   },
 });

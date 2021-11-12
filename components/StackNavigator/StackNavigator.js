@@ -161,7 +161,7 @@ function MainTabScreen() {
     <Tab.Navigator
       initialRouteName="Login"
       screenOptions={({route}) => ({
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: useTheme().colors.value,
         tabBarActiveTintColor: '#6236FF',
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -180,7 +180,7 @@ function MainTabScreen() {
         },
         // tabBarActiveTintColor: 'white',
         // tabBarInactiveTintColor: 'black',
-        // tabBarStyle: {backgroundColor: '#4845FC'},
+        tabBarStyle: {backgroundColor: useTheme().colors.background},
       })}>
       <Tab.Screen
         name="Home"
