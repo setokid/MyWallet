@@ -34,4 +34,8 @@ export default {
   Security: 'Bảo mật',
   'Change Password': 'Đổi mật khẩu',
   'Sign Out': 'Đăng xuất',
+  Salary: 'Lương',
+  'Money from errands': 'Tiền từ các việc lặt vặt',
+  'Others (Income)': 'Khác (Thu nhập)',
+  'Personal savings money': 'Tiền tiết kiệm cá nhân',
 };

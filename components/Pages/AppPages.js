@@ -18,7 +18,7 @@ const AppPages = () => {
           </View>
           <View style={styles.item}>
             <Text style={{color: colors.value, fontSize: 17}}>
-              {t('Transactions')}
+              {t('Transaction')}
             </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>

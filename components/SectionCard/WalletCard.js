@@ -1,14 +1,28 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {color} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
+import ModalComponent from '../../components/Modal/ModalComponent';
 
-const WalletCard = () => {
+const WalletCard = ({props}) => {
+  const [showMe, setShowMe] = useState(false);
   const {colors} = useTheme();
   const {t} = useTranslation();
+
+  const closeModal = () => {
+    setShowMe(false);
+  };
+
   return (
     <View style={[styles.section, {paddingTop: 16}]}>
+      <ModalComponent showModal={showMe} closeModal={closeModal} />
       <View
         style={[
           styles.walletCardSection,
@@ -27,8 +41,12 @@ const WalletCard = () => {
               100.000.000 đ
             </Text>
           </View>
+
           <View>
-            <TouchableOpacity style={styles.addButton} activeOpacity={0.5}>
+            <TouchableOpacity
+              onPress={{}}
+              style={styles.addButton}
+              activeOpacity={0.5}>
               <Image source={require('../../assets/icon/plus.png')} />
             </TouchableOpacity>
           </View>
@@ -47,7 +65,10 @@ const WalletCard = () => {
             <Text style={{color: colors.value}}>{t('Send')}</Text>
           </View>
           <View style={styles.footerButton}>
-            <TouchableOpacity style={styles.deposit} activeOpacity={0.5}>
+            <TouchableOpacity
+              style={styles.deposit}
+              activeOpacity={0.5}
+              onPress={() => setShowMe(true)}>
               <Image source={require('../../assets/icon/up-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Deposit')}</Text>
@@ -60,7 +81,6 @@ const WalletCard = () => {
 
 export default WalletCard;
 
-const with_proportion = '50%';
 const styles = StyleSheet.create({
   section: {
     paddingLeft: 16,
@@ -93,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addButton: {
-    backgroundColor: '6236ff',
+    backgroundColor: '#6236ff',
     height: 64,
     width: 50,
     alignItems: 'center',
@@ -101,12 +121,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   blanceValue: {
-    color: '#27173E',
     fontSize: 30,
     fontWeight: 'bold',
   },
   blanceTitle: {
-    color: '#27173E',
     fontSize: 20,
   },
   blanceFooter: {

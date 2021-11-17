@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 
 import {ScrollView, StyleSheet} from 'react-native';
 import {useTheme} from '@react-navigation/native';
@@ -12,6 +12,7 @@ console.disableYellowBox = true;
 
 const Home = () => {
   const {colors2} = useTheme();
+
   return (
     <ScrollView
       style={[styles.container, {backgroundColor: colors2.background}]}

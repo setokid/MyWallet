@@ -23,6 +23,7 @@ const CustomDefaultTheme = {
     icon: '#A9ABAD',
     background: '#ededf5',
     borderBottomWidth: 1,
+    borderBottomColor: '#000',
   },
 };
 
@@ -42,6 +43,7 @@ const CustomDarkTheme = {
     icon: '#69587f',
     borderBottomWidth: 0,
     background: '#030108',
+    borderBottomColor: '#fff',
   },
 };
 
