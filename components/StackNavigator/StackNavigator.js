@@ -35,7 +35,7 @@ function HomeStackScreen({navigation}) {
         headerTitleAlign: 'center',
       }}>
       <HomeStack.Screen
-        name="Home"
+        name="HomePage"
         component={Home}
         options={{
           title: t('Home'),
@@ -81,7 +81,7 @@ function PagesStackScreen({navigation}) {
         },
       }}>
       <PagesStack.Screen
-        name="Pages"
+        name="PagesPage"
         component={Pages}
         options={{
           title: t('Pages'),
@@ -127,7 +127,7 @@ function ProfileStackScreen({navigation}) {
         },
       }}>
       <ProfileStack.Screen
-        name="MainProfile"
+        name="ProfilePage"
         component={Profile}
         options={{
           title: t('Profile'),
