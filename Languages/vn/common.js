@@ -3,7 +3,7 @@ export default {
   Pages: 'Danh mục',
   Profile: 'Tài khoản',
   'Total Blance': 'Tổng số dư',
-  Withdraw: 'Chi phí',
+  Cost: 'Chi phí',
   Send: 'Chuyển tiền',
   Deposit: 'Thu nhập',
   Income: 'Thu nhập',

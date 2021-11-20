@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,20 +9,13 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import ModalComponent from '../../components/Modal/ModalComponent';
 
-const WalletCard = ({props}) => {
-  const [showMe, setShowMe] = useState(false);
+const WalletCard = props => {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
-  const closeModal = () => {
-    setShowMe(false);
-  };
-
   return (
     <View style={[styles.section, {paddingTop: 16}]}>
-      <ModalComponent showModal={showMe} closeModal={closeModal} />
       <View
         style={[
           styles.walletCardSection,
@@ -53,13 +46,21 @@ const WalletCard = ({props}) => {
         </View>
         <View style={styles.blanceFooter}>
           <View style={styles.footerButton}>
-            <TouchableOpacity style={styles.withdraw} activeOpacity={0.5}>
+            <TouchableOpacity
+              style={styles.withdraw}
+              activeOpacity={0.5}
+              onPress={() => props.openModal(2)}>
               <Image source={require('../../assets/icon/down-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>{t('Withdraw')}</Text>
+            <Text style={{color: colors.value}}>{t('Cost')}</Text>
           </View>
           <View style={styles.footerButton}>
-            <TouchableOpacity style={styles.send} activeOpacity={0.5}>
+            <TouchableOpacity
+              style={styles.send}
+              activeOpacity={0.5}
+              onPress={() => {
+                props.openModal(3);
+              }}>
               <Image source={require('../../assets/icon/right-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Send')}</Text>
@@ -68,7 +69,7 @@ const WalletCard = ({props}) => {
             <TouchableOpacity
               style={styles.deposit}
               activeOpacity={0.5}
-              onPress={() => setShowMe(true)}>
+              onPress={() => props.openModal(1)}>
               <Image source={require('../../assets/icon/up-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Deposit')}</Text>
