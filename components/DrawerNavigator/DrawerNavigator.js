@@ -15,7 +15,7 @@ import {AuthContext} from '../Service/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainTabScreen from '../StackNavigator/StackNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Send from '../Modal/Send';
+import Send from '../../screen/Pages/Send';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();

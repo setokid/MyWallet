@@ -13,6 +13,7 @@ import Profile from '../../screen/Profile/Profile';
 import {NavigationContainer, useTheme} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
+import Send from '../../screen/Pages/Send';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -27,7 +28,7 @@ function HomeStackScreen({navigation}) {
         headerStyle: {
           backgroundColor: useTheme().colors.header,
         },
-        headerTintColor: '#fff',
+        headerTintColor: useTheme().colors.value,
         headerTitleStyle: {
           fontWeight: 'bold',
           color: useTheme().colors.value,
@@ -48,6 +49,22 @@ function HomeStackScreen({navigation}) {
               onPress={() => navigation.openDrawer()}
             />
           ),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="SendScreen"
+        component={Send}
+        options={{
+          title: t('Send'),
           headerRight: () => (
             <ImageBackground
               source={require('../../assets/avt.jpg')}

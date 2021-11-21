@@ -20,7 +20,6 @@ const Home = ({navigation}) => {
 
   const openModal = input => {
     let type = input;
-    console.log(type);
     if (type == 1) {
       setDepModal(true);
     } else if (type == 2) {

@@ -1,16 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Modal,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
-const WalletCard = props => {
+const WalletCard = (props, {navigation}) => {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -58,9 +51,7 @@ const WalletCard = props => {
             <TouchableOpacity
               style={styles.send}
               activeOpacity={0.5}
-              onPress={() => {
-                props.openModal(3);
-              }}>
+              onPress={() => props.navigation.navigate('SendScreen')}>
               <Image source={require('../../assets/icon/right-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Send')}</Text>
