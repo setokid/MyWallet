@@ -18,7 +18,7 @@ const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function WithdrawModal(props) {
+export default function SpendingModal(props) {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   const [expanded, setExpanded] = useState(true);
@@ -59,7 +59,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Food/Drink',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -75,7 +81,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Restaurant',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -103,7 +115,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Shopping',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -119,7 +137,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Clothes',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -135,7 +159,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Footwear',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -151,7 +181,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Technology',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -163,7 +199,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Gift',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -191,7 +233,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Public Transport',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -203,7 +251,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Vehicle',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -219,7 +273,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Fuel',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -231,7 +291,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Insurance',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -259,7 +325,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Family',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -275,7 +347,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Children',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -291,7 +369,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'House',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -315,7 +399,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Health',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -331,7 +421,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Sport',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -355,7 +451,13 @@ export default function WithdrawModal(props) {
                     <Icon name="ios-paw-sharp" size={25} color={colors.value} />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Pet Food',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -379,7 +481,13 @@ export default function WithdrawModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Travel',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -395,7 +503,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Transport - Travel',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -407,7 +521,13 @@ export default function WithdrawModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Room Rental',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -421,13 +541,19 @@ export default function WithdrawModal(props) {
                   </TouchableOpacity>
                 </List.Accordion>
                 <List.Accordion
-                  title={t('Others (Cost)')}
+                  title={t('Others (Spending)')}
                   titleStyle={[styles.title, {color: colors.value}]}
                   left={props => (
                     <Icon name="md-receipt" size={25} color={colors.value} />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Others (Spending)',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -435,11 +561,17 @@ export default function WithdrawModal(props) {
                       ]}>
                       <Icon name="md-receipt" size={25} color={colors.value} />
                       <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Others (Cost)')}
+                        {t('Others (Spending)')}
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('SpendingScreen', {
+                        type: 'Tax',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,

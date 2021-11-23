@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, useIsFocused} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import WalletCard from '../../components/SectionCard/WalletCard';
 import StatsCard from '../../components/SectionCard/StatsCard';
 import TransactionCard from '../../components/SectionCard/TransactionCard';
 import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
-import DepositModal from '../../components/Modal/DepositModal';
-import WithdrawModal from '../../components/Modal/WithdrawModal';
+import IncomeModal from '../../components/Modal/IncomeModal';
+import SpendingModal from '../../components/Modal/SpendingModal';
 
 console.disableYellowBox = true;
 
@@ -16,23 +16,20 @@ const Home = ({navigation}) => {
   const {colors2} = useTheme();
   const [depModal, setDepModal] = useState(false);
   const [withModal, setWithModal] = useState(false);
-  const [sendModal, setSendModal] = useState(false);
 
   const openModal = input => {
     let type = input;
     if (type == 1) {
       setDepModal(true);
+      console.log(depModal);
     } else if (type == 2) {
       setWithModal(true);
-    } else if (type == 3) {
-      setSendModal(true);
     }
   };
 
   const closeModal = () => {
     setDepModal(false);
     setWithModal(false);
-    setSendModal(false);
   };
   return (
     <ScrollView
@@ -43,8 +40,16 @@ const Home = ({navigation}) => {
       <StatsCard />
       <TransactionCard />
       <SavingGoalsCard />
-      <DepositModal showModal={depModal} closeModal={closeModal} />
-      <WithdrawModal showModal={withModal} closeModal={closeModal} />
+      <IncomeModal
+        showModal={depModal}
+        closeModal={closeModal}
+        navigation={navigation}
+      />
+      <SpendingModal
+        showModal={withModal}
+        closeModal={closeModal}
+        navigation={navigation}
+      />
     </ScrollView>
   );
 };

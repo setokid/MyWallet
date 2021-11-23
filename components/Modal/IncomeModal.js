@@ -17,7 +17,7 @@ import {List} from 'react-native-paper';
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
 
-export default function DepostModal(props) {
+export default function IncomeModal(props, {navigation}) {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   const [expanded, setExpanded] = useState(true);
@@ -57,7 +57,13 @@ export default function DepostModal(props) {
                     />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('IncomeScreen', {
+                        type: 'Salary',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -73,7 +79,13 @@ export default function DepostModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('IncomeScreen', {
+                        type: 'Money From Errands',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -89,7 +101,13 @@ export default function DepostModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('IncomeScreen', {
+                        type: 'Subsidy',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -109,7 +127,13 @@ export default function DepostModal(props) {
                     <Icon name="receipt-sharp" size={25} color={colors.value} />
                   )}
                   onPress={handlePress}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('IncomeScreen', {
+                        type: 'Other (Income)',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,
@@ -125,7 +149,13 @@ export default function DepostModal(props) {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('IncomeScreen', {
+                        type: 'Personal Savings',
+                      });
+                      props.closeModal();
+                    }}>
                     <View
                       style={[
                         styles.dropDownContent,

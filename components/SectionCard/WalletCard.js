@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
-const WalletCard = (props, {navigation}) => {
+const WalletCard = props => {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -45,7 +45,7 @@ const WalletCard = (props, {navigation}) => {
               onPress={() => props.openModal(2)}>
               <Image source={require('../../assets/icon/down-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>{t('Cost')}</Text>
+            <Text style={{color: colors.value}}>{t('Spending')}</Text>
           </View>
           <View style={styles.footerButton}>
             <TouchableOpacity
@@ -63,7 +63,7 @@ const WalletCard = (props, {navigation}) => {
               onPress={() => props.openModal(1)}>
               <Image source={require('../../assets/icon/up-arrow.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>{t('Deposit')}</Text>
+            <Text style={{color: colors.value}}>{t('Income')}</Text>
           </View>
         </View>
       </View>

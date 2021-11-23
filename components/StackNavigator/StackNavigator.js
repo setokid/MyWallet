@@ -14,6 +14,8 @@ import {NavigationContainer, useTheme} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import Send from '../../screen/Pages/Send';
+import Spending from '../../screen/Pages/Spending';
+import Income from '../../screen/Pages/Income';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -65,6 +67,38 @@ function HomeStackScreen({navigation}) {
         component={Send}
         options={{
           title: t('Send'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="IncomeScreen"
+        component={Income}
+        options={{
+          title: t('Income'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="SpendingScreen"
+        component={Spending}
+        options={{
+          title: t('Spending'),
           headerRight: () => (
             <ImageBackground
               source={require('../../assets/avt.jpg')}
