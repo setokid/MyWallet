@@ -9,8 +9,9 @@ import {
   Dimensions,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import SpendingModal from '../../components/Modal/SpendingModal';
 
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -19,7 +20,7 @@ import {color} from 'react-native-reanimated';
 
 const screenWidth = Dimensions.get('screen').width;
 
-const Spending = ({navigation}) => {
+const Spending = ({route, navigation}) => {
   const [text, onChangeText] = useState(null);
 
   const [selectedValue, setSelectedValue] = useState('java');
@@ -51,12 +52,29 @@ const Spending = ({navigation}) => {
 
   const {colors, colors2} = useTheme();
 
+  const {type} = route.params;
+
+  const [incomeModal, setIncomeModal] = useState(false);
+
+  const openModal = () => {
+    setIncomeModal(true);
+  };
+
+  const closeModal = () => {
+    setIncomeModal(false);
+  };
+
   return (
     <View style={[styles.container, {backgroundColor: colors2.background}]}>
       <View style={[styles.content, {backgroundColor: colors.background}]}>
+        <SpendingModal
+          showModal={incomeModal}
+          closeModal={closeModal}
+          navigation={navigation}
+        />
         <View>
           <Text style={[styles.title, {color: colors.value}]}>
-            {t('Spending (Value)')}{' '}
+            {t('Income (Value)')}{' '}
           </Text>
         </View>
         <View style={styles.inputValue}>
@@ -72,52 +90,19 @@ const Spending = ({navigation}) => {
             Đơn vị tiền
           </Text>
         </View>
-        <View style={styles.from}>
-          <Text style={[styles.text, {color: colors.value}]}>
-            {t('From: ')}
-          </Text>
-          <View>
-            <View style={styles.pickerView}>
-              <Picker
-                selectedValue={selectedValue}
-                style={[styles.picker, {color: colors.value}]}
-                dropdownIconColor={colors.value}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }
-                mode="dropdown">
-                <Picker.Item
-                  style={{
-                    backgroundColor: colors.background,
-                    color: colors.value,
-                    fontFamily: 'Ebrima',
-                    fontSize: 17,
-                  }}
-                  label="Java"
-                  value="java"
-                />
-                <Picker.Item
-                  style={{
-                    backgroundColor: colors.background,
-                    color: colors.value,
-                    fontFamily: 'Ebrima',
-                    fontSize: 17,
-                  }}
-                  label="JavaScript"
-                  value="js"
-                />
-              </Picker>
-            </View>
-            <View style={styles.valueView}>
-              <Text style={{color: colors.value}}>100000000</Text>
-            </View>
-          </View>
+        <View>
+          <TouchableOpacity
+            style={styles.modalView}
+            onPress={() => openModal()}>
+            <Icon name="align-justify" color={colors.value} size={30} />
+            <Text style={[styles.title, {color: colors.value, marginLeft: 10}]}>
+              {type != '' ? `${t(type)}` : 'Choose type of Income'}
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.to}>
-          <Text style={[styles.text, {marginRight: 74, color: colors.value}]}>
-            {t('To: ')}
-          </Text>
-          <View>
+        <View style={styles.from}>
+          <View style={styles.walletView}>
+            <Icon name="bank" size={30} color={colors.value} />
             <View style={styles.pickerView}>
               <Picker
                 selectedValue={selectedValue}
@@ -148,23 +133,16 @@ const Spending = ({navigation}) => {
                   value="js"
                 />
               </Picker>
-            </View>
-            <View style={styles.valueView}>
-              <Text style={{color: colors.value}}>100000000</Text>
             </View>
           </View>
         </View>
         <View style={styles.dateTimePicker}>
-          <Text style={[styles.text, {color: colors.value}]}>
-            {t('Date: ')}
-          </Text>
+          <Icon name="calendar" size={30} color={colors.value} />
           <View>
             <View style={styles.btndateTimePicker}>
-              <Button
-                color={'gray'}
-                onPress={showDatepicker}
-                title={String(nDate)}
-              />
+              <TouchableOpacity onPress={showDatepicker}>
+                <Text style={{color: colors.value}}>{String(nDate)}</Text>
+              </TouchableOpacity>
             </View>
             {show && (
               <DateTimePicker
@@ -178,6 +156,18 @@ const Spending = ({navigation}) => {
           </View>
         </View>
         <View style={styles.inputValue}>
+          <Icon name="user-circle-o" color={colors.value} size={30} />
+          <TextInput
+            style={styles.inputNote}
+            placeholderTextColor={colors.value}
+            onChangeText={onChangeText}
+            value={text}
+            placeholder={t('From (Not required)')}
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputValue}>
+          <Icon name="paint-brush" color={colors.value} size={30} />
           <TextInput
             style={styles.inputNote}
             placeholderTextColor={colors.value}
@@ -233,29 +223,22 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   inputNote: {
+    marginLeft: 10,
     padding: 0,
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
-    width: screenWidth - 80,
+    width: screenWidth - 120,
   },
   currency: {
     color: '#000',
   },
-  text: {
-    color: '#000',
-    marginRight: 50,
-    fontSize: 20,
-  },
+
   from: {
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'flex-start',
   },
-  to: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'flex-start',
-  },
+
   pickerView: {
     overflow: 'hidden',
     flexDirection: 'row',
@@ -263,7 +246,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   picker: {
-    width: screenWidth - 170,
+    width: screenWidth - 100,
   },
   valueView: {
     paddingLeft: 15,
@@ -273,12 +256,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btndateTimePicker: {
-    width: screenWidth - 200,
+    width: screenWidth - 130,
     marginLeft: 20,
     height: 40,
     justifyContent: 'center',
   },
   btnConfirm: {
     width: '100%',
+  },
+  walletView: {
+    flexDirection: 'row',
+  },
+  modalView: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+    paddingTop: 5,
   },
 });

@@ -1,4 +1,4 @@
-export default SavingGoals = [
+export default SavingGoalsData = [
   {
     id: 1,
     detail: '1',

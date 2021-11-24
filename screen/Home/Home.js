@@ -14,22 +14,22 @@ console.disableYellowBox = true;
 
 const Home = ({navigation}) => {
   const {colors2} = useTheme();
-  const [depModal, setDepModal] = useState(false);
-  const [withModal, setWithModal] = useState(false);
+  const [incomeModal, setIncomeModal] = useState(false);
+  const [spendingModal, setSpendingModal] = useState(false);
 
   const openModal = input => {
     let type = input;
     if (type == 1) {
-      setDepModal(true);
-      console.log(depModal);
+      setIncomeModal(true);
+      console.log(incomeModal);
     } else if (type == 2) {
-      setWithModal(true);
+      setSpendingModal(true);
     }
   };
 
   const closeModal = () => {
-    setDepModal(false);
-    setWithModal(false);
+    setIncomeModal(false);
+    setSpendingModal(false);
   };
   return (
     <ScrollView
@@ -38,15 +38,15 @@ const Home = ({navigation}) => {
       showsVerticalScrollIndicator={false}>
       <WalletCard navigation={navigation} openModal={openModal} />
       <StatsCard />
-      <TransactionCard />
-      <SavingGoalsCard />
+      <TransactionCard navigation={navigation} />
+      <SavingGoalsCard navigation={navigation} />
       <IncomeModal
-        showModal={depModal}
+        showModal={incomeModal}
         closeModal={closeModal}
         navigation={navigation}
       />
       <SpendingModal
-        showModal={withModal}
+        showModal={spendingModal}
         closeModal={closeModal}
         navigation={navigation}
       />

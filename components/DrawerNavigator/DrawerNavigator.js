@@ -14,11 +14,8 @@ import {DrawerContent} from './DrawerContent';
 import {AuthContext} from '../Service/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainTabScreen from '../StackNavigator/StackNavigator';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Send from '../../screen/Pages/Send';
 
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
 
 const DrawerNavigator = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);

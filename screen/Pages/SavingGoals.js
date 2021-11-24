@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {ProgressBar, Colors} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
 import SavingGoalsData from '../../SavingGoalsData';
 
-function SavingGoalsDetails(props) {
+function SavingGoalsView(props) {
   const progress = (props.item.current * 100) / props.item.target / 100;
   const percent = (progress * 100).toFixed(1);
   const {colors} = useTheme();
@@ -42,41 +49,40 @@ function SavingGoalsDetails(props) {
   );
 }
 
-const SavingGoalsCard = ({navigation}) => {
+const screenHeight = Dimensions.get('screen').height;
+
+const SavingGoals = ({navigation}) => {
   const {t} = useTranslation();
   const [savingGoals] = useState(SavingGoalsData);
-  const {colors} = useTheme();
+  const {colors, colors2} = useTheme();
   return (
-    <View style={styles.section}>
-      <View style={styles.savingGoalsHeading}>
-        <View style={styles.header}>
-          <Text style={[styles.savingGoalsTitle, {color: colors.value}]}>
-            {t('Saving Goals')}
-          </Text>
-          <TouchableOpacity
-            activeOpacity="0.5"
-            onPress={() => navigation.navigate('SavingGoalsScreen')}>
-            <Text style={styles.viewAll}>{t('View All')}</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          {/* <FlatList
+    <ScrollView style={{backgroundColor: colors2.background}}>
+      <View style={[styles.section, {backgroundColor: colors2.background}]}>
+        <View style={styles.savingGoalsHeading}>
+          <View style={styles.header}>
+            <Text style={[styles.savingGoalsTitle, {color: colors.value}]}>
+              {t('Saving Goals')}
+            </Text>
+          </View>
+          <View>
+            {/* <FlatList
             data={savingGoals}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
               return <SavingGoalsDetails item={item} key={index} />;
             }}
           /> */}
-          {savingGoals.slice(0, 3).map((item, index) => {
-            return <SavingGoalsDetails item={item} key={index} />;
-          })}
+            {savingGoals.map((item, index) => {
+              return <SavingGoalsView item={item} key={index} />;
+            })}
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-export default SavingGoalsCard;
+export default SavingGoals;
 
 const styles = StyleSheet.create({
   section: {

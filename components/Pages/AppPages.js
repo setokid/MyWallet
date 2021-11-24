@@ -6,12 +6,13 @@ import {useTranslation} from 'react-i18next';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AppPages = () => {
+const AppPages = ({navigation}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('TransactionScreen')}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
@@ -24,7 +25,8 @@ const AppPages = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('SavingGoalsScreen')}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
@@ -37,7 +39,7 @@ const AppPages = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}>
         <View
           style={[
             styles.listItem,
@@ -50,6 +52,65 @@ const AppPages = () => {
             <Text style={{color: colors.value, fontSize: 17}}>
               {t('Profile')}
             </Text>
+            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
+          </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('IncomeScreen', {
+            type: '',
+          })
+        }>
+        <View
+          style={[
+            styles.listItem,
+            {borderBottomWidth: colors2.borderBottomWidth},
+          ]}>
+          <View style={styles.cube}>
+            <Icon name="cube-outline" size={22} color={'#fff'} />
+          </View>
+          <View style={styles.item}>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Income')}
+            </Text>
+            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
+          </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('SpendingScreen', {
+            type: '',
+          })
+        }>
+        <View
+          style={[
+            styles.listItem,
+            {borderBottomWidth: colors2.borderBottomWidth},
+          ]}>
+          <View style={styles.cube}>
+            <Icon name="cube-outline" size={22} color={'#fff'} />
+          </View>
+          <View style={styles.item}>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Spending')}
+            </Text>
+            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
+          </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('SendScreen')}>
+        <View
+          style={[
+            styles.listItem,
+            {borderBottomWidth: colors2.borderBottomWidth},
+          ]}>
+          <View style={styles.cube}>
+            <Icon name="cube-outline" size={22} color={'#fff'} />
+          </View>
+          <View style={styles.item}>
+            <Text style={{color: colors.value, fontSize: 17}}>{t('Send')}</Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>

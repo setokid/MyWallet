@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import TransactionsData from '../../TransactionsData';
+import Transactions from '../../TransactionsData';
 
-function TransactionDetails(props) {
-  // console.log(props.item);
+function TransactionView(props) {
+  console.log(props.item);
   const {t} = useTranslation();
   const {colors} = useTheme();
   return (
@@ -29,49 +36,48 @@ function TransactionDetails(props) {
   );
 }
 
-const TransactionCard = ({navigation}) => {
+const screenHeight = Dimensions.get('screen').height;
+
+const Transaction = () => {
   const {t} = useTranslation();
-  const [transaction] = useState(TransactionsData);
-  const {colors} = useTheme();
+  const [transaction] = useState(Transactions);
+  const {colors, colors2} = useTheme();
   return (
-    <View style={styles.section}>
-      <View style={styles.transactionHeading}>
-        <View style={styles.header}>
-          <Text style={[styles.transactionTitle, {color: colors.value}]}>
-            {t('Transaction')}
-          </Text>
-          <TouchableOpacity
-            activeOpacity="0.5"
-            onPress={() => navigation.navigate('TransactionScreen')}>
-            <Text style={styles.viewAll}>{t('View All')}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.transactions}>
-          {/* <FlatList
-            data={transaction}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => {
-              return <TransactionDetails item={item} key={index} />;
-            }}
-          /> */}
-          {transaction.slice(0, 3).map((item, index) => {
-            return <TransactionDetails item={item} key={index} />;
-          })}
+    <ScrollView>
+      <View style={[styles.section, {backgroundColor: colors2.background}]}>
+        <View style={styles.transactionHeading}>
+          <View style={styles.header}>
+            <Text style={[styles.transactionTitle, {color: colors.value}]}>
+              {t('Transaction')}
+            </Text>
+          </View>
+          <View style={styles.transactions}>
+            <FlatList
+              data={transaction}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item, index}) => {
+                return <TransactionView item={item} key={index} />;
+              }}
+            />
+            {/* {transaction.map((item, index) => {
+            return <TransactionView item={item} key={index} />;
+          })} */}
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-export default TransactionCard;
+export default Transaction;
 
 const styles = StyleSheet.create({
   section: {
     paddingLeft: 16,
     paddingRight: 16,
+    height: screenHeight,
   },
   transactionHeading: {
-    flex: 1,
     paddingTop: 32,
   },
   header: {

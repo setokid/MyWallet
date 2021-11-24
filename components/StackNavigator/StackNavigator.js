@@ -11,11 +11,12 @@ import Pages from '../../screen/Pages/Pages';
 import Profile from '../../screen/Profile/Profile';
 // import {useTheme} from 'react-native-paper';
 import {NavigationContainer, useTheme} from '@react-navigation/native';
-import {color} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import Send from '../../screen/Pages/Send';
 import Spending from '../../screen/Pages/Spending';
 import Income from '../../screen/Pages/Income';
+import Transactions from '../../screen/Pages/Transactions';
+import SavingGoals from '../../screen/Pages/SavingGoals';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -99,6 +100,38 @@ function HomeStackScreen({navigation}) {
         component={Spending}
         options={{
           title: t('Spending'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="TransactionScreen"
+        component={Transactions}
+        options={{
+          title: t('Transaction'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="SavingGoalsScreen"
+        component={SavingGoals}
+        options={{
+          title: t('Saving Goals'),
           headerRight: () => (
             <ImageBackground
               source={require('../../assets/avt.jpg')}

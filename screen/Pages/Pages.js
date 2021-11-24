@@ -10,9 +10,7 @@ import Language from '../../components/Pages/Language';
 import Others from '../../components/Pages/Others';
 import Theme from '../../components/Pages/Theme';
 
-import {AuthContext} from '../Service/Context';
-
-const Pages = () => {
+const Pages = ({navigation}) => {
   const {t} = useTranslation();
   const {colors2} = useTheme();
   return (
@@ -23,7 +21,7 @@ const Pages = () => {
             {t('App Pages')}
           </Text>
         </View>
-        <AppPages />
+        <AppPages navigation={navigation} />
         <View style={styles.title}>
           <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
             {t('Authentication')}
