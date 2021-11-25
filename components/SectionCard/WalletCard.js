@@ -30,7 +30,7 @@ const WalletCard = props => {
 
           <View>
             <TouchableOpacity
-              onPress={{}}
+              onPress={() => props.openModal(3)}
               style={styles.addButton}
               activeOpacity={0.5}>
               <Image source={require('../../assets/icon/plus.png')} />

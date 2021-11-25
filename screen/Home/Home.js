@@ -9,6 +9,7 @@ import TransactionCard from '../../components/SectionCard/TransactionCard';
 import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
 import IncomeModal from '../../components/Modal/IncomeModal';
 import SpendingModal from '../../components/Modal/SpendingModal';
+import NewWalletModal from '../../components/Modal/NewWalletModal';
 
 console.disableYellowBox = true;
 
@@ -16,6 +17,7 @@ const Home = ({navigation}) => {
   const {colors2} = useTheme();
   const [incomeModal, setIncomeModal] = useState(false);
   const [spendingModal, setSpendingModal] = useState(false);
+  const [newWalletModal, setNewWalletModal] = useState(false);
 
   const openModal = input => {
     let type = input;
@@ -24,12 +26,15 @@ const Home = ({navigation}) => {
       console.log(incomeModal);
     } else if (type == 2) {
       setSpendingModal(true);
+    } else if (type == 3) {
+      setNewWalletModal(true);
     }
   };
 
   const closeModal = () => {
     setIncomeModal(false);
     setSpendingModal(false);
+    setNewWalletModal(false);
   };
   return (
     <ScrollView
@@ -47,6 +52,11 @@ const Home = ({navigation}) => {
       />
       <SpendingModal
         showModal={spendingModal}
+        closeModal={closeModal}
+        navigation={navigation}
+      />
+      <NewWalletModal
+        showModal={newWalletModal}
         closeModal={closeModal}
         navigation={navigation}
       />
