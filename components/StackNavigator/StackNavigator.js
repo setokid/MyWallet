@@ -3,20 +3,23 @@ import {ImageBackground} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer, useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MenuIcon from 'react-native-vector-icons/Entypo';
 import Home from '../../screen/Home/Home';
 import Pages from '../../screen/Pages/Pages';
 import Profile from '../../screen/Profile/Profile';
-// import {useTheme} from 'react-native-paper';
-import {NavigationContainer, useTheme} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
+
 import Send from '../../screen/Pages/Send';
 import Spending from '../../screen/Pages/Spending';
 import Income from '../../screen/Pages/Income';
 import Transactions from '../../screen/Pages/Transactions';
 import SavingGoals from '../../screen/Pages/SavingGoals';
+import About from '../../screen/Pages/About';
+import Contact from '../../screen/Pages/Contact';
+import FAQ from '../../screen/Pages/FAQ';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -155,9 +158,10 @@ function PagesStackScreen({navigation}) {
         headerStyle: {
           backgroundColor: useTheme().colors.header,
         },
-        headerTintColor: '#fff',
+        headerTintColor: useTheme().colors.value,
         headerTitleStyle: {
           fontWeight: 'bold',
+          color: useTheme().colors.value,
         },
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -178,6 +182,54 @@ function PagesStackScreen({navigation}) {
               onPress={() => navigation.openDrawer()}
             />
           ),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <PagesStack.Screen
+        name="AboutScreen"
+        component={About}
+        options={{
+          title: t('About'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <PagesStack.Screen
+        name="ContactScreen"
+        component={Contact}
+        options={{
+          title: t('Contact'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      />
+      <PagesStack.Screen
+        name="FAQScreen"
+        component={FAQ}
+        options={{
+          title: t('FAQ'),
           headerRight: () => (
             <ImageBackground
               source={require('../../assets/avt.jpg')}

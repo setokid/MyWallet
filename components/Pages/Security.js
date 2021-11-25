@@ -2,11 +2,13 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
+import {AuthContext} from '../Service/Context';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Security = () => {
+  const {signOut} = React.useContext(AuthContext);
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
@@ -21,7 +23,7 @@ const Security = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => signOut()}>
         <View
           style={[
             styles.listItem,

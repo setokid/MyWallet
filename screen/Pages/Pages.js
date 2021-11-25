@@ -51,7 +51,7 @@ const Pages = ({navigation}) => {
             {t('Others')}
           </Text>
         </View>
-        <Others />
+        <Others navigation={navigation} />
       </View>
     </ScrollView>
   );

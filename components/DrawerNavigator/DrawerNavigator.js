@@ -94,7 +94,7 @@ const DrawerNavigator = () => {
 
     toggleTheme: async () => {
       setIsDarkTheme(isDarkTheme => !isDarkTheme);
-      await AsyncStorage.setItem('userTheme', userTheme);
+      // await AsyncStorage.setItem('userTheme', userTheme);
       // console.log(userTheme);
     },
 

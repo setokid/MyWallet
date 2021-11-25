@@ -86,9 +86,40 @@ const Income = ({route, navigation}) => {
             placeholderTextColor={colors.value}
             keyboardType="numeric"
           />
-          <Text style={[styles.currency, {color: colors.value}]}>
-            Đơn vị tiền
-          </Text>
+          <View style={[styles.pickerView]}>
+            <Picker
+              selectedValue={selectedValue}
+              style={[
+                styles.picker,
+                {color: colors.value, width: screenWidth - 220},
+              ]}
+              dropdownIconColor={colors.value}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)
+              }
+              mode="dropdown">
+              <Picker.Item
+                style={{
+                  backgroundColor: colors.background,
+                  color: colors.value,
+                  fontFamily: 'Ebrima',
+                  fontSize: 17,
+                }}
+                label="VNĐ"
+                value="VND"
+              />
+              <Picker.Item
+                style={{
+                  backgroundColor: colors.background,
+                  color: colors.value,
+                  fontFamily: 'Ebrima',
+                  fontSize: 17,
+                }}
+                label="USD"
+                value="USD"
+              />
+            </Picker>
+          </View>
         </View>
         <View>
           <TouchableOpacity

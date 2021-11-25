@@ -6,12 +6,12 @@ import {useTranslation} from 'react-i18next';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Others = () => {
+const Others = ({navigation}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
@@ -24,7 +24,7 @@ const Others = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('ContactScreen')}>
         <View style={styles.listItem}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
@@ -37,7 +37,7 @@ const Others = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('FAQScreen')}>
         <View
           style={[
             styles.listItem,

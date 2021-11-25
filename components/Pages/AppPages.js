@@ -40,11 +40,7 @@ const AppPages = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}>
-        <View
-          style={[
-            styles.listItem,
-            {borderBottomWidth: colors2.borderBottomWidth},
-          ]}>
+        <View style={[styles.listItem]}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
@@ -62,11 +58,7 @@ const AppPages = ({navigation}) => {
             type: '',
           })
         }>
-        <View
-          style={[
-            styles.listItem,
-            {borderBottomWidth: colors2.borderBottomWidth},
-          ]}>
+        <View style={[styles.listItem]}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
@@ -84,11 +76,7 @@ const AppPages = ({navigation}) => {
             type: '',
           })
         }>
-        <View
-          style={[
-            styles.listItem,
-            {borderBottomWidth: colors2.borderBottomWidth},
-          ]}>
+        <View style={[styles.listItem]}>
           <View style={styles.cube}>
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
