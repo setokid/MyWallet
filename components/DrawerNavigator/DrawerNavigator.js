@@ -67,18 +67,19 @@ const DrawerNavigator = () => {
   );
 
   const authContext = React.useMemo(() => ({
-    signIn: async foundUser => {
-      const userToken = String(foundUser[0].userToken);
-      const userName = foundUser[0].username;
-      console.log(foundUser[0].userToken);
-      try {
-        await AsyncStorage.setItem('userToken', userToken);
-        // const token1 = await AsyncStorage.getItem('userToken');
-        // console.log('test token ' + token1);
-      } catch (error) {
-        console.log(error);
+    signIn: async userData => {
+      if (userData != '') {
+        const userToken = userData.token;
+        console.log('token tra ve:', userToken);
+        const userName = userData.email;
+        console.log('email tra ve', userName);
+        try {
+          await AsyncStorage.setItem('userToken', userToken);
+        } catch (error) {
+          console.log(error);
+        }
+        dispatch({type: 'LOGIN', id: userName, token: userToken});
       }
-      dispatch({type: 'LOGIN', id: userName, token: userToken});
     },
 
     signOut: async () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -20,71 +20,98 @@ import Users from '../../Users';
 import {AuthContext} from '../../components/Service/Context';
 
 const SignIn = ({navigation}) => {
-  const [data, setData] = React.useState({
-    username: '',
-    password: '',
+  const [data, setData] = useState({
     check_textInputChange: false,
     secureTextEntry: true,
     isValidUser: true,
     isValidPassword: true,
   });
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userToken, setUserToken] = useState([]);
+  const [codeStatus, setCodeStatus] = useState();
   const {colors} = useTheme();
 
   const {signIn} = React.useContext(AuthContext);
 
-  const loginHandle = (userName, password) => {
-    const foundUser = Users.filter(item => {
-      return userName == item.username && password == item.password;
-    });
+  const ApiUrl = 'http://localhost:8585/user/login';
 
-    if (data.username.length == 0 || data.password.length == 0) {
-      Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
-        {text: 'Okay'},
-      ]);
-      return;
+  const loginHandle = async () => {
+    if (email != '' && password != '') {
+      await fetch(ApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      })
+        .then(res => {
+          if (!res.ok) throw res.status;
+          return res.json();
+        })
+        .then(resData => {
+          setUserToken(resData);
+        })
+        .catch(error => {
+          console.log(error);
+          setCodeStatus(error);
+        });
     }
+    //   .then(response => response.json())
+    //   .then(json => console.log(json));
+    // const foundUser = Users.filter(item => {
+    //   return userName == item.username && password == item.password;
+    // });
 
-    if (foundUser.length == 0) {
-      Alert.alert('Invalid User!', 'Username or password không đúng.', [
-        {text: 'Okay'},
-      ]);
-      return;
-    }
-    signIn(foundUser);
+    // if (data.username.length == 0 || data.password.length == 0) {
+    //   Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
+    //     {text: 'Okay'},
+    //   ]);
+    //   return;
+    // }
   };
+  signIn(userToken);
+
+  if (codeStatus == 403) {
+    Alert.alert('Invalid User!', 'Username or password không đúng.', [
+      {text: 'Okay'},
+    ]);
+    setCodeStatus();
+    return;
+  }
 
   const textInputChange = val => {
     if (val.trim().length >= 4) {
       setData({
-        ...data,
-        username: val,
         check_textInputChange: true,
         isValidUser: true,
       });
+      setEmail(val);
     } else {
       setData({
-        ...data,
-        username: val,
         check_textInputChange: false,
         isValidUser: false,
       });
+      setEmail(val);
     }
   };
 
   const handlePasswordChange = val => {
     if (val.trim().length >= 8) {
       setData({
-        ...data,
-        password: val,
         isValidPassword: true,
       });
+      setPassword(val);
+      console.log(password);
     } else {
       setData({
-        ...data,
-        password: val,
         isValidPassword: false,
       });
+      setPassword(val);
     }
   };
 
@@ -178,7 +205,7 @@ const SignIn = ({navigation}) => {
           <TouchableOpacity
             style={styles.signIn}
             onPress={() => {
-              loginHandle(data.username, data.password);
+              loginHandle();
             }}>
             <LinenearGradient
               colors={['#5a60e6', '#141ba3']}
