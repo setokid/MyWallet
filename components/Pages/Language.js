@@ -4,7 +4,7 @@ import {Switch, TouchableRipple, useTheme} from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {AuthContext} from '../Service/Context';
+import {AuthContext} from '../Store/Context';
 import {useTranslation} from 'react-i18next';
 
 const LANGUAGES = [{code: 'en'}, {code: 'vn'}];

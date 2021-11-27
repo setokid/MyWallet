@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Platform,
+  Alert,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -14,46 +15,115 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import LinenearGradient from 'react-native-linear-gradient';
 
+import {AuthContext} from '../../components/Store/Context';
+
 const SignUp = ({navigation}) => {
   const [data, setData] = React.useState({
-    email: '',
-    password: '',
-    confirm_password: '',
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
+    isValidConfirmPassword: true,
   });
 
+  const {signUp} = React.useContext(AuthContext);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [codeStatus, setCodeStatus] = useState();
+  console.log(codeStatus);
+
+  const ApiUrl = 'http://localhost:8585/user/register';
+
+  const signUpHandle = async () => {
+    if (email != '' && password != '' && confirmPassword != '') {
+      if (password === confirmPassword) {
+        await fetch(ApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        })
+          .then(res => {
+            return setCodeStatus(res.status);
+          })
+          .then(resData => {})
+          .catch(error => {
+            console.log(error);
+            setCodeStatus(error);
+          });
+      } else {
+        Alert.alert(
+          'Wrong Input!',
+          'Mật khẩu và nhập lại mật khẩu không giống nhau',
+          [{text: 'Okay'}],
+        );
+      }
+    }
+    if (email.length == 0 || password.length == 0) {
+      Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
+        {text: 'Okay'},
+      ]);
+      return;
+    }
+  };
+
+  if (codeStatus == 400) {
+    Alert.alert('Invalid User!', 'Đăng ký không thành công', [{text: 'Okay'}]);
+    setCodeStatus();
+    return;
+  }
+
+  if (codeStatus == 200) {
+    Alert.alert('Invalid User!', 'Đăng ký thành công', [{text: 'Okay'}]);
+    navigation.navigate('SignInScreen');
+  }
+
   const textInputChange = val => {
-    if (val.length != 0) {
+    if (val.trim().length >= 4) {
       setData({
-        ...data,
-        email: val,
         check_textInputChange: true,
+        isValidUser: true,
       });
+      setEmail(val);
     } else {
       setData({
-        ...data,
-        email: val,
         check_textInputChange: false,
+        isValidUser: false,
       });
     }
   };
 
   const handlePasswordChange = val => {
-    setData({
-      ...data,
-      password: val,
-    });
+    if (val.trim().length >= 8) {
+      setData({
+        isValidPassword: true,
+      });
+      setPassword(val);
+    } else {
+      setData({
+        isValidPassword: false,
+      });
+    }
   };
-
   const handleConfirmPasswordChange = val => {
-    setData({
-      ...data,
-      confirm_password: val,
-    });
+    if (val.trim().length >= 8) {
+      setData({
+        isValidConfirmPassword: true,
+      });
+      setConfirmPassword(val);
+    } else {
+      setData({
+        isValidConfirmPassword: false,
+      });
+    }
   };
-
   const updateSecureTextEntry = () => {
     setData({
       ...data,
@@ -90,12 +160,21 @@ const SignUp = ({navigation}) => {
             </Animatable.View>
           ) : null}
         </View>
+        {data.isValidUser ? (
+          true
+        ) : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Username phải từ 4 kí tự trở lên.
+            </Text>
+          </Animatable.View>
+        )}
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
           <FontAwesome name="lock" color="#05375a" size={20} />
           <TextInput
             placeholder="Your Password"
-            secureTextEntry={data.secureTextEntry ? true : false}
+            secureTextEntry={data.secureTextEntry ? false : true}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => handlePasswordChange(val)}
@@ -108,12 +187,21 @@ const SignUp = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
+        {data.isValidPassword ? (
+          true
+        ) : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Password phải từ 8 kí tự trở lên.
+            </Text>
+          </Animatable.View>
+        )}
         <Text style={styles.text_footer}>Confirm Password</Text>
         <View style={styles.action}>
           <FontAwesome name="lock" color="#05375a" size={20} />
           <TextInput
             placeholder="Confirm Your Password"
-            secureTextEntry={data.confirm_secureTextEntry ? true : false}
+            secureTextEntry={data.confirm_secureTextEntry ? false : true}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => handleConfirmPasswordChange(val)}
@@ -126,8 +214,20 @@ const SignUp = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
+        {data.isValidConfirmPassword ? (
+          true
+        ) : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Password phải từ 8 kí tự trở lên.
+            </Text>
+          </Animatable.View>
+        )}
+
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => signUpHandle()}>
             <LinenearGradient
               colors={['#5a60e6', '#141ba3']}
               style={styles.signIn}>
@@ -208,5 +308,8 @@ const styles = StyleSheet.create({
   textSign: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  errorMsg: {
+    color: 'red',
   },
 });

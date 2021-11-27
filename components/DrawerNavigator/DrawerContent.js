@@ -15,7 +15,7 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {AuthContext} from '../Service/Context';
+import {AuthContext} from '../Store/Context';
 import {useTranslation} from 'react-i18next';
 
 const LANGUAGES = [{code: 'en'}, {code: 'vn'}];

@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useTheme, Switch, TouchableRipple} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
-import {AuthContext} from '../Service/Context';
+import {AuthContext} from '../Store/Context';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 

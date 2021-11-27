@@ -11,7 +11,7 @@ import RootStackScreen from '../RootStack/RootStackScreen';
 
 import {CustomDarkTheme, CustomDefaultTheme} from '../DarkMode/DarkMode';
 import {DrawerContent} from './DrawerContent';
-import {AuthContext} from '../Service/Context';
+import {AuthContext} from '../Store/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainTabScreen from '../StackNavigator/StackNavigator';
 
@@ -91,7 +91,7 @@ const DrawerNavigator = () => {
       dispatch({type: 'LOGOUT'});
     },
 
-    signUp: () => {},
+    signUp: (email, password, confirmPassword) => {},
 
     toggleTheme: async () => {
       setIsDarkTheme(isDarkTheme => !isDarkTheme);
