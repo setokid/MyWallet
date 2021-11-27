@@ -46,7 +46,7 @@ export default function NewWalletModal(props) {
               {backgroundColor: colors.background},
             ]}>
             <View style={styles.nameView}>
-              <Text>{t('Name: ')}</Text>
+              <Text style={{color: colors.value}}>{t('Name: ')}</Text>
               <TextInput
                 style={[styles.inputName]}
                 onChangeText={onChangeText}
@@ -57,7 +57,9 @@ export default function NewWalletModal(props) {
               />
             </View>
             <View style={styles.accountCurrencyView}>
-              <Text>{t('Account Currency: ')}</Text>
+              <Text style={{color: colors.value}}>
+                {t('Account Currency: ')}
+              </Text>
               <View style={[styles.pickerView]}>
                 <Picker
                   selectedValue={selectedValue}
@@ -94,7 +96,7 @@ export default function NewWalletModal(props) {
               </View>
             </View>
             <View style={styles.initalView}>
-              <Text>{t('Initial amount: ')}</Text>
+              <Text style={{color: colors.value}}>{t('Initial amount: ')}</Text>
               <TextInput
                 style={[styles.inputInitial]}
                 onChangeText={onChangeText}

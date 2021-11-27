@@ -15,9 +15,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import LinenearGradient from 'react-native-linear-gradient';
 import {useTheme} from 'react-native-paper';
-import Users from '../../Users';
 
-import {AuthContext} from '../../components/Service/Context';
+import {AuthContext} from '../../components/Store/Context';
 
 const SignIn = ({navigation}) => {
   const [data, setData] = useState({
@@ -31,6 +30,7 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [userToken, setUserToken] = useState([]);
   const [codeStatus, setCodeStatus] = useState();
+
   const {colors} = useTheme();
 
   const {signIn} = React.useContext(AuthContext);
@@ -61,18 +61,13 @@ const SignIn = ({navigation}) => {
           setCodeStatus(error);
         });
     }
-    //   .then(response => response.json())
-    //   .then(json => console.log(json));
-    // const foundUser = Users.filter(item => {
-    //   return userName == item.username && password == item.password;
-    // });
 
-    // if (data.username.length == 0 || data.password.length == 0) {
-    //   Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
-    //     {text: 'Okay'},
-    //   ]);
-    //   return;
-    // }
+    if (email.length == 0 || password.length == 0) {
+      Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
+        {text: 'Okay'},
+      ]);
+      return;
+    }
   };
   signIn(userToken);
 

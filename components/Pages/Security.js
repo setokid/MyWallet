@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
-import {AuthContext} from '../Service/Context';
+import {AuthContext} from '../Store/Context';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
