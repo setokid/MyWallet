@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {
@@ -18,7 +18,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AuthContext} from '../Store/Context';
 import {useTranslation} from 'react-i18next';
 
-const LANGUAGES = [{code: 'en'}, {code: 'vn'}];
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NumberFormat from 'react-number-format';
 
 export function DrawerContent({navigation, props}) {
   const paperTheme = useTheme();
@@ -26,6 +27,8 @@ export function DrawerContent({navigation, props}) {
 
   const [isEnabledEn, setIsEnabledEn] = useState(true);
   const [isEnabledVn, setIsEnabledVn] = useState(false);
+  const [userData, setUserData] = useState([]);
+  console.log(userData);
 
   const onOff = () => {
     if (isEnabledEn == isEnabledEn) {
@@ -36,7 +39,37 @@ export function DrawerContent({navigation, props}) {
       setIsEnabledEn(isEnabledEn => !isEnabledEn);
     }
   };
-
+  useEffect(() => {
+    setTimeout(async () => {
+      let userToken;
+      userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+        console.log('token ' + userToken);
+        const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
+        await fetch(ApiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: userToken,
+          },
+        })
+          .then(res => {
+            if (!res.ok) throw res.status;
+            return res.json();
+          })
+          .then(resData => {
+            setUserData(resData);
+          })
+          .catch(error => {
+            console.log(error);
+            setCodeStatus(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 1000);
+  }, []);
   const {signOut, toggleTheme} = React.useContext(AuthContext);
 
   const {t, i18n} = useTranslation();
@@ -56,10 +89,10 @@ export function DrawerContent({navigation, props}) {
               />
               <View style={styles.userInfoText}>
                 <Title style={[styles.title, {color: colors.value}]}>
-                  Dũng Trần
+                  {userData.fullName != null ? userData.fullName : 'UserName'}
                 </Title>
-                <Caption style={styles.caption}>
-                  dungtran232000@gmail.com
+                <Caption style={[styles.caption, {flexShrink: 1}]}>
+                  {userData.email}
                 </Caption>
               </View>
             </View>
@@ -69,7 +102,18 @@ export function DrawerContent({navigation, props}) {
               <Paragraph style={[styles.paragraph, styles.blanceCaption]}>
                 {t('Total Blance')}
               </Paragraph>
-              <Caption style={styles.moneyCaption}>100.000.000 đ</Caption>
+              <Caption style={styles.moneyCaption}>
+                <NumberFormat
+                  value={userData.balance}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  renderText={(value, props) => (
+                    <Text {...props}>
+                      {value} {userData.currency}
+                    </Text>
+                  )}
+                />
+              </Caption>
             </View>
           </View>
 
@@ -263,8 +307,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   userInfoText: {
-    marginLeft: 15,
+    paddingLeft: 15,
     flexDirection: 'column',
+    width: 'auto',
   },
   icon: {
     alignItems: 'center',

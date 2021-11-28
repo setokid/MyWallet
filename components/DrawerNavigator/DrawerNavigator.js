@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {View, ActivityIndicator} from 'react-native';
 
@@ -18,8 +18,8 @@ import MainTabScreen from '../StackNavigator/StackNavigator';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-  const [language, setLanguage] = React.useState();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [userData, setUserData] = useState([]);
   const initialLoginState = {
     isLoading: true,
     userName: null,
@@ -69,12 +69,14 @@ const DrawerNavigator = () => {
   const authContext = React.useMemo(() => ({
     signIn: async userData => {
       if (userData != '') {
+        setUserData(userData);
         const userToken = userData.token;
         console.log('token tra ve:', userToken);
         const userName = userData.email;
         console.log('email tra ve', userName);
         try {
           await AsyncStorage.setItem('userToken', userToken);
+          await AsyncStorage.setItem('userName', userName);
         } catch (error) {
           console.log(error);
         }
@@ -108,7 +110,7 @@ const DrawerNavigator = () => {
       userToken = null;
       try {
         userToken = await AsyncStorage.getItem('userToken');
-        console.log('token ' + userToken);
+        userName = await AsyncStorage.getItem('userName');
       } catch (error) {
         console.log(error);
       }
