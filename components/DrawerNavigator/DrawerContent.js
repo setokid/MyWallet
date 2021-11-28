@@ -39,7 +39,7 @@ export function DrawerContent({navigation, props}) {
     }
   };
   useEffect(() => {
-    let cleanup = true;
+    let cleanUp = true;
     async function fetchAPI() {
       let userToken;
       userToken = null;
@@ -57,7 +57,7 @@ export function DrawerContent({navigation, props}) {
             if (!res.ok) {
               throw res.status;
             } else {
-              cleanup = false;
+              cleanUp = false;
               return res.json();
             }
           })
@@ -71,7 +71,7 @@ export function DrawerContent({navigation, props}) {
         console.log(error);
       }
     }
-    if (cleanup) {
+    if (cleanUp) {
       fetchAPI();
     }
   }, []);

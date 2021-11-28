@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import NumberFormat from 'react-number-format';
 
-const WalletCard = props => {
+const WalletCard = ({data, openModal, navigation}) => {
   const {colors} = useTheme();
   const {t} = useTranslation();
-
+  console.log(data);
   return (
     <View style={[styles.section, {paddingTop: 16}]}>
       <View
@@ -19,18 +20,30 @@ const WalletCard = props => {
             <Text style={[styles.blanceTitle, {color: colors.value}]}>
               {t('Total Blance')}
             </Text>
-            <Text
-              style={[
-                styles.blanceValue,
-                {flexWrap: 'wrap', color: colors.value},
-              ]}>
-              100.000.000 đ
-            </Text>
+            {data != null ? (
+              <NumberFormat
+                value={data.balance}
+                displayType={'text'}
+                thousandSeparator={true}
+                renderText={(value, props) => (
+                  <Text
+                    style={[
+                      styles.blanceValue,
+                      {flexWrap: 'wrap', color: colors.value},
+                    ]}
+                    {...props}>
+                    {value} {}
+                  </Text>
+                )}
+              />
+            ) : (
+              <Text>...</Text>
+            )}
           </View>
 
           <View>
             <TouchableOpacity
-              onPress={() => props.openModal(3)}
+              onPress={() => openModal(3)}
               style={styles.addButton}
               activeOpacity={0.5}>
               <Image source={require('../../assets/icon/plus.png')} />
@@ -42,7 +55,7 @@ const WalletCard = props => {
             <TouchableOpacity
               style={styles.withdraw}
               activeOpacity={0.5}
-              onPress={() => props.openModal(2)}>
+              onPress={() => openModal(2)}>
               <Image source={require('../../assets/icon/down-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Spending')}</Text>
@@ -51,7 +64,7 @@ const WalletCard = props => {
             <TouchableOpacity
               style={styles.send}
               activeOpacity={0.5}
-              onPress={() => props.navigation.navigate('SendScreen')}>
+              onPress={() => navigation.navigate('SendScreen')}>
               <Image source={require('../../assets/icon/right-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Send')}</Text>
@@ -60,7 +73,7 @@ const WalletCard = props => {
             <TouchableOpacity
               style={styles.deposit}
               activeOpacity={0.5}
-              onPress={() => props.openModal(1)}>
+              onPress={() => openModal(1)}>
               <Image source={require('../../assets/icon/up-arrow.png')} />
             </TouchableOpacity>
             <Text style={{color: colors.value}}>{t('Income')}</Text>

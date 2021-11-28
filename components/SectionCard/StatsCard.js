@@ -3,8 +3,9 @@ import {View, Text, StyleSheet} from 'react-native';
 // import {useTheme} from 'react-native-paper';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import NumberFormat from 'react-number-format';
 
-const StatsCard = () => {
+const StatsCard = ({data}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
   return (
@@ -19,7 +20,20 @@ const StatsCard = () => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Income')}
             </Text>
-            <Text style={[styles.values, {color: '#1DCC70'}]}>1.000.000</Text>
+            {data != null ? (
+              <NumberFormat
+                value={data.incomeAmount}
+                displayType={'text'}
+                thousandSeparator={true}
+                renderText={(value, props) => (
+                  <Text style={[styles.values, {color: '#1DCC70'}]} {...props}>
+                    {value} {data.currency}
+                  </Text>
+                )}
+              />
+            ) : (
+              <Text>...</Text>
+            )}
           </View>
         </View>
         <View style={styles.sectionCardChil}>
@@ -31,7 +45,20 @@ const StatsCard = () => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Expenses')}
             </Text>
-            <Text style={[styles.values, {color: '#FF396F'}]}>1.000.000</Text>
+            {data != null ? (
+              <NumberFormat
+                value={data.spendingAmount}
+                displayType={'text'}
+                thousandSeparator={true}
+                renderText={(value, props) => (
+                  <Text style={[styles.values, {color: '#FF396F'}]} {...props}>
+                    {value} {data.currency}
+                  </Text>
+                )}
+              />
+            ) : (
+              <Text>...</Text>
+            )}
           </View>
         </View>
       </View>

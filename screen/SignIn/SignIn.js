@@ -76,6 +76,7 @@ const SignIn = ({navigation}) => {
     Alert.alert('Invalid User!', 'Username or password không đúng.', [
       {text: 'Okay'},
     ]);
+
     return;
   }
 

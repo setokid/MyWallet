@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {ScrollView, StyleSheet, useIsFocused} from 'react-native';
+import {ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import WalletCard from '../../components/SectionCard/WalletCard';
@@ -20,44 +20,65 @@ const Home = ({navigation}) => {
   const [spendingModal, setSpendingModal] = useState(false);
   const [newWalletModal, setNewWalletModal] = useState(false);
   const [userData, setUserData] = useState([]);
+  console.log(userData);
 
   useEffect(() => {
-    let isApiSubscribed = true;
+    let cleanup = true;
+    let isLoading = true;
+
     async function fetchAPI() {
-      let userToken;
-      userToken = null;
-      try {
-        userToken = await AsyncStorage.getItem('userToken');
-        const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
-        await fetch(ApiUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: userToken,
-          },
-        })
-          .then(res => {
-            if (!res.ok) {
-              throw res.status;
-            } else {
-              isApiSubscribed = false;
-              return res.json();
-            }
+      if (cleanup) {
+        let userToken;
+        userToken = null;
+        try {
+          userToken = await AsyncStorage.getItem('userToken');
+          console.log('1', userToken);
+          const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
+          await fetch(ApiUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: userToken,
+            },
           })
-          .then(resData => {
-            setUserData(resData);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } catch (error) {
-        console.log(error);
+            .then(res => {
+              if (!res.ok) {
+                throw res.status;
+              } else {
+                isLoading = false;
+                return res.json();
+              }
+            })
+            .then(resData => {
+              setUserData(resData);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
-
-    if (isApiSubscribed) {
-      fetchAPI();
+    function loadDing() {
+      if (isLoading) {
+        return (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size="large" />
+          </View>
+        );
+      }
     }
+    loadDing();
+    fetchAPI();
+    return () => {
+      cleanup = false;
+    };
   }, []);
 
   const openModal = input => {
@@ -82,8 +103,12 @@ const Home = ({navigation}) => {
       style={[styles.container, {backgroundColor: colors2.background}]}
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}>
-      <WalletCard navigation={navigation} openModal={openModal} />
-      <StatsCard />
+      <WalletCard
+        navigation={navigation}
+        openModal={openModal}
+        data={userData}
+      />
+      <StatsCard data={userData} />
       <TransactionCard navigation={navigation} />
       <SavingGoalsCard navigation={navigation} />
       <IncomeModal
