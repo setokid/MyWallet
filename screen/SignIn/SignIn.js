@@ -72,10 +72,10 @@ const SignIn = ({navigation}) => {
   signIn(userToken);
 
   if (codeStatus == 403) {
+    setCodeStatus();
     Alert.alert('Invalid User!', 'Username or password không đúng.', [
       {text: 'Okay'},
     ]);
-    setCodeStatus();
     return;
   }
 

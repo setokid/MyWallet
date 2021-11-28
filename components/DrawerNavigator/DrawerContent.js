@@ -28,7 +28,6 @@ export function DrawerContent({navigation, props}) {
   const [isEnabledEn, setIsEnabledEn] = useState(true);
   const [isEnabledVn, setIsEnabledVn] = useState(false);
   const [userData, setUserData] = useState([]);
-  console.log(userData);
 
   const onOff = () => {
     if (isEnabledEn == isEnabledEn) {
@@ -40,12 +39,12 @@ export function DrawerContent({navigation, props}) {
     }
   };
   useEffect(() => {
-    setTimeout(async () => {
+    let cleanup = true;
+    async function fetchAPI() {
       let userToken;
       userToken = null;
       try {
         userToken = await AsyncStorage.getItem('userToken');
-        console.log('token ' + userToken);
         const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
         await fetch(ApiUrl, {
           method: 'GET',
@@ -55,20 +54,26 @@ export function DrawerContent({navigation, props}) {
           },
         })
           .then(res => {
-            if (!res.ok) throw res.status;
-            return res.json();
+            if (!res.ok) {
+              throw res.status;
+            } else {
+              cleanup = false;
+              return res.json();
+            }
           })
           .then(resData => {
             setUserData(resData);
           })
           .catch(error => {
             console.log(error);
-            setCodeStatus(error);
           });
       } catch (error) {
         console.log(error);
       }
-    }, 1000);
+    }
+    if (cleanup) {
+      fetchAPI();
+    }
   }, []);
   const {signOut, toggleTheme} = React.useContext(AuthContext);
 

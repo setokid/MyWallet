@@ -10,6 +10,7 @@ import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
 import IncomeModal from '../../components/Modal/IncomeModal';
 import SpendingModal from '../../components/Modal/SpendingModal';
 import NewWalletModal from '../../components/Modal/NewWalletModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 console.disableYellowBox = true;
 
@@ -18,6 +19,46 @@ const Home = ({navigation}) => {
   const [incomeModal, setIncomeModal] = useState(false);
   const [spendingModal, setSpendingModal] = useState(false);
   const [newWalletModal, setNewWalletModal] = useState(false);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    let isApiSubscribed = true;
+    async function fetchAPI() {
+      let userToken;
+      userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+        const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
+        await fetch(ApiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: userToken,
+          },
+        })
+          .then(res => {
+            if (!res.ok) {
+              throw res.status;
+            } else {
+              isApiSubscribed = false;
+              return res.json();
+            }
+          })
+          .then(resData => {
+            setUserData(resData);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (isApiSubscribed) {
+      fetchAPI();
+    }
+  }, []);
 
   const openModal = input => {
     let type = input;
