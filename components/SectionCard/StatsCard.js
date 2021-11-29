@@ -5,7 +5,7 @@ import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
 
-const StatsCard = ({data}) => {
+const StatsCard = ({userData1}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
   return (
@@ -20,14 +20,14 @@ const StatsCard = ({data}) => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Income')}
             </Text>
-            {data != null ? (
+            {userData1 != null ? (
               <NumberFormat
-                value={data.incomeAmount}
+                value={userData1.incomeAmount}
                 displayType={'text'}
                 thousandSeparator={true}
                 renderText={(value, props) => (
                   <Text style={[styles.values, {color: '#1DCC70'}]} {...props}>
-                    {value} {data.currency}
+                    {value} {userData1.currency}
                   </Text>
                 )}
               />
@@ -45,14 +45,14 @@ const StatsCard = ({data}) => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Expenses')}
             </Text>
-            {data != null ? (
+            {userData1 != null ? (
               <NumberFormat
-                value={data.spendingAmount}
+                value={userData1.spendingAmount}
                 displayType={'text'}
                 thousandSeparator={true}
                 renderText={(value, props) => (
                   <Text style={[styles.values, {color: '#FF396F'}]} {...props}>
-                    {value} {data.currency}
+                    {value} {userData1.currency}
                   </Text>
                 )}
               />

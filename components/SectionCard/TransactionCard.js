@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import TransactionsData from '../../TransactionsData';
+import NumberFormat from 'react-number-format';
 
-function TransactionDetails(props) {
-  // console.log(props.item);
+function TransactionDetails({item}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   return (
@@ -14,24 +20,46 @@ function TransactionDetails(props) {
         <View style={styles.transactionsDetail}>
           <View>
             <Text style={[styles.detail, {color: colors.value}]}>
-              {props.item.detail}
+              {item.description}
             </Text>
             <Text style={[styles.type, {color: colors.text}]}>
-              {props.item.type}
+              {item.nameType}
             </Text>
           </View>
         </View>
         <View>
-          <Text>{props.item.value}</Text>
+          {item.spend_or_income == true ? (
+            <NumberFormat
+              value={item.amount}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={(value, props) => (
+                <Text style={[{flexWrap: 'wrap', color: '#1DCC70'}]} {...props}>
+                  + {value} {item.currency}
+                </Text>
+              )}
+            />
+          ) : (
+            <NumberFormat
+              value={item.amount}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={(value, props) => (
+                <Text style={[{flexWrap: 'wrap', color: '#FF396F'}]} {...props}>
+                  - {value} {item.currency}
+                </Text>
+              )}
+            />
+          )}
         </View>
       </View>
     </View>
   );
 }
 
-const TransactionCard = ({navigation}) => {
+const TransactionCard = ({navigation, userTransaction}) => {
   const {t} = useTranslation();
-  const [transaction] = useState(TransactionsData);
+  const [datatransaction] = useState(userTransaction);
   const {colors} = useTheme();
   return (
     <View style={styles.section}>
@@ -46,18 +74,20 @@ const TransactionCard = ({navigation}) => {
             <Text style={styles.viewAll}>{t('View All')}</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.transactions}>
-          {/* <FlatList
-            data={transaction}
+        {datatransaction != null ? (
+          <FlatList
+            scrollEnabled={false}
+            data={userTransaction.slice(0, 3)}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
               return <TransactionDetails item={item} key={index} />;
             }}
-          /> */}
-          {transaction.slice(0, 3).map((item, index) => {
-            return <TransactionDetails item={item} key={index} />;
-          })}
-        </View>
+          />
+        ) : (
+          <View>
+            <Text>Khong co data</Text>
+          </View>
+        )}
       </View>
     </View>
   );

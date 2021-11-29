@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import Transactions from '../../TransactionsData';
+import {getTransaction} from '../../components/Store/FetchAPI';
+import NumberFormat from 'react-number-format';
 
-function TransactionView(props) {
-  console.log(props.item);
+function TransactionView({item}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   return (
@@ -21,15 +21,37 @@ function TransactionView(props) {
         <View style={styles.transactionsDetail}>
           <View>
             <Text style={[styles.detail, {color: colors.value}]}>
-              {props.item.detail}
+              {item.description}
             </Text>
             <Text style={[styles.type, {color: colors.text}]}>
-              {props.item.type}
+              {item.nameType}
             </Text>
           </View>
         </View>
         <View>
-          <Text>{props.item.value}</Text>
+          {item.spend_or_income == true ? (
+            <NumberFormat
+              value={item.amount}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={(value, props) => (
+                <Text style={[{flexWrap: 'wrap', color: '#1DCC70'}]} {...props}>
+                  + {value} {item.currency}
+                </Text>
+              )}
+            />
+          ) : (
+            <NumberFormat
+              value={item.amount}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={(value, props) => (
+                <Text style={[{flexWrap: 'wrap', color: '#FF396F'}]} {...props}>
+                  - {value} {item.currency}
+                </Text>
+              )}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -39,8 +61,25 @@ function TransactionView(props) {
 const screenHeight = Dimensions.get('screen').height;
 
 const Transaction = () => {
+  const [userTransaction, setUserTransaction] = useState([]);
+
+  useEffect(() => {
+    let cleanup = true;
+    async function callApi() {
+      if (cleanup) {
+        let resusertransaction = await getTransaction();
+        setUserTransaction(resusertransaction);
+      }
+    }
+
+    callApi();
+
+    return () => {
+      cleanup = false;
+    };
+  }, []);
+
   const {t} = useTranslation();
-  const [transaction] = useState(Transactions);
   const {colors, colors2} = useTheme();
   return (
     <ScrollView>
@@ -53,15 +92,12 @@ const Transaction = () => {
           </View>
           <View style={styles.transactions}>
             <FlatList
-              data={transaction}
+              data={userTransaction}
               showsVerticalScrollIndicator={false}
               renderItem={({item, index}) => {
                 return <TransactionView item={item} key={index} />;
               }}
             />
-            {/* {transaction.map((item, index) => {
-            return <TransactionView item={item} key={index} />;
-          })} */}
           </View>
         </View>
       </View>

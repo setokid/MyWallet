@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 
-import {ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Dimensions,
+  VirtualizedList,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import WalletCard from '../../components/SectionCard/WalletCard';
@@ -10,9 +17,17 @@ import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
 import IncomeModal from '../../components/Modal/IncomeModal';
 import SpendingModal from '../../components/Modal/SpendingModal';
 import NewWalletModal from '../../components/Modal/NewWalletModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {
+  getUserData,
+  getTransaction,
+  getTarget,
+  getModal,
+} from '../../components/Store/FetchAPI';
 
 console.disableYellowBox = true;
+
+const heightScreen = Dimensions.get('screen').height;
 
 const Home = ({navigation}) => {
   const {colors2} = useTheme();
@@ -20,62 +35,27 @@ const Home = ({navigation}) => {
   const [spendingModal, setSpendingModal] = useState(false);
   const [newWalletModal, setNewWalletModal] = useState(false);
   const [userData, setUserData] = useState([]);
-  console.log(userData);
+  const [userTransaction, setUserTransaction] = useState([]);
+  const [userTarget, setUserTarget] = useState([]);
+  const [modal, setModal] = useState([]);
 
   useEffect(() => {
     let cleanup = true;
-    let isLoading = true;
-
-    async function fetchAPI() {
+    async function callApi() {
       if (cleanup) {
-        let userToken;
-        userToken = null;
-        try {
-          userToken = await AsyncStorage.getItem('userToken');
-          console.log('1', userToken);
-          const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
-          await fetch(ApiUrl, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: userToken,
-            },
-          })
-            .then(res => {
-              if (!res.ok) {
-                throw res.status;
-              } else {
-                isLoading = false;
-                return res.json();
-              }
-            })
-            .then(resData => {
-              setUserData(resData);
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        } catch (error) {
-          console.log(error);
-        }
+        let resuserdata = await getUserData();
+        let resusertransaction = await getTransaction();
+        let resuertarget = await getTarget();
+        let resmodal = await getModal();
+        setUserData(resuserdata);
+        setUserTransaction(resusertransaction);
+        setUserTarget(resuertarget);
+        setModal(resmodal);
       }
     }
-    function loadDing() {
-      if (isLoading) {
-        return (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ActivityIndicator size="large" />
-          </View>
-        );
-      }
-    }
-    loadDing();
-    fetchAPI();
+
+    callApi();
+
     return () => {
       cleanup = false;
     };
@@ -85,7 +65,6 @@ const Home = ({navigation}) => {
     let type = input;
     if (type == 1) {
       setIncomeModal(true);
-      console.log(incomeModal);
     } else if (type == 2) {
       setSpendingModal(true);
     } else if (type == 3) {
@@ -98,6 +77,7 @@ const Home = ({navigation}) => {
     setSpendingModal(false);
     setNewWalletModal(false);
   };
+
   return (
     <ScrollView
       style={[styles.container, {backgroundColor: colors2.background}]}
@@ -106,17 +86,22 @@ const Home = ({navigation}) => {
       <WalletCard
         navigation={navigation}
         openModal={openModal}
-        data={userData}
+        userData={userData}
       />
-      <StatsCard data={userData} />
-      <TransactionCard navigation={navigation} />
-      <SavingGoalsCard navigation={navigation} />
+      <StatsCard userData1={userData} navigation={navigation} />
+      <TransactionCard
+        userTransaction={userTransaction}
+        navigation={navigation}
+      />
+      <SavingGoalsCard usertarget={userTarget} navigation={navigation} />
       <IncomeModal
+        data={modal}
         showModal={incomeModal}
         closeModal={closeModal}
         navigation={navigation}
       />
       <SpendingModal
+        data={modal}
         showModal={spendingModal}
         closeModal={closeModal}
         navigation={navigation}

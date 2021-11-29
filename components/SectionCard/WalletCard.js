@@ -4,10 +4,9 @@ import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
 
-const WalletCard = ({data, openModal, navigation}) => {
+const WalletCard = ({userData, openModal, navigation}) => {
   const {colors} = useTheme();
   const {t} = useTranslation();
-  console.log(data);
   return (
     <View style={[styles.section, {paddingTop: 16}]}>
       <View
@@ -20,9 +19,9 @@ const WalletCard = ({data, openModal, navigation}) => {
             <Text style={[styles.blanceTitle, {color: colors.value}]}>
               {t('Total Blance')}
             </Text>
-            {data != null ? (
+            {userData != null ? (
               <NumberFormat
-                value={data.balance}
+                value={userData.balance}
                 displayType={'text'}
                 thousandSeparator={true}
                 renderText={(value, props) => (
@@ -32,7 +31,7 @@ const WalletCard = ({data, openModal, navigation}) => {
                       {flexWrap: 'wrap', color: colors.value},
                     ]}
                     {...props}>
-                    {value} {}
+                    {value} {userData.currency}
                   </Text>
                 )}
               />

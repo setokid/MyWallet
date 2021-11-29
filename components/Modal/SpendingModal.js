@@ -18,19 +18,69 @@ const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function SpendingModal(props) {
+const SpendingModalView = ({item, handlePress, navigation, closeModal}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
-  const [expanded, setExpanded] = useState(true);
 
-  const handlePress = () => setExpanded(!expanded);
+  return (
+    <List.Section title="">
+      {item.spend_or_income == false ? (
+        <List.Accordion
+          title={t(item.name)}
+          titleStyle={[styles.title, {color: colors.value}]}
+          left={props => (
+            <Icon name="md-wallet-sharp" size={25} color={colors.value} />
+          )}
+          onPress={handlePress}>
+          {item.typeDTOList.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                navigation.navigate('SpendingScreen', {
+                  type: item.name,
+                  id: item.id,
+                });
+                closeModal();
+              }}>
+              <View
+                style={[
+                  styles.dropDownContent,
+                  {borderBottomColor: colors2.borderBottomColor},
+                ]}>
+                <Icon
+                  name="ios-briefcase-sharp"
+                  size={25}
+                  color={colors.value}
+                />
+                <Text style={[styles.title, {color: colors.value}]}>
+                  {t(item.name)}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </List.Accordion>
+      ) : (
+        <View></View>
+      )}
+    </List.Section>
+  );
+};
+
+export default function SpendingModal({
+  data,
+  closeModal,
+  showModal,
+  navigation,
+}) {
+  const {t} = useTranslation();
+  const {colors, colors2} = useTheme();
 
   return (
     <Modal
       animationType="slide"
       statusBarTranslucent={true}
       transparent={true}
-      visible={props.showModal}
+      visible={showModal}
       onRequestClose={() => (Modal.visible = false)}>
       <View style={[styles.centeredView]}>
         <View style={[styles.modalView, {backgroundColor: colors2.background}]}>
@@ -47,553 +97,25 @@ export default function SpendingModal(props) {
             <ScrollView
               contentContainerStyle={{width: windowWidth - 100}}
               contentInset={{top: 0, left: 0, bottom: 0, right: 0}}>
-              <List.Section title="">
-                <List.Accordion
-                  title={t('Food/Drink')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="restaurant-sharp"
-                      size={25}
-                      color={colors.value}
+              {data != null ? (
+                <View>
+                  {data.map((item, index) => (
+                    <SpendingModalView
+                      item={item}
+                      key={index}
+                      navigation={navigation}
+                      closeModal={closeModal}
                     />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Food/Drink',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="restaurant-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Food/Drink')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Restaurant',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-beer-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Restaurant')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Shopping')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="ios-cart-sharp"
-                      size={25}
-                      color={colors.value}
-                    />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Shopping',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-cart-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Shopping')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Clothes',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-shirt-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Clothes')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Footwear',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-shirt-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Footwear')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Technology',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="md-tv-sharp" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Technology')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Gift',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-gift-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Gift')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Transport')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="md-car-sport-sharp"
-                      size={25}
-                      color={colors.value}
-                    />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Public Transport',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="bus" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Public Transport')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Vehicle',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="car-sport-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Vehicle')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Fuel',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="water-sharp" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Fuel')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Insurance',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="shield-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Insurance')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Family')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="ios-people-sharp"
-                      size={25}
-                      color={colors.value}
-                    />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Family',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-people-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Family')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Children',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="people-circle-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Children')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'House',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="home" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('House')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Health/Sports')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="md-heart-sharp"
-                      size={25}
-                      color={colors.value}
-                    />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Health',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="md-heart-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Health')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Sport',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-barbell-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Sport')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Pet')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon name="ios-paw-sharp" size={25} color={colors.value} />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Pet Food',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="md-paw" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Pet Food')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Travel')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="airplane-sharp"
-                      size={25}
-                      color={colors.value}
-                    />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Travel',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="airplane-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Travel')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Transport - Travel',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="bus-sharp" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Transport - Travel')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Room Rental',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="bed" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Room Rental')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Others (Spending)')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon name="md-receipt" size={25} color={colors.value} />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Others (Spending)',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="md-receipt" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Others (Spending)')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('SpendingScreen', {
-                        type: 'Tax',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="md-wallet-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Tax')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-              </List.Section>
+                  ))}
+                </View>
+              ) : (
+                <View></View>
+              )}
             </ScrollView>
           </View>
           <View style={styles.btn}>
             <Button
-              onPress={() => props.closeModal()}
+              onPress={() => closeModal()}
               title="Close"
               color="#6236FF"
               style={styles.btn}
@@ -620,7 +142,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: screenWidth - 33,
-    height: windowHeight - 200,
+    height: 'auto',
   },
   centeredView: {
     flex: 1,
@@ -654,7 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: -40,
     padding: 15,
-    height: windowHeight - 320,
+    height: 'auto',
   },
   dropDownContent: {
     flexDirection: 'row',

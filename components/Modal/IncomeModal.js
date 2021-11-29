@@ -17,18 +17,64 @@ import {List} from 'react-native-paper';
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
 
-export default function IncomeModal(props, {navigation}) {
+const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
-  const [expanded, setExpanded] = useState(true);
 
-  const handlePress = () => setExpanded(!expanded);
+  return (
+    <List.Section title="">
+      {item.spend_or_income == true ? (
+        <List.Accordion
+          title={t(item.name)}
+          titleStyle={[styles.title, {color: colors.value}]}
+          left={props => (
+            <Icon name="md-wallet-sharp" size={25} color={colors.value} />
+          )}
+          onPress={handlePress}>
+          {item.typeDTOList.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                navigation.navigate('IncomeScreen', {
+                  type: item.name,
+                  id: item.id,
+                });
+                closeModal();
+              }}>
+              <View
+                style={[
+                  styles.dropDownContent,
+                  {borderBottomColor: colors2.borderBottomColor},
+                ]}>
+                <Icon
+                  name="ios-briefcase-sharp"
+                  size={25}
+                  color={colors.value}
+                />
+                <Text style={[styles.title, {color: colors.value}]}>
+                  {t(item.name)}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </List.Accordion>
+      ) : (
+        <View></View>
+      )}
+    </List.Section>
+  );
+};
+
+export default function IncomeModal({data, closeModal, showModal, navigation}) {
+  const {t} = useTranslation();
+  const {colors, colors2} = useTheme();
+
   return (
     <Modal
       animationType="slide"
       statusBarTranslucent={true}
       transparent={true}
-      visible={props.showModal}
+      visible={showModal}
       onRequestClose={() => (Modal.visible = false)}>
       <View style={[styles.centeredView]}>
         <View style={[styles.modalView, {backgroundColor: colors2.background}]}>
@@ -45,135 +91,25 @@ export default function IncomeModal(props, {navigation}) {
             <ScrollView
               contentContainerStyle={{width: windowWidth - 100}}
               contentInset={{top: 0, left: 0, bottom: 0, right: 0}}>
-              <List.Section title="">
-                <List.Accordion
-                  title={t('Income')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon
-                      name="md-wallet-sharp"
-                      size={25}
-                      color={colors.value}
+              {data != null ? (
+                <View>
+                  {data.map((item, index) => (
+                    <IncomeModalView
+                      item={item}
+                      key={index}
+                      navigation={navigation}
+                      closeModal={closeModal}
                     />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('IncomeScreen', {
-                        type: 'Salary',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="ios-briefcase-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Salary')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('IncomeScreen', {
-                        type: 'Money From Errands',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="md-construct-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Money From Errands')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('IncomeScreen', {
-                        type: 'Subsidy',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="cash" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Subsidy')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-                <List.Accordion
-                  title={t('Others (Income)')}
-                  titleStyle={[styles.title, {color: colors.value}]}
-                  left={props => (
-                    <Icon name="receipt-sharp" size={25} color={colors.value} />
-                  )}
-                  onPress={handlePress}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('IncomeScreen', {
-                        type: 'Other (Income)',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon
-                        name="receipt-sharp"
-                        size={25}
-                        color={colors.value}
-                      />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Others (Income)')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('IncomeScreen', {
-                        type: 'Personal Savings',
-                      });
-                      props.closeModal();
-                    }}>
-                    <View
-                      style={[
-                        styles.dropDownContent,
-                        {borderBottomColor: colors2.borderBottomColor},
-                      ]}>
-                      <Icon name="card" size={25} color={colors.value} />
-                      <Text style={[styles.title, {color: colors.value}]}>
-                        {t('Personal Savings')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </List.Accordion>
-              </List.Section>
+                  ))}
+                </View>
+              ) : (
+                <View></View>
+              )}
             </ScrollView>
           </View>
           <View style={styles.btn}>
             <Button
-              onPress={() => props.closeModal()}
+              onPress={() => closeModal()}
               title="Close"
               color="#6236FF"
               style={styles.btn}

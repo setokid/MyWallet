@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Button,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,17 +18,18 @@ import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {Picker} from '@react-native-picker/picker';
 import {color} from 'react-native-reanimated';
+import {addSpending} from '../../components/Store/FetchAPI';
 
 const screenWidth = Dimensions.get('screen').width;
 
 const Spending = ({route, navigation}) => {
-  const [text, onChangeText] = useState(null);
-
-  const [selectedValue, setSelectedValue] = useState('java');
-
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  const [currency, setCurrency] = useState('VND');
+  const [amount, setAmount] = useState('');
+  const [description, setDescription] = useState('');
 
   const today = date.toJSON().slice(0, 10);
   const nDate =
@@ -52,7 +54,7 @@ const Spending = ({route, navigation}) => {
 
   const {colors, colors2} = useTheme();
 
-  const {type} = route.params;
+  const {type, id} = route.params;
 
   const [incomeModal, setIncomeModal] = useState(false);
 
@@ -62,6 +64,19 @@ const Spending = ({route, navigation}) => {
 
   const closeModal = () => {
     setIncomeModal(false);
+  };
+
+  const clearInput = () => {
+    setAmount('');
+    setCurrency('');
+    setDescription('');
+    setCurrency('VND');
+  };
+
+  const confirm = (currency, amount, description, id) => {
+    addSpending(id, currency, amount, description);
+    clearInput();
+    Alert.alert('Successful', 'Successful extra spending', [{text: 'Okay'}]);
   };
 
   return (
@@ -80,23 +95,21 @@ const Spending = ({route, navigation}) => {
         <View style={styles.inputValue}>
           <TextInput
             style={[styles.input]}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={val => setAmount(val)}
+            value={amount}
             placeholder="Value"
             placeholderTextColor={colors.value}
             keyboardType="numeric"
           />
           <View style={styles.pickerView}>
             <Picker
-              selectedValue={selectedValue}
+              selectedValue={currency}
               style={[
                 styles.picker,
                 {color: colors.value, width: screenWidth - 220},
               ]}
               dropdownIconColor={colors.value}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
-              }
+              onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
               mode="dropdown">
               <Picker.Item
                 style={{
@@ -136,12 +149,10 @@ const Spending = ({route, navigation}) => {
             <Icon name="bank" size={30} color={colors.value} />
             <View style={styles.pickerView}>
               <Picker
-                selectedValue={selectedValue}
+                selectedValue={'Ví'}
                 style={[styles.picker, {color: colors.value}]}
                 dropdownIconColor={colors.value}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }
+                onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
                 mode="dropdown">
                 <Picker.Item
                   style={{
@@ -187,30 +198,22 @@ const Spending = ({route, navigation}) => {
           </View>
         </View>
         <View style={styles.inputValue}>
-          <Icon name="user-circle-o" color={colors.value} size={30} />
-          <TextInput
-            style={styles.inputNote}
-            placeholderTextColor={colors.value}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder={t('From (Not required)')}
-            keyboardType="default"
-          />
-        </View>
-        <View style={styles.inputValue}>
           <Icon name="paint-brush" color={colors.value} size={30} />
           <TextInput
             style={styles.inputNote}
             placeholderTextColor={colors.value}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={val => setDescription(val)}
+            value={description}
             placeholder={t('Note (Not required)')}
             keyboardType="default"
           />
         </View>
         <View>
           <View style={styles.btnConfirm}>
-            <Button onPress={{}} title={t('Confirm')} />
+            <Button
+              onPress={() => confirm(currency, amount, description, id)}
+              title={t('Confirm')}
+            />
           </View>
         </View>
       </View>

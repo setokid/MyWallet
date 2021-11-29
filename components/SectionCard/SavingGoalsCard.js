@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {ProgressBar, Colors} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
-import SavingGoalsData from '../../SavingGoalsData';
+import NumberFormat from 'react-number-format';
 
-function SavingGoalsDetails(props) {
-  const progress = (props.item.current * 100) / props.item.target / 100;
+function SavingGoalsDetails({item}) {
+  const progress = (item.current * 100) / item.total / 100;
   const percent = (progress * 100).toFixed(1);
   const {colors} = useTheme();
   return (
@@ -15,16 +22,21 @@ function SavingGoalsDetails(props) {
         <View style={styles.savingGoalsDetails}>
           <View>
             <Text style={[styles.detail, {color: colors.value}]}>
-              {props.item.detail}
+              {item.description}
             </Text>
-            <Text style={[styles.type, {color: colors.text}]}>
-              {props.item.type}
-            </Text>
+            <Text style={[styles.type, {color: colors.text}]}>{item.name}</Text>
           </View>
           <View>
-            <Text style={[styles.type, {color: colors.value}]}>
-              {props.item.target}
-            </Text>
+            <NumberFormat
+              value={item.total}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={(value, props) => (
+                <Text style={[styles.type, {color: colors.value}]} {...props}>
+                  {value} {item.currency}
+                </Text>
+              )}
+            />
           </View>
         </View>
         <View style={styles.progress}>
@@ -34,7 +46,7 @@ function SavingGoalsDetails(props) {
             color={'#6236FF'}
           />
           <Text style={[styles.percentText, {color: colors.value}]}>
-            {percent}%
+            {percent} %
           </Text>
         </View>
       </View>
@@ -42,9 +54,8 @@ function SavingGoalsDetails(props) {
   );
 }
 
-const SavingGoalsCard = ({navigation}) => {
+const SavingGoalsCard = ({navigation, usertarget}) => {
   const {t} = useTranslation();
-  const [savingGoals] = useState(SavingGoalsData);
   const {colors} = useTheme();
   return (
     <View style={styles.section}>
@@ -59,18 +70,20 @@ const SavingGoalsCard = ({navigation}) => {
             <Text style={styles.viewAll}>{t('View All')}</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          {/* <FlatList
-            data={savingGoals}
+        {usertarget != null ? (
+          <FlatList
+            scrollEnabled={false}
+            data={usertarget.slice(0, 3)}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
               return <SavingGoalsDetails item={item} key={index} />;
             }}
-          /> */}
-          {savingGoals.slice(0, 3).map((item, index) => {
-            return <SavingGoalsDetails item={item} key={index} />;
-          })}
-        </View>
+          />
+        ) : (
+          <View>
+            <Text>Khong có data</Text>
+          </View>
+        )}
       </View>
     </View>
   );

@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {AuthContext} from '../Store/Context';
 import {useTranslation} from 'react-i18next';
+import {getUserData} from '../Store/FetchAPI';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NumberFormat from 'react-number-format';
@@ -39,42 +40,21 @@ export function DrawerContent({navigation, props}) {
     }
   };
   useEffect(() => {
-    let cleanUp = true;
-    async function fetchAPI() {
-      let userToken;
-      userToken = null;
-      try {
-        userToken = await AsyncStorage.getItem('userToken');
-        const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
-        await fetch(ApiUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: userToken,
-          },
-        })
-          .then(res => {
-            if (!res.ok) {
-              throw res.status;
-            } else {
-              cleanUp = false;
-              return res.json();
-            }
-          })
-          .then(resData => {
-            setUserData(resData);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } catch (error) {
-        console.log(error);
+    let cleanup = true;
+    async function callApi() {
+      if (cleanup) {
+        let resdata = await getUserData();
+        setUserData(resdata);
       }
     }
-    if (cleanUp) {
-      fetchAPI();
-    }
+
+    callApi();
+
+    return () => {
+      cleanup = false;
+    };
   }, []);
+
   const {signOut, toggleTheme} = React.useContext(AuthContext);
 
   const {t, i18n} = useTranslation();
