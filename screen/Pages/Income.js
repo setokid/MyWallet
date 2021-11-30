@@ -17,8 +17,8 @@ import IncomeModal from '../../components/Modal/IncomeModal';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {Picker} from '@react-native-picker/picker';
-import {color} from 'react-native-reanimated';
 import {addIncome} from '../../components/Store/FetchAPI';
+import CommonCurrency from '../../components/Store/CommonCurrency';
 
 const screenWidth = Dimensions.get('screen').width;
 
@@ -26,10 +26,10 @@ const Income = ({route, navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-
   const [currency, setCurrency] = useState('VND');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [commonCurrency, setCommonCurrency] = useState(CommonCurrency);
 
   const today = date.toJSON().slice(0, 10);
   const nDate =
@@ -74,9 +74,12 @@ const Income = ({route, navigation}) => {
   };
 
   const confirm = (currency, amount, description, id) => {
-    addIncome(id, currency, amount, description);
-    clearInput();
-    Alert.alert('Successful', 'Successful extra income', [{text: 'Okay'}]);
+    if (amount == null || amount == 0) {
+      Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
+    } else {
+      addIncome(id, currency, amount, description);
+      clearInput();
+    }
   };
 
   return (
@@ -89,14 +92,14 @@ const Income = ({route, navigation}) => {
         />
         <View>
           <Text style={[styles.title, {color: colors.value}]}>
-            {t('Income (Value)')}
+            {t('Income')}
           </Text>
         </View>
         <View style={styles.inputValue}>
           <TextInput
             style={[styles.input]}
             value={amount}
-            placeholder="Value"
+            placeholder="Amount"
             placeholderTextColor={colors.value}
             keyboardType="numeric"
             onChangeText={val => setAmount(val)}
@@ -111,26 +114,19 @@ const Income = ({route, navigation}) => {
               dropdownIconColor={colors.value}
               onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
               mode="dropdown">
-              <Picker.Item
-                style={{
-                  backgroundColor: colors.background,
-                  color: colors.value,
-                  fontFamily: 'Ebrima',
-                  fontSize: 17,
-                }}
-                label="VNĐ"
-                value="VND"
-              />
-              <Picker.Item
-                style={{
-                  backgroundColor: colors.background,
-                  color: colors.value,
-                  fontFamily: 'Ebrima',
-                  fontSize: 17,
-                }}
-                label="USD"
-                value="USD"
-              />
+              {commonCurrency.map(item => (
+                <Picker.Item
+                  key={item}
+                  style={{
+                    backgroundColor: colors.background,
+                    color: colors.value,
+                    fontFamily: 'Ebrima',
+                    fontSize: 17,
+                  }}
+                  label={item.code}
+                  value={item.code}
+                />
+              ))}
             </Picker>
           </View>
         </View>

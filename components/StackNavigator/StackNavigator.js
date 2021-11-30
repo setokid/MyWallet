@@ -20,6 +20,7 @@ import SavingGoals from '../../screen/Pages/SavingGoals';
 import About from '../../screen/Pages/About';
 import Contact from '../../screen/Pages/Contact';
 import FAQ from '../../screen/Pages/FAQ';
+import Target from '../../screen/Pages/Target';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -66,11 +67,27 @@ function HomeStackScreen({navigation}) {
           ),
         }}
       />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="SendScreen"
         component={Send}
         options={{
           title: t('Send'),
+          headerRight: () => (
+            <ImageBackground
+              source={require('../../assets/avt.jpg')}
+              imageStyle={{
+                borderRadius: 25,
+              }}
+              style={{width: 35, height: 35}}
+            />
+          ),
+        }}
+      /> */}
+      <HomeStack.Screen
+        name="TargetScreen"
+        component={Target}
+        options={{
+          title: t('Target'),
           headerRight: () => (
             <ImageBackground
               source={require('../../assets/avt.jpg')}

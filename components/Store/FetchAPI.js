@@ -37,7 +37,6 @@ export async function getTransaction() {
   var resUserTransaction = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     const ApiUrl = 'http://localhost:8585/userinfo/getrecenttransaction';
     await fetch(ApiUrl, {
       method: 'GET',
@@ -99,10 +98,8 @@ export async function getModal() {
   let userToken;
   userToken = null;
   var resModal;
-  var resModal1 = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     const ApiUrl = 'http://localhost:8585/userinfo/gettypeall';
     await fetch(ApiUrl, {
       method: 'GET',
@@ -135,7 +132,6 @@ export async function addIncome(id, currency, amount, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     const ApiUrl = 'http://localhost:8585/income/addincome';
     await fetch(ApiUrl, {
       method: 'POST',
@@ -161,7 +157,6 @@ export async function addSpending(id, currency, amount, description) {
   console.log(id, currency, amount, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     const ApiUrl = 'http://localhost:8585/spending/addspending';
     await fetch(ApiUrl, {
       method: 'POST',
@@ -174,6 +169,77 @@ export async function addSpending(id, currency, amount, description) {
         currency: currency,
         amout: amount,
         description: description,
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function addTarget(name, currency, total, date_end, description) {
+  let userToken;
+  userToken = null;
+  console.log(name, currency, total, date_end, description);
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    const ApiUrl = 'http://localhost:8585/userinfo/addtarget';
+    await fetch(ApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userToken,
+      },
+      body: JSON.stringify({
+        name: name,
+        currency: currency,
+        total: total,
+        date_end: date_end,
+        description: description,
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function addAmount(targetid, currency, amount, description) {
+  let userToken;
+  userToken = null;
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    const ApiUrl = 'http://localhost:8585/userinfo/addamounttarget';
+    await fetch(ApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userToken,
+      },
+      body: JSON.stringify({
+        targetid: targetid,
+        currency: currency,
+        amount: amount,
+        description: description,
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateUserName(username) {
+  let userToken;
+  userToken = null;
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    const ApiUrl = 'http://localhost:8585/userinfo/updateusername';
+    await fetch(ApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userToken,
+      },
+      body: JSON.stringify({
+        username: username,
       }),
     });
   } catch (error) {

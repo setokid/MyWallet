@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: -40,
     padding: 15,
+    height: screenWidth,
   },
   dropDownContent: {
     flexDirection: 'row',

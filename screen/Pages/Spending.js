@@ -17,8 +17,8 @@ import SpendingModal from '../../components/Modal/SpendingModal';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {Picker} from '@react-native-picker/picker';
-import {color} from 'react-native-reanimated';
 import {addSpending} from '../../components/Store/FetchAPI';
+import CommonCurrency from '../../components/Store/CommonCurrency';
 
 const screenWidth = Dimensions.get('screen').width;
 
@@ -30,6 +30,7 @@ const Spending = ({route, navigation}) => {
   const [currency, setCurrency] = useState('VND');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [commonCurrency, setCommonCurrency] = useState(CommonCurrency);
 
   const today = date.toJSON().slice(0, 10);
   const nDate =
@@ -74,9 +75,13 @@ const Spending = ({route, navigation}) => {
   };
 
   const confirm = (currency, amount, description, id) => {
-    addSpending(id, currency, amount, description);
-    clearInput();
-    Alert.alert('Successful', 'Successful extra spending', [{text: 'Okay'}]);
+    if (amount == null || amount == 0) {
+      Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
+    } else {
+      addSpending(id, currency, amount, description);
+      clearInput();
+      Alert.alert('Successful', 'Successful extra spending', [{text: 'Okay'}]);
+    }
   };
 
   return (
@@ -89,7 +94,7 @@ const Spending = ({route, navigation}) => {
         />
         <View>
           <Text style={[styles.title, {color: colors.value}]}>
-            {t('Income (Value)')}{' '}
+            {t('Spending')}{' '}
           </Text>
         </View>
         <View style={styles.inputValue}>
@@ -97,7 +102,7 @@ const Spending = ({route, navigation}) => {
             style={[styles.input]}
             onChangeText={val => setAmount(val)}
             value={amount}
-            placeholder="Value"
+            placeholder="Amount"
             placeholderTextColor={colors.value}
             keyboardType="numeric"
           />
@@ -111,26 +116,19 @@ const Spending = ({route, navigation}) => {
               dropdownIconColor={colors.value}
               onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
               mode="dropdown">
-              <Picker.Item
-                style={{
-                  backgroundColor: colors.background,
-                  color: colors.value,
-                  fontFamily: 'Ebrima',
-                  fontSize: 17,
-                }}
-                label="VNĐ"
-                value="VND"
-              />
-              <Picker.Item
-                style={{
-                  backgroundColor: colors.background,
-                  color: colors.value,
-                  fontFamily: 'Ebrima',
-                  fontSize: 17,
-                }}
-                label="USD"
-                value="USD"
-              />
+              {commonCurrency.map(item => (
+                <Picker.Item
+                  key={item}
+                  style={{
+                    backgroundColor: colors.background,
+                    color: colors.value,
+                    fontFamily: 'Ebrima',
+                    fontSize: 17,
+                  }}
+                  label={item.code}
+                  value={item.code}
+                />
+              ))}
             </Picker>
           </View>
         </View>

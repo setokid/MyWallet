@@ -5,13 +5,14 @@ import {useTranslation} from 'react-i18next';
 
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ChangeUserNameModal from '../../components/Modal/ChangeUserNameModal';
 
-const ProfileSettings = () => {
+const ProfileSettings = ({openModal}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => openModal(1)}>
         <View style={styles.listItem}>
           <View style={styles.item}>
             <Text style={{color: colors.value, fontSize: 17}}>

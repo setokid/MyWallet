@@ -63,10 +63,10 @@ const WalletCard = ({userData, openModal, navigation}) => {
             <TouchableOpacity
               style={styles.send}
               activeOpacity={0.5}
-              onPress={() => navigation.navigate('SendScreen')}>
-              <Image source={require('../../assets/icon/right-arrow.png')} />
+              onPress={() => navigation.navigate('TargetScreen')}>
+              <Image source={require('../../assets/icon/goal.png')} />
             </TouchableOpacity>
-            <Text style={{color: colors.value}}>{t('Send')}</Text>
+            <Text style={{color: colors.value}}>{t('Target')}</Text>
           </View>
           <View style={styles.footerButton}>
             <TouchableOpacity
