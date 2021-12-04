@@ -1,4 +1,4 @@
-package com.mywallet;
+package com.managepersonalexpenses.mywallet;
 
 import com.facebook.react.ReactActivity;
 
