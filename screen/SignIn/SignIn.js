@@ -35,7 +35,7 @@ const SignIn = ({navigation}) => {
 
   const {signIn} = React.useContext(AuthContext);
 
-  const ApiUrl = 'http://localhost:8585/user/login';
+  const ApiUrl = 'http://34.134.62.167:8585/user/login';
 
   const loginHandle = async () => {
     if (email != '' && password != '') {
@@ -102,7 +102,6 @@ const SignIn = ({navigation}) => {
         isValidPassword: true,
       });
       setPassword(val);
-      console.log(password);
     } else {
       setData({
         isValidPassword: false,
@@ -134,7 +133,7 @@ const SignIn = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#5a60e6" barStyle="light-content" />
+      <StatusBar backgroundColor="#4845fc" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome!</Text>
       </View>
@@ -143,9 +142,10 @@ const SignIn = ({navigation}) => {
         animation="fadeInUpBig">
         <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color={colors.text} size={20} />
+          <FontAwesome name="user-o" color={colors.value} size={20} />
           <TextInput
             placeholder="Your Username"
+            placeholderTextColor={colors.value}
             style={[styles.textInput, {color: colors.text}]}
             autoCapitalize="none"
             onChangeText={val => textInputChange(val)}
@@ -168,19 +168,20 @@ const SignIn = ({navigation}) => {
         )}
         <Text style={[styles.text_footer, {color: colors.text}]}>Password</Text>
         <View style={styles.action}>
-          <FontAwesome name="lock" color={colors.text} size={20} />
+          <FontAwesome name="lock" color={colors.value} size={20} />
           <TextInput
             placeholder="Your Password"
-            secureTextEntry={data.secureTextEntry ? true : false}
+            placeholderTextColor={colors.value}
+            secureTextEntry={data.secureTextEntry ? false : true}
             style={[styles.textInput, {color: colors.text}]}
             autoCapitalize="none"
             onChangeText={val => handlePasswordChange(val)}
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color="gray" size={20} />
+              <Feather name="eye-off" color={colors.value} size={20} />
             ) : (
-              <Feather name="eye" color="gray" size={20} />
+              <Feather name="eye" color={colors.value} size={20} />
             )}
           </TouchableOpacity>
         </View>

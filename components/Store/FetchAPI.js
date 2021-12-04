@@ -6,7 +6,7 @@ export async function getUserData() {
   var resUserData = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/index?currency=VND';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -23,10 +23,10 @@ export async function getUserData() {
       })
       .then(resData => {})
       .catch(error => {
-        console.log(error);
+        console.log('userdata', error);
       });
   } catch (error) {
-    console.log(error);
+    console.log('userdata', error);
   }
   return resUserData;
 }
@@ -37,7 +37,7 @@ export async function getTransaction() {
   var resUserTransaction = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/getrecenttransaction';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/getrecenttransaction';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -52,12 +52,14 @@ export async function getTransaction() {
           return (resUserTransaction = res.json());
         }
       })
-      .then(resData => {})
+      .then(resData => {
+        console.log('resdata', resData);
+      })
       .catch(error => {
-        console.log(error);
+        console.log('Tran', error);
       });
   } catch (error) {
-    console.log(error);
+    console.log('Tran', error);
   }
   return resUserTransaction;
 }
@@ -69,7 +71,7 @@ export async function getTarget() {
   try {
     userToken = await AsyncStorage.getItem('userToken');
     console.log(userToken);
-    const ApiUrl = 'http://localhost:8585/userinfo/historytarget';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/historytarget';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -86,10 +88,10 @@ export async function getTarget() {
       })
       .then(resData => {})
       .catch(error => {
-        console.log(error);
+        console.log('Target', error);
       });
   } catch (error) {
-    console.log(error);
+    console.log('Target', error);
   }
   return resUserTarget;
 }
@@ -100,7 +102,7 @@ export async function getModal() {
   var resModal;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/gettypeall';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/gettypeall';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -119,20 +121,22 @@ export async function getModal() {
         return (resModal = resData);
       })
       .catch(error => {
-        console.log(error);
+        console.log('Modal', error);
       });
   } catch (error) {
-    console.log(error);
+    console.log('Modal', error);
   }
+  console.log(resModal);
   return resModal;
 }
 
 export async function addIncome(id, currency, amount, description) {
   let userToken;
   userToken = null;
+  console.log(id, currency, amount, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/income/addincome';
+    const ApiUrl = 'http://34.134.62.167:8585/income/addincome';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -147,7 +151,7 @@ export async function addIncome(id, currency, amount, description) {
       }),
     });
   } catch (error) {
-    console.log(error);
+    console.log('addincome', error);
   }
 }
 
@@ -157,7 +161,7 @@ export async function addSpending(id, currency, amount, description) {
   console.log(id, currency, amount, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/spending/addspending';
+    const ApiUrl = 'http://34.134.62.167:8585/spending/addspending';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -172,7 +176,7 @@ export async function addSpending(id, currency, amount, description) {
       }),
     });
   } catch (error) {
-    console.log(error);
+    console.log('addspending', error);
   }
 }
 
@@ -182,7 +186,7 @@ export async function addTarget(name, currency, total, date_end, description) {
   console.log(name, currency, total, date_end, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/addtarget';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/addtarget';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -198,7 +202,7 @@ export async function addTarget(name, currency, total, date_end, description) {
       }),
     });
   } catch (error) {
-    console.log(error);
+    console.log('addtarget', error);
   }
 }
 
@@ -207,7 +211,7 @@ export async function addAmount(targetid, currency, amount, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/addamounttarget';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/addamounttarget';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -222,7 +226,7 @@ export async function addAmount(targetid, currency, amount, description) {
       }),
     });
   } catch (error) {
-    console.log(error);
+    console.log('addamount', error);
   }
 }
 
@@ -231,7 +235,7 @@ export async function updateUserName(username) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://localhost:8585/userinfo/updateusername';
+    const ApiUrl = 'http://34.134.62.167:8585/userinfo/updateusername';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -243,6 +247,6 @@ export async function updateUserName(username) {
       }),
     });
   } catch (error) {
-    console.log(error);
+    console.log('updateusername', error);
   }
 }

@@ -78,6 +78,7 @@ const Income = ({route, navigation}) => {
       Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
     } else {
       addIncome(id, currency, amount, description);
+      Alert.alert('Success', 'Additional income', [{text: 'Okay'}]);
       clearInput();
     }
   };

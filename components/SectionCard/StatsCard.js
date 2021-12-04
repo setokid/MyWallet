@@ -8,6 +8,7 @@ import NumberFormat from 'react-number-format';
 const StatsCard = ({userData1}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
+  console.log('userdata1', userData1);
   return (
     <View style={[styles.section]}>
       <View style={[styles.sectionCard]}>
@@ -62,7 +63,7 @@ const StatsCard = ({userData1}) => {
           </View>
         </View>
       </View>
-      <View style={styles.sectionCard}>
+      {/* <View style={styles.sectionCard}>
         <View style={styles.sectionCardChil}>
           <View
             style={[
@@ -91,7 +92,7 @@ const StatsCard = ({userData1}) => {
             </Text>
           </View>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };

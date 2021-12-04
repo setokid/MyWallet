@@ -16,13 +16,14 @@ import {List} from 'react-native-paper';
 
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
 
   return (
-    <List.Section title="">
+    <View>
       {item.spend_or_income == true ? (
         <List.Accordion
           title={t(item.name)}
@@ -61,7 +62,7 @@ const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
       ) : (
         <View></View>
       )}
-    </List.Section>
+    </View>
   );
 };
 
@@ -88,19 +89,19 @@ export default function IncomeModal({data, closeModal, showModal, navigation}) {
               styles.modalViewSelect,
               {backgroundColor: colors.background},
             ]}>
-            <ScrollView
-              contentContainerStyle={{width: windowWidth - 100}}
-              contentInset={{top: 0, left: 0, bottom: 0, right: 0}}>
+            <ScrollView>
               {data != null ? (
                 <View>
-                  {data.map((item, index) => (
-                    <IncomeModalView
-                      item={item}
-                      key={index}
-                      navigation={navigation}
-                      closeModal={closeModal}
-                    />
-                  ))}
+                  <List.Section title="">
+                    {data.map((item, index) => (
+                      <IncomeModalView
+                        item={item}
+                        key={index}
+                        navigation={navigation}
+                        closeModal={closeModal}
+                      />
+                    ))}
+                  </List.Section>
                 </View>
               ) : (
                 <View></View>
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: screenWidth - 33,
+    maxHeight: windowHeight,
   },
   centeredView: {
     flex: 1,
@@ -162,14 +164,11 @@ const styles = StyleSheet.create({
   },
   modalViewSelect: {
     backgroundColor: '#fff',
-    justifyContent: 'center',
     width: windowWidth - 75,
-    alignItems: 'flex-start',
-    alignContent: 'center',
     borderRadius: 10,
     marginTop: -40,
     padding: 15,
-    height: screenWidth,
+    maxHeight: windowHeight - 130,
   },
   dropDownContent: {
     flexDirection: 'row',

@@ -16,6 +16,12 @@ function SavingGoalsDetails({item}) {
   const progress = (item.current * 100) / item.total / 100;
   const percent = (progress * 100).toFixed(1);
   const {colors} = useTheme();
+
+  const [date, setDate] = useState(item.date_end);
+
+  const today = date.slice(0, 10);
+  const nDate =
+    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
@@ -26,15 +32,28 @@ function SavingGoalsDetails({item}) {
             </Text>
             <Text style={[styles.type, {color: colors.text}]}>{item.name}</Text>
           </View>
-          <View>
+          <View style={styles.targetView}>
             <NumberFormat
               value={item.total}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
-                <Text style={[styles.type, {color: colors.value}]} {...props}>
-                  {value} {item.currency}
-                </Text>
+                <View>
+                  <Text style={[styles.type, {color: colors.value}]} {...props}>
+                    {value} {item.currency}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.type,
+                      {
+                        color: colors.value,
+                        textAlign: 'right',
+                        fontSize: 10,
+                      },
+                    ]}>
+                    End: {nDate}
+                  </Text>
+                </View>
               )}
             />
           </View>
@@ -57,6 +76,7 @@ function SavingGoalsDetails({item}) {
 const SavingGoalsCard = ({navigation, usertarget}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
+
   return (
     <View style={styles.section}>
       <View style={styles.savingGoalsHeading}>
@@ -156,5 +176,8 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 20,
     borderRadius: 10,
+  },
+  targetView: {
+    flexDirection: 'column',
   },
 });

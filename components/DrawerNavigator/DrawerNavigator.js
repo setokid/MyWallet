@@ -97,7 +97,6 @@ const DrawerNavigator = () => {
     toggleTheme: async () => {
       setIsDarkTheme(isDarkTheme => !isDarkTheme);
       // await AsyncStorage.setItem('userTheme', userTheme);
-      // console.log(userTheme);
     },
 
     toggleLanguage: async () => {},
@@ -115,41 +114,17 @@ const DrawerNavigator = () => {
       }
       dispatch({type: 'REGISTER', token: userToken});
     }, 1000);
-    let cleanUp = true;
-    async function fetchAPI() {
-      let userToken;
-      userToken = null;
-      try {
-        userToken = await AsyncStorage.getItem('userToken');
-        const ApiUrl = 'http://localhost:8585/userinfo/index?currency=VND';
-        await fetch(ApiUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: userToken,
-          },
-        })
-          .then(res => {
-            if (!res.ok) {
-              throw res.status;
-            } else {
-              cleanUp = false;
-              return res.json();
-            }
-          })
-          .then(resData => {
-            setUserData(resData);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } catch (error) {
-        console.log(error);
+    async function callApi() {
+      if (cleanup) {
+        let resuserdata = await getUserData();
+        setUserData(resuserdata);
       }
     }
-    if (cleanUp) {
-      fetchAPI();
-    }
+
+    callApi();
+    return () => {
+      cleanup = false;
+    };
   }, []);
 
   if (loginState.isLoading) {

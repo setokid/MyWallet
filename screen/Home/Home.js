@@ -1,13 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  VirtualizedList,
-} from 'react-native';
+import {ScrollView, StyleSheet, RefreshControl, StatusBar} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import WalletCard from '../../components/SectionCard/WalletCard';
@@ -27,17 +20,29 @@ import {
 
 console.disableYellowBox = true;
 
-const heightScreen = Dimensions.get('screen').height;
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 const Home = ({navigation}) => {
   const {colors2} = useTheme();
   const [incomeModal, setIncomeModal] = useState(false);
   const [spendingModal, setSpendingModal] = useState(false);
   const [newWalletModal, setNewWalletModal] = useState(false);
+
   const [userData, setUserData] = useState([]);
   const [userTransaction, setUserTransaction] = useState([]);
   const [userTarget, setUserTarget] = useState([]);
   const [modal, setModal] = useState([]);
+  console.log('userdata', userData);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const {colors} = useTheme();
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     let cleanup = true;
@@ -55,11 +60,10 @@ const Home = ({navigation}) => {
     }
 
     callApi();
-
     return () => {
       cleanup = false;
     };
-  }, []);
+  }, [refreshing]);
 
   const openModal = input => {
     let type = input;
@@ -82,7 +86,14 @@ const Home = ({navigation}) => {
     <ScrollView
       style={[styles.container, {backgroundColor: colors2.background}]}
       nestedScrollEnabled={true}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <StatusBar
+        backgroundColor={colors.background}
+        barStyle={colors.statusbar}
+      />
       <WalletCard
         navigation={navigation}
         openModal={openModal}

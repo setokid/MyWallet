@@ -17,6 +17,7 @@ const CustomDefaultTheme = {
     text: '#958d9e',
     value: '#333333',
     header: '#ffffff',
+    statusbar: 'dark-content',
   },
   colors2: {
     title: '#958d9e',
@@ -37,6 +38,7 @@ const CustomDarkTheme = {
     text: '#8f82a5',
     value: '#fff',
     header: '#161129',
+    statusbar: 'light-content',
   },
   colors2: {
     title: '#8f82a5',

@@ -76,19 +76,6 @@ const AppPages = ({navigation}) => {
             type: '',
           })
         }>
-        <View style={[styles.listItem]}>
-          <View style={styles.cube}>
-            <Icon name="cube-outline" size={22} color={'#fff'} />
-          </View>
-          <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>
-              {t('Spending')}
-            </Text>
-            <Icon2 style={{color: colors2.icon}} name="right" size={18} />
-          </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('SendScreen')}>
         <View
           style={[
             styles.listItem,
@@ -98,7 +85,9 @@ const AppPages = ({navigation}) => {
             <Icon name="cube-outline" size={22} color={'#fff'} />
           </View>
           <View style={styles.item}>
-            <Text style={{color: colors.value, fontSize: 17}}>{t('Send')}</Text>
+            <Text style={{color: colors.value, fontSize: 17}}>
+              {t('Spending')}
+            </Text>
             <Icon2 style={{color: colors2.icon}} name="right" size={18} />
           </View>
         </View>

@@ -23,7 +23,7 @@ const SpendingModalView = ({item, handlePress, navigation, closeModal}) => {
   const {colors, colors2} = useTheme();
 
   return (
-    <List.Section title="">
+    <View>
       {item.spend_or_income == false ? (
         <List.Accordion
           title={t(item.name)}
@@ -62,7 +62,7 @@ const SpendingModalView = ({item, handlePress, navigation, closeModal}) => {
       ) : (
         <View></View>
       )}
-    </List.Section>
+    </View>
   );
 };
 
@@ -99,14 +99,16 @@ export default function SpendingModal({
               contentInset={{top: 0, left: 0, bottom: 0, right: 0}}>
               {data != null ? (
                 <View>
-                  {data.map((item, index) => (
-                    <SpendingModalView
-                      item={item}
-                      key={index}
-                      navigation={navigation}
-                      closeModal={closeModal}
-                    />
-                  ))}
+                  <List.Section title="">
+                    {data.map((item, index) => (
+                      <SpendingModalView
+                        item={item}
+                        key={index}
+                        navigation={navigation}
+                        closeModal={closeModal}
+                      />
+                    ))}
+                  </List.Section>
                 </View>
               ) : (
                 <View></View>
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: screenWidth - 33,
-    height: 'auto',
+    maxHeight: windowHeight,
   },
   centeredView: {
     flex: 1,
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: -40,
     padding: 15,
-    height: 'auto',
+    maxHeight: windowHeight - 130,
   },
   dropDownContent: {
     flexDirection: 'row',

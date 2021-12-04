@@ -27,6 +27,7 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
         Alert.alert('Successful', 'Successful update user name', [
           {text: 'Okay'},
         ]);
+        setUserName('');
         closeModal();
       } else {
         Alert.alert('Error', 'New name is same as User name', [{text: 'Okay'}]);

@@ -14,6 +14,13 @@ import NumberFormat from 'react-number-format';
 function TransactionDetails({item}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
+
+  const [date, setDate] = useState(item.dateOfCreated);
+
+  const today = date.slice(0, 10);
+  const nDate =
+    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
+
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
@@ -34,9 +41,25 @@ function TransactionDetails({item}) {
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
-                <Text style={[{flexWrap: 'wrap', color: '#1DCC70'}]} {...props}>
-                  + {value} {item.currency}
-                </Text>
+                <View>
+                  <Text
+                    style={[{flexWrap: 'wrap', color: '#1DCC70'}]}
+                    {...props}>
+                    + {value} {item.currency}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.type,
+                      {
+                        color: colors.value,
+                        textAlign: 'right',
+                        fontSize: 10,
+                        marginTop: 3,
+                      },
+                    ]}>
+                    {nDate}
+                  </Text>
+                </View>
               )}
             />
           ) : (
@@ -45,9 +68,25 @@ function TransactionDetails({item}) {
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
-                <Text style={[{flexWrap: 'wrap', color: '#FF396F'}]} {...props}>
-                  - {value} {item.currency}
-                </Text>
+                <View>
+                  <Text
+                    style={[{flexWrap: 'wrap', color: '#FF396F'}]}
+                    {...props}>
+                    - {value} {item.currency}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.type,
+                      {
+                        color: colors.value,
+                        textAlign: 'right',
+                        fontSize: 10,
+                        marginTop: 3,
+                      },
+                    ]}>
+                    {nDate}
+                  </Text>
+                </View>
               )}
             />
           )}
