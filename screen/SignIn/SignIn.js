@@ -142,23 +142,23 @@ const SignIn = ({navigation}) => {
         animation="fadeInUpBig">
         <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color={colors.value} size={20} />
+          <FontAwesome name="user-o" color={colors.value} size={28} />
           <TextInput
             placeholder="Your Username"
             placeholderTextColor={colors.value}
-            style={[styles.textInput, {color: colors.text}]}
+            style={[styles.textInput, {color: colors.text, fontSize: 20}]}
             autoCapitalize="none"
             onChangeText={val => textInputChange(val)}
             onEndEditing={e => handleValidUser(e.nativeEvent.text)}
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20} />
+              <Feather name="check-circle" color="green" size={28} />
             </Animatable.View>
           ) : null}
         </View>
         {data.isValidUser ? (
-          true
+          <View></View>
         ) : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
@@ -168,25 +168,25 @@ const SignIn = ({navigation}) => {
         )}
         <Text style={[styles.text_footer, {color: colors.text}]}>Password</Text>
         <View style={styles.action}>
-          <FontAwesome name="lock" color={colors.value} size={20} />
+          <FontAwesome name="lock" color={colors.value} size={28} />
           <TextInput
             placeholder="Your Password"
             placeholderTextColor={colors.value}
             secureTextEntry={data.secureTextEntry ? false : true}
-            style={[styles.textInput, {color: colors.text}]}
+            style={[styles.textInput, {color: colors.text, fontSize: 20}]}
             autoCapitalize="none"
             onChangeText={val => handlePasswordChange(val)}
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color={colors.value} size={20} />
+              <Feather name="eye-off" color={colors.value} size={28} />
             ) : (
-              <Feather name="eye" color={colors.value} size={20} />
+              <Feather name="eye" color={colors.value} size={28} />
             )}
           </TouchableOpacity>
         </View>
         {data.isValidPassword ? (
-          true
+          <View></View>
         ) : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: '#05375a',
-    fontSize: 18,
+    fontSize: 25,
   },
   action: {
     flexDirection: 'row',
@@ -289,5 +289,6 @@ const styles = StyleSheet.create({
   },
   errorMsg: {
     color: 'red',
+    fontSize: 20,
   },
 });
