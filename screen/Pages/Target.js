@@ -216,9 +216,8 @@ const AddTargetAmountView = ({targetId}) => {
   const [currency, setCurrency] = useState('VND');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  const [idTarget, setIdTarget] = useState('');
+  const [idTarget, setIdTarget] = useState('1');
   const [commonCurrency, setCommonCurrency] = useState(CommonCurrency);
-
   const clearInput = () => {
     setAmount('');
     setDate(new Date());
@@ -296,8 +295,9 @@ const AddTargetAmountView = ({targetId}) => {
               dropdownIconColor={colors.value}
               onValueChange={(itemValue, itemIndex) => setIdTarget(itemValue)}
               mode="dropdown">
-              {targetId.map((item, index) => (
+              {targetId.map(item => (
                 <Picker.Item
+                  key={item}
                   style={{
                     backgroundColor: colors.background,
                     color: colors.value,
@@ -356,6 +356,7 @@ const Target = ({navigation}) => {
       if (cleanup) {
         let resuertarget = await getTarget();
         setTargetId(resuertarget);
+        log;
       }
     }
 

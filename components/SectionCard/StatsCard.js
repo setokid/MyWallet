@@ -8,7 +8,6 @@ import NumberFormat from 'react-number-format';
 const StatsCard = ({userData1}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
-  console.log('userdata1', userData1);
   return (
     <View style={[styles.section]}>
       <View style={[styles.sectionCard]}>

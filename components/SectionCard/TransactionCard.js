@@ -20,7 +20,6 @@ function TransactionDetails({item}) {
   const today = date.slice(0, 10);
   const nDate =
     today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
-
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>

@@ -34,7 +34,7 @@ const Home = ({navigation}) => {
   const [userTransaction, setUserTransaction] = useState([]);
   const [userTarget, setUserTarget] = useState([]);
   const [modal, setModal] = useState([]);
-  console.log('userdata', userData);
+
   const [refreshing, setRefreshing] = useState(false);
 
   const {colors} = useTheme();

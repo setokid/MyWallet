@@ -52,9 +52,7 @@ export async function getTransaction() {
           return (resUserTransaction = res.json());
         }
       })
-      .then(resData => {
-        console.log('resdata', resData);
-      })
+      .then(resData => {})
       .catch(error => {
         console.log('Tran', error);
       });
@@ -70,7 +68,6 @@ export async function getTarget() {
   var resUserTarget = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     const ApiUrl = 'http://34.134.62.167:8585/userinfo/historytarget';
     await fetch(ApiUrl, {
       method: 'GET',
@@ -126,14 +123,12 @@ export async function getModal() {
   } catch (error) {
     console.log('Modal', error);
   }
-  console.log(resModal);
   return resModal;
 }
 
 export async function addIncome(id, currency, amount, description) {
   let userToken;
   userToken = null;
-  console.log(id, currency, amount, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
     const ApiUrl = 'http://34.134.62.167:8585/income/addincome';
@@ -158,7 +153,6 @@ export async function addIncome(id, currency, amount, description) {
 export async function addSpending(id, currency, amount, description) {
   let userToken;
   userToken = null;
-  console.log(id, currency, amount, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
     const ApiUrl = 'http://34.134.62.167:8585/spending/addspending';
@@ -183,7 +177,6 @@ export async function addSpending(id, currency, amount, description) {
 export async function addTarget(name, currency, total, date_end, description) {
   let userToken;
   userToken = null;
-  console.log(name, currency, total, date_end, description);
   try {
     userToken = await AsyncStorage.getItem('userToken');
     const ApiUrl = 'http://34.134.62.167:8585/userinfo/addtarget';
