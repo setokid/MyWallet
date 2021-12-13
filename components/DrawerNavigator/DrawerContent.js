@@ -40,6 +40,11 @@ export function DrawerContent({navigation, props}) {
     }
   };
   useEffect(() => {
+    setInterval(async () => {
+      let resdata = await getUserData();
+      setUserData(resdata);
+    }, 120000);
+
     let cleanup = true;
     async function callApi() {
       if (cleanup) {

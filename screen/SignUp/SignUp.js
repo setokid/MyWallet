@@ -25,9 +25,9 @@ const SignUp = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
-    isValidUser: true,
-    isValidPassword: true,
-    isValidConfirmPassword: true,
+    isValidUser: false,
+    isValidPassword: false,
+    isValidConfirmPassword: false,
   });
 
   const [email, setEmail] = useState('');
@@ -90,13 +90,13 @@ const SignUp = ({navigation}) => {
     if (val.trim().length >= 4) {
       setData({
         check_textInputChange: true,
-        isValidUser: true,
+        isValidUser: false,
       });
       setEmail(val);
     } else {
       setData({
         check_textInputChange: false,
-        isValidUser: false,
+        isValidUser: true,
       });
     }
   };
@@ -104,24 +104,24 @@ const SignUp = ({navigation}) => {
   const handlePasswordChange = val => {
     if (val.trim().length >= 8) {
       setData({
-        isValidPassword: true,
+        isValidPassword: false,
       });
       setPassword(val);
     } else {
       setData({
-        isValidPassword: false,
+        isValidPassword: true,
       });
     }
   };
   const handleConfirmPasswordChange = val => {
     if (val.trim().length >= 8) {
       setData({
-        isValidConfirmPassword: true,
+        isValidConfirmPassword: false,
       });
       setConfirmPassword(val);
     } else {
       setData({
-        isValidConfirmPassword: false,
+        isValidConfirmPassword: true,
       });
     }
   };
@@ -166,14 +166,12 @@ const SignUp = ({navigation}) => {
             ) : null}
           </View>
           {data.isValidUser ? (
-            <View></View>
-          ) : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 Username phải từ 4 kí tự trở lên.
               </Text>
             </Animatable.View>
-          )}
+          ) : null}
           <Text style={[styles.text_footer, {color: colors.text}]}>
             Password
           </Text>
@@ -196,14 +194,12 @@ const SignUp = ({navigation}) => {
             </TouchableOpacity>
           </View>
           {data.isValidPassword ? (
-            <View></View>
-          ) : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 Password phải từ 8 kí tự trở lên.
               </Text>
             </Animatable.View>
-          )}
+          ) : null}
           <Text style={[styles.text_footer, {color: colors.text}]}>
             Confirm Password
           </Text>
@@ -226,14 +222,12 @@ const SignUp = ({navigation}) => {
             </TouchableOpacity>
           </View>
           {data.isValidConfirmPassword ? (
-            <View></View>
-          ) : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 Password phải từ 8 kí tự trở lên.
               </Text>
             </Animatable.View>
-          )}
+          ) : null}
 
           <View style={styles.button}>
             <TouchableOpacity

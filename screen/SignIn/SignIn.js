@@ -22,8 +22,8 @@ const SignIn = ({navigation}) => {
   const [data, setData] = useState({
     check_textInputChange: false,
     secureTextEntry: true,
-    isValidUser: true,
-    isValidPassword: true,
+    isValidUser: false,
+    isValidPassword: false,
   });
 
   const [email, setEmail] = useState('');
@@ -84,29 +84,27 @@ const SignIn = ({navigation}) => {
     if (val.trim().length >= 4) {
       setData({
         check_textInputChange: true,
-        isValidUser: true,
+        isValidUser: false,
       });
       setEmail(val);
     } else {
       setData({
         check_textInputChange: false,
-        isValidUser: false,
+        isValidUser: true,
       });
-      setEmail(val);
     }
   };
 
   const handlePasswordChange = val => {
     if (val.trim().length >= 8) {
       setData({
-        isValidPassword: true,
+        isValidPassword: false,
       });
       setPassword(val);
     } else {
       setData({
-        isValidPassword: false,
+        isValidPassword: true,
       });
-      setPassword(val);
     }
   };
 
@@ -115,20 +113,6 @@ const SignIn = ({navigation}) => {
       ...data,
       secureTextEntry: !data.secureTextEntry,
     });
-  };
-
-  const handleValidUser = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        isValidUser: false,
-      });
-    }
   };
 
   return (
@@ -149,7 +133,6 @@ const SignIn = ({navigation}) => {
             style={[styles.textInput, {color: colors.text, fontSize: 20}]}
             autoCapitalize="none"
             onChangeText={val => textInputChange(val)}
-            onEndEditing={e => handleValidUser(e.nativeEvent.text)}
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
@@ -158,14 +141,12 @@ const SignIn = ({navigation}) => {
           ) : null}
         </View>
         {data.isValidUser ? (
-          <View></View>
-        ) : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
               Username phải từ 4 kí tự trở lên.
             </Text>
           </Animatable.View>
-        )}
+        ) : null}
         <Text style={[styles.text_footer, {color: colors.text}]}>Password</Text>
         <View style={styles.action}>
           <FontAwesome name="lock" color={colors.value} size={28} />
@@ -186,14 +167,12 @@ const SignIn = ({navigation}) => {
           </TouchableOpacity>
         </View>
         {data.isValidPassword ? (
-          <View></View>
-        ) : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
               Password phải từ 8 kí tự trở lên.
             </Text>
           </Animatable.View>
-        )}
+        ) : null}
 
         <TouchableOpacity>
           <Text style={{color: '#5a60e6'}}>Forgot password?</Text>
