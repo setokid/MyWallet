@@ -223,6 +223,8 @@ export async function addAmount(targetid, currency, amount, description) {
   }
 }
 
+export async function resetPassword(username) {}
+
 export async function updateUserName(username) {
   let userToken;
   userToken = null;
