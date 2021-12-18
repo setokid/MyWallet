@@ -38,7 +38,7 @@ const SignUp = ({navigation}) => {
   const {colors} = useTheme();
 
   const signUpHandle = async () => {
-    const ApiUrl = 'http://34.134.62.167:8585/user/register';
+    const ApiUrl = 'http://35.193.29.249/user/register';
     if (email != '' && password != '' && confirmPassword != '') {
       if (password === confirmPassword) {
         await fetch(ApiUrl, {
