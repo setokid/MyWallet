@@ -6,7 +6,7 @@ export async function getUserData() {
   var resUserData = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/index?currency=VND';
+    const ApiUrl = 'http://35.193.29.249/userinfo/index?currency=VND';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -37,7 +37,7 @@ export async function getTransaction() {
   var resUserTransaction = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/getrecenttransaction';
+    const ApiUrl = 'http://35.193.29.249/userinfo/getrecenttransaction';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -68,7 +68,7 @@ export async function getTarget() {
   var resUserTarget = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/historytarget';
+    const ApiUrl = 'http://35.193.29.249/userinfo/historytarget';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -99,7 +99,7 @@ export async function getModal() {
   var resModal;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/gettypeall';
+    const ApiUrl = 'http://35.193.29.249/userinfo/gettypeall';
     await fetch(ApiUrl, {
       method: 'GET',
       headers: {
@@ -131,7 +131,7 @@ export async function addIncome(id, currency, amount, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/income/addincome';
+    const ApiUrl = 'http://35.193.29.249/income/addincome';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -155,7 +155,7 @@ export async function addSpending(id, currency, amount, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/spending/addspending';
+    const ApiUrl = 'http://35.193.29.249/spending/addspending';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -179,7 +179,7 @@ export async function addTarget(name, currency, total, date_end, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/addtarget';
+    const ApiUrl = 'http://35.193.29.249/userinfo/addtarget';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -204,7 +204,7 @@ export async function addAmount(targetid, currency, amount, description) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/addamounttarget';
+    const ApiUrl = 'http://35.193.29.249/userinfo/addamounttarget';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {
@@ -228,7 +228,7 @@ export async function updateUserName(username) {
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://34.134.62.167:8585/userinfo/updateusername';
+    const ApiUrl = 'http://35.193.29.249/userinfo/updateusername';
     await fetch(ApiUrl, {
       method: 'POST',
       headers: {

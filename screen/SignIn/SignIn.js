@@ -35,7 +35,7 @@ const SignIn = ({navigation}) => {
 
   const {signIn} = React.useContext(AuthContext);
 
-  const ApiUrl = 'http://34.134.62.167:8585/user/login';
+  const ApiUrl = 'http://35.193.29.249/user/login';
 
   const loginHandle = async () => {
     if (email != '' && password != '') {
