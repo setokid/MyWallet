@@ -18,7 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import LinenearGradient from 'react-native-linear-gradient';
 import {useTheme} from 'react-native-paper';
 
-const screenheight = Dimensions.get('screen').height;
+import {signIn} from '../../components/Store/FetchAPI';
 
 const SignUp = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -38,27 +38,11 @@ const SignUp = ({navigation}) => {
   const {colors} = useTheme();
 
   const signUpHandle = async () => {
-    const ApiUrl = 'http://35.193.29.249/user/register';
     if (email != '' && password != '' && confirmPassword != '') {
       if (password === confirmPassword) {
-        await fetch(ApiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        })
-          .then(res => {
-            return setCodeStatus(res.status);
-          })
-          .then(resData => {})
-          .catch(error => {
-            console.log(error);
-            setCodeStatus(error);
-          });
+        let result = await signIn(email, password);
+        setCodeStatus(result.status);
+        setCodeStatus(result.result);
       } else {
         Alert.alert(
           'Wrong Input!',
@@ -75,14 +59,16 @@ const SignUp = ({navigation}) => {
     }
   };
 
-  if (codeStatus == 400) {
-    Alert.alert('Invalid User!', 'Đăng ký không thành công', [{text: 'Okay'}]);
+  if (codeStatus == 'fail') {
+    Alert.alert('User already exists!', 'Đăng ký không thành công', [
+      {text: 'Okay'},
+    ]);
     setCodeStatus();
     return;
   }
 
-  if (codeStatus == 200) {
-    Alert.alert('Invalid User!', 'Đăng ký thành công', [{text: 'Okay'}]);
+  if (codeStatus == 'Thanh cong') {
+    Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
     navigation.navigate('SignInScreen');
   }
 
