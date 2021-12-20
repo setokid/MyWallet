@@ -67,11 +67,9 @@ const DrawerNavigator = () => {
   );
 
   const authContext = React.useMemo(() => ({
-    signIn: async userData => {
-      if (userData != '') {
-        const userToken = userData.token;
+    signIn: async (userToken, userName) => {
+      if (userToken != '') {
         console.log('token tra ve:', userToken);
-        const userName = userData.email;
         console.log('email tra ve', userName);
         // setUserData(userData);
         try {

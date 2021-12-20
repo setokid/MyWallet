@@ -18,6 +18,8 @@ import {useTheme} from 'react-native-paper';
 
 import {AuthContext} from '../../components/Store/Context';
 
+import {logIn} from '../../components/Store/FetchAPI';
+
 const SignIn = ({navigation}) => {
   const [data, setData] = useState({
     check_textInputChange: false,
@@ -30,36 +32,17 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [userToken, setUserToken] = useState([]);
   const [codeStatus, setCodeStatus] = useState();
-
   const {colors} = useTheme();
 
   const {signIn} = React.useContext(AuthContext);
 
-  const ApiUrl = 'http://35.193.29.249/user/login';
+  const ApiUrl = 'http://34.68.51.132/login';
 
   const loginHandle = async () => {
     if (email != '' && password != '') {
-      await fetch(ApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      })
-        .then(res => {
-          if (!res.ok) throw res.status;
-          return res.json();
-        })
-        .then(resData => {
-          setUserToken(resData);
-        })
-        .catch(error => {
-          console.log(error);
-          setCodeStatus(error);
-        });
+      let result = await logIn(email, password);
+      setUserToken(result.result);
+      setCodeStatus(result.error);
     }
 
     if (email.length == 0 || password.length == 0) {
@@ -69,14 +52,12 @@ const SignIn = ({navigation}) => {
       return;
     }
   };
-  signIn(userToken);
-
-  if (codeStatus == 403) {
+  if (userToken != null) {
+    signIn(userToken, email);
+  }
+  if (codeStatus != null && codeStatus != 'Thành công') {
+    Alert.alert('', codeStatus, [{text: 'Okay'}]);
     setCodeStatus();
-    Alert.alert('Invalid User!', 'Username or password không đúng.', [
-      {text: 'Okay'},
-    ]);
-
     return;
   }
 

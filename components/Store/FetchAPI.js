@@ -1,5 +1,32 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export async function logIn(email, password) {
+  var result = [];
+  try {
+    await fetch('http://34.68.51.132/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: email,
+        password: password,
+      }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(resData => {
+        return (result = resData);
+      })
+      .catch(error => {
+        console.log('login', error);
+      });
+  } catch (error) {}
+  console.log('a', result);
+  return result;
+}
+
 export async function getUserData() {
   let userToken;
   userToken = null;
