@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {API_URL} from '@env';
+
 export async function logIn(email, password) {
   var result = [];
   try {
-    await fetch('http://34.68.51.132/login', {
+    await fetch(`${API_URL}login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ export async function logIn(email, password) {
 export async function signIn(email, password) {
   var result = [];
   try {
-    await fetch('http://34.68.51.132/register/', {
+    await fetch(`${API_URL}register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,10 +49,8 @@ export async function signIn(email, password) {
       })
       .catch(error => {
         console.log(error);
-        setCodeStatus(error);
       });
   } catch (error) {}
-  console.log('a', result);
   return result;
 }
 

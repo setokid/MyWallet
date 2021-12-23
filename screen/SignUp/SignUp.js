@@ -67,7 +67,7 @@ const SignUp = ({navigation}) => {
     return;
   }
 
-  if (codeStatus == 'Thanh cong') {
+  if (codeStatus == 'Thành công') {
     Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
     navigation.navigate('SignInScreen');
   }
