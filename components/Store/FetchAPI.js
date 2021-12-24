@@ -1,11 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {API_URL} from '@env';
+import envs from '../../config/env';
+
+const {API_URL} = envs;
 
 export async function logIn(email, password) {
   var result = [];
   try {
-    await fetch(`${API_URL}login`, {
+    await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,10 +30,11 @@ export async function logIn(email, password) {
   return result;
 }
 
-export async function signIn(email, password) {
+export async function signUp(email, password) {
   var result = [];
+  console.log(`${API_URL}/register/`);
   try {
-    await fetch(`${API_URL}register/`, {
+    await fetch(`${API_URL}/register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,6 +54,7 @@ export async function signIn(email, password) {
         console.log(error);
       });
   } catch (error) {}
+  console.log(result);
   return result;
 }
 
@@ -60,12 +64,11 @@ export async function getUserData() {
   var resUserData = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/index?currency=VND';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/info`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then(res => {
@@ -82,6 +85,7 @@ export async function getUserData() {
   } catch (error) {
     console.log('userdata', error);
   }
+  console.log(resUserData);
   return resUserData;
 }
 
@@ -147,56 +151,55 @@ export async function getTarget() {
   return resUserTarget;
 }
 
-export async function getModal() {
-  let userToken;
-  userToken = null;
-  var resModal;
-  try {
-    userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/gettypeall';
-    await fetch(ApiUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: userToken,
-      },
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw res.status;
-        } else {
-          return res.json();
-        }
-      })
-      .then(resData => {
-        return (resModal = resData);
-      })
-      .catch(error => {
-        console.log('Modal', error);
-      });
-  } catch (error) {
-    console.log('Modal', error);
-  }
-  return resModal;
-}
+// export async function getModal() {
+//   let userToken;
+//   userToken = null;
+//   var resModal;
+//   try {
+//     userToken = await AsyncStorage.getItem('userToken');
+//     const ApiUrl = 'http://35.193.29.249/userinfo/gettypeall';
+//     await fetch(ApiUrl, {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: userToken,
+//       },
+//     })
+//       .then(res => {
+//         if (!res.ok) {
+//           throw res.status;
+//         } else {
+//           return res.json();
+//         }
+//       })
+//       .then(resData => {
+//         return (resModal = resData);
+//       })
+//       .catch(error => {
+//         console.log('Modal', error);
+//       });
+//   } catch (error) {
+//     console.log('Modal', error);
+//   }
+//   return resModal;
+// }
 
-export async function addIncome(id, currency, amount, description) {
+export async function addIncome(description, amount, currency, id) {
   let userToken;
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/income/addincome';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/adduserincome`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        incomeid: id,
-        currency: currency,
-        amout: amount,
         description: description,
+        amount: amount,
+        currency: currency,
+        id_income: id,
       }),
     });
   } catch (error) {
@@ -204,23 +207,22 @@ export async function addIncome(id, currency, amount, description) {
   }
 }
 
-export async function addSpending(id, currency, amount, description) {
+export async function addSpending(description, amount, currency, id) {
   let userToken;
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/spending/addspending';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/adduserspending`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        spendingid: id,
-        currency: currency,
-        amout: amount,
         description: description,
+        amount: amount,
+        currency: currency,
+        id_spending: id,
       }),
     });
   } catch (error) {

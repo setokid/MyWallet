@@ -18,7 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import LinenearGradient from 'react-native-linear-gradient';
 import {useTheme} from 'react-native-paper';
 
-import {signIn} from '../../components/Store/FetchAPI';
+import {signUp} from '../../components/Store/FetchAPI';
 
 const SignUp = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -40,7 +40,7 @@ const SignUp = ({navigation}) => {
   const signUpHandle = async () => {
     if (email != '' && password != '' && confirmPassword != '') {
       if (password === confirmPassword) {
-        let result = await signIn(email, password);
+        let result = await signUp(email, password);
         setCodeStatus(result.status);
         setCodeStatus(result.result);
       } else {
@@ -67,8 +67,9 @@ const SignUp = ({navigation}) => {
     return;
   }
 
-  if (codeStatus == 'Thành công') {
+  if (codeStatus.message == 'Thành công') {
     Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
+    setCodeStatus();
     navigation.navigate('SignInScreen');
   }
 

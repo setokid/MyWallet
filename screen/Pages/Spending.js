@@ -78,7 +78,7 @@ const Spending = ({route, navigation}) => {
     if (amount == null || amount == 0) {
       Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
     } else {
-      addSpending(id, currency, amount, description);
+      addSpending(description, currency, amount, id);
       clearInput();
       Alert.alert('Successful', 'Successful extra spending', [{text: 'Okay'}]);
     }
@@ -142,7 +142,7 @@ const Spending = ({route, navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.from}>
+        {/* <View style={styles.from}>
           <View style={styles.walletView}>
             <Icon name="bank" size={30} color={colors.value} />
             <View style={styles.pickerView}>
@@ -175,7 +175,7 @@ const Spending = ({route, navigation}) => {
               </Picker>
             </View>
           </View>
-        </View>
+        </View> */}
         <View style={styles.dateTimePicker}>
           <Icon name="calendar" size={30} color={colors.value} />
           <View>

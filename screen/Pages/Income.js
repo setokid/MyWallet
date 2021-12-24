@@ -77,7 +77,7 @@ const Income = ({route, navigation}) => {
     if (amount == null || amount == 0) {
       Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
     } else {
-      addIncome(id, currency, amount, description);
+      addIncome(description, amount, currency, id);
       Alert.alert('Success', 'Additional income', [{text: 'Okay'}]);
       clearInput();
     }
@@ -141,7 +141,7 @@ const Income = ({route, navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.from}>
+        {/* <View style={styles.from}>
           <View style={styles.walletView}>
             <Icon name="bank" size={30} color={colors.value} />
             <View style={styles.pickerView}>
@@ -174,7 +174,7 @@ const Income = ({route, navigation}) => {
               </Picker>
             </View>
           </View>
-        </View>
+        </View> */}
         <View style={styles.dateTimePicker}>
           <Icon name="calendar" size={30} color={colors.value} />
           <View>

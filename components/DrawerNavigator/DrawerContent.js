@@ -42,14 +42,14 @@ export function DrawerContent({navigation, props}) {
   useEffect(() => {
     setInterval(async () => {
       let resdata = await getUserData();
-      setUserData(resdata);
-    }, 120000);
+      setUserData(resdata.data);
+    }, 300000);
 
     let cleanup = true;
     async function callApi() {
       if (cleanup) {
         let resdata = await getUserData();
-        setUserData(resdata);
+        setUserData(resdata.data);
       }
     }
 
@@ -79,7 +79,7 @@ export function DrawerContent({navigation, props}) {
               />
               <View style={styles.userInfoText}>
                 <Title style={[styles.title, {color: colors.value}]}>
-                  {userData.fullName != null ? userData.fullName : 'UserName'}
+                  {userData.username != null ? userData.username : 'UserName'}
                 </Title>
                 <Caption style={[styles.caption, {flexShrink: 1}]}>
                   {userData.email}
@@ -98,9 +98,7 @@ export function DrawerContent({navigation, props}) {
                   displayType={'text'}
                   thousandSeparator={true}
                   renderText={(value, props) => (
-                    <Text {...props}>
-                      {value} {userData.currency}
-                    </Text>
+                    <Text {...props}>{value} VND</Text>
                   )}
                 />
               </Caption>

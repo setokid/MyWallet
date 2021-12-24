@@ -31,7 +31,7 @@ const WalletCard = ({userData, openModal, navigation}) => {
                       {flexWrap: 'wrap', color: colors.value},
                     ]}
                     {...props}>
-                    {value} {userData.currency}
+                    {value} VND
                   </Text>
                 )}
               />

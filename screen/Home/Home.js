@@ -10,6 +10,8 @@ import SavingGoalsCard from '../../components/SectionCard/SavingGoalsCard';
 import IncomeModal from '../../components/Modal/IncomeModal';
 import SpendingModal from '../../components/Modal/SpendingModal';
 import NewWalletModal from '../../components/Modal/NewWalletModal';
+import IncomeModalData from '../../components/Store/IncomeModalData';
+import SpendingModalData from '../../components/Store/SpendingModalData';
 
 import {
   getUserData,
@@ -33,10 +35,8 @@ const Home = ({navigation}) => {
   const [userData, setUserData] = useState([]);
   const [userTransaction, setUserTransaction] = useState([]);
   const [userTarget, setUserTarget] = useState([]);
-  const [modal, setModal] = useState([]);
-
+  const [modal, setModal] = useState();
   const [refreshing, setRefreshing] = useState(false);
-
   const {colors} = useTheme();
 
   const onRefresh = useCallback(() => {
@@ -49,13 +49,12 @@ const Home = ({navigation}) => {
     async function callApi() {
       if (cleanup) {
         let resuserdata = await getUserData();
+        setUserData(resuserdata.data);
         let resusertransaction = await getTransaction();
         let resuertarget = await getTarget();
         let resmodal = await getModal();
-        setUserData(resuserdata);
         setUserTransaction(resusertransaction);
         setUserTarget(resuertarget);
-        setModal(resmodal);
       }
     }
 
@@ -106,13 +105,13 @@ const Home = ({navigation}) => {
       />
       <SavingGoalsCard usertarget={userTarget} navigation={navigation} />
       <IncomeModal
-        data={modal}
+        data={IncomeModalData}
         showModal={incomeModal}
         closeModal={closeModal}
         navigation={navigation}
       />
       <SpendingModal
-        data={modal}
+        data={SpendingModalData}
         showModal={spendingModal}
         closeModal={closeModal}
         navigation={navigation}

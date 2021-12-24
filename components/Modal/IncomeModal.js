@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useTheme} from '@react-navigation/native';
 import {List} from 'react-native-paper';
+import IncomeModalData from '../Store/IncomeModalData';
 
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
@@ -21,47 +22,38 @@ const windowHeight = Dimensions.get('window').height;
 const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
-
   return (
     <View>
-      {item.spend_or_income == true ? (
-        <List.Accordion
-          title={t(item.name)}
-          titleStyle={[styles.title, {color: colors.value}]}
-          left={props => (
-            <Icon name="md-wallet-sharp" size={25} color={colors.value} />
-          )}
-          onPress={handlePress}>
-          {item.typeDTOList.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                navigation.navigate('IncomeScreen', {
-                  type: item.name,
-                  id: item.id,
-                });
-                closeModal();
-              }}>
-              <View
-                style={[
-                  styles.dropDownContent,
-                  {borderBottomColor: colors2.borderBottomColor},
-                ]}>
-                <Icon
-                  name="ios-briefcase-sharp"
-                  size={25}
-                  color={colors.value}
-                />
-                <Text style={[styles.title, {color: colors.value}]}>
-                  {t(item.name)}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </List.Accordion>
-      ) : (
-        <View></View>
-      )}
+      <List.Accordion
+        title={t(item.name)}
+        titleStyle={[styles.title, {color: colors.value}]}
+        left={props => (
+          <Icon name="md-wallet-sharp" size={25} color={colors.value} />
+        )}
+        onPress={handlePress}>
+        {item.typeOfIncomeList.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => {
+              navigation.navigate('IncomeScreen', {
+                type: item.name,
+                id: item.id,
+              });
+              closeModal();
+            }}>
+            <View
+              style={[
+                styles.dropDownContent,
+                {borderBottomColor: colors2.borderBottomColor},
+              ]}>
+              <Icon name="ios-briefcase-sharp" size={25} color={colors.value} />
+              <Text style={[styles.title, {color: colors.value}]}>
+                {t(item.name)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </List.Accordion>
     </View>
   );
 };
@@ -69,7 +61,6 @@ const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
 export default function IncomeModal({data, closeModal, showModal, navigation}) {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
-
   return (
     <Modal
       animationType="slide"

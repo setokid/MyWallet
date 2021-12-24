@@ -32,8 +32,8 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [userToken, setUserToken] = useState([]);
   const [codeStatus, setCodeStatus] = useState();
+  const [loginFail, setloginFail] = useState([]);
   const {colors} = useTheme();
-
   const {signIn} = React.useContext(AuthContext);
 
   const loginHandle = async () => {
@@ -41,18 +41,23 @@ const SignIn = ({navigation}) => {
       let result = await logIn(email, password);
       setUserToken(result.result);
       setCodeStatus(result.error);
+      setloginFail(result);
     }
 
     if (email.length == 0 || password.length == 0) {
-      Alert.alert('Wrong Input!', 'Username or password không thể để trống.', [
-        {text: 'Okay'},
-      ]);
       return;
     }
   };
+
+  if (JSON.stringify(loginFail.success) == 'false') {
+    Alert.alert('Login Fail!', loginFail.message, [{text: 'Okay'}]);
+    setloginFail([]);
+  }
+
   if (userToken != null) {
     signIn(userToken, email);
   }
+
   if (codeStatus != null && codeStatus != 'Thành công') {
     Alert.alert('', codeStatus, [{text: 'Okay'}]);
     setCodeStatus();

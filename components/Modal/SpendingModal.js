@@ -24,44 +24,36 @@ const SpendingModalView = ({item, handlePress, navigation, closeModal}) => {
 
   return (
     <View>
-      {item.spend_or_income == false ? (
-        <List.Accordion
-          title={t(item.name)}
-          titleStyle={[styles.title, {color: colors.value}]}
-          left={props => (
-            <Icon name="md-wallet-sharp" size={25} color={colors.value} />
-          )}
-          onPress={handlePress}>
-          {item.typeDTOList.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                navigation.navigate('SpendingScreen', {
-                  type: item.name,
-                  id: item.id,
-                });
-                closeModal();
-              }}>
-              <View
-                style={[
-                  styles.dropDownContent,
-                  {borderBottomColor: colors2.borderBottomColor},
-                ]}>
-                <Icon
-                  name="ios-briefcase-sharp"
-                  size={25}
-                  color={colors.value}
-                />
-                <Text style={[styles.title, {color: colors.value}]}>
-                  {t(item.name)}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </List.Accordion>
-      ) : (
-        <View></View>
-      )}
+      <List.Accordion
+        title={t(item.name)}
+        titleStyle={[styles.title, {color: colors.value}]}
+        left={props => (
+          <Icon name="md-wallet-sharp" size={25} color={colors.value} />
+        )}
+        onPress={handlePress}>
+        {item.typeOfSpendingList.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => {
+              navigation.navigate('SpendingScreen', {
+                type: item.name,
+                id: item.id,
+              });
+              closeModal();
+            }}>
+            <View
+              style={[
+                styles.dropDownContent,
+                {borderBottomColor: colors2.borderBottomColor},
+              ]}>
+              <Icon name="ios-briefcase-sharp" size={25} color={colors.value} />
+              <Text style={[styles.title, {color: colors.value}]}>
+                {t(item.name)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </List.Accordion>
     </View>
   );
 };
