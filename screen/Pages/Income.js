@@ -19,6 +19,7 @@ import {useTranslation} from 'react-i18next';
 import {Picker} from '@react-native-picker/picker';
 import {addIncome} from '../../components/Store/FetchAPI';
 import CommonCurrency from '../../components/Store/CommonCurrency';
+import IncomeModalData from '../../components/Store/IncomeModalData';
 
 const screenWidth = Dimensions.get('screen').width;
 
@@ -73,11 +74,11 @@ const Income = ({route, navigation}) => {
     setCurrency('VND');
   };
 
-  const confirm = (currency, amount, description, id) => {
+  const confirm = (currency, amount, description, id, date) => {
     if (amount == null || amount == 0) {
       Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
     } else {
-      addIncome(description, amount, currency, id);
+      addIncome(description, amount, currency, id, date);
       Alert.alert('Success', 'Additional income', [{text: 'Okay'}]);
       clearInput();
     }
@@ -87,6 +88,7 @@ const Income = ({route, navigation}) => {
     <View style={[styles.container, {backgroundColor: colors2.background}]}>
       <View style={[styles.content, {backgroundColor: colors.background}]}>
         <IncomeModal
+          data={IncomeModalData}
           showModal={spendingModal}
           closeModal={closeModal}
           navigation={navigation}
@@ -208,7 +210,7 @@ const Income = ({route, navigation}) => {
         <View>
           <View style={styles.btnConfirm}>
             <Button
-              onPress={() => confirm(currency, amount, description, id)}
+              onPress={() => confirm(currency, amount, description, id, date)}
               title={t('Confirm')}
             />
           </View>

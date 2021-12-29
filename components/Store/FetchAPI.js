@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import envs from '../../config/env';
 
-const {API_URL} = envs;
+const API_URL = 'http://103.173.155.54:4000';
+console.log(API_URL);
 
 export async function logIn(email, password) {
   var result = [];
@@ -184,7 +185,7 @@ export async function getTarget() {
 //   return resModal;
 // }
 
-export async function addIncome(description, amount, currency, id) {
+export async function addIncome(description, amount, currency, id, date) {
   let userToken;
   userToken = null;
   try {
@@ -200,6 +201,7 @@ export async function addIncome(description, amount, currency, id) {
         amount: amount,
         currency: currency,
         id_income: id,
+        date: date,
       }),
     });
   } catch (error) {
@@ -207,7 +209,7 @@ export async function addIncome(description, amount, currency, id) {
   }
 }
 
-export async function addSpending(description, amount, currency, id) {
+export async function addSpending(description, amount, currency, id, date) {
   let userToken;
   userToken = null;
   try {
@@ -223,6 +225,7 @@ export async function addSpending(description, amount, currency, id) {
         amount: amount,
         currency: currency,
         id_spending: id,
+        date: date,
       }),
     });
   } catch (error) {

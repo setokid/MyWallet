@@ -67,10 +67,12 @@ const SignUp = ({navigation}) => {
     return;
   }
 
-  if (codeStatus.message == 'Thành công') {
-    Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
-    setCodeStatus();
-    navigation.navigate('SignInScreen');
+  if (codeStatus != null) {
+    if (codeStatus.message == 'Thành công') {
+      Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
+      setCodeStatus();
+      navigation.navigate('SignInScreen');
+    }
   }
 
   const textInputChange = val => {

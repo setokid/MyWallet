@@ -27,9 +27,7 @@ const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
       <List.Accordion
         title={t(item.name)}
         titleStyle={[styles.title, {color: colors.value}]}
-        left={props => (
-          <Icon name="md-wallet-sharp" size={25} color={colors.value} />
-        )}
+        left={props => <Icon name={item.icon} size={25} color={colors.value} />}
         onPress={handlePress}>
         {item.typeOfIncomeList.map((item, index) => (
           <TouchableOpacity
@@ -46,7 +44,7 @@ const IncomeModalView = ({item, handlePress, navigation, closeModal}) => {
                 styles.dropDownContent,
                 {borderBottomColor: colors2.borderBottomColor},
               ]}>
-              <Icon name="ios-briefcase-sharp" size={25} color={colors.value} />
+              <Icon name={item.icon} size={25} color={colors.value} />
               <Text style={[styles.title, {color: colors.value}]}>
                 {t(item.name)}
               </Text>

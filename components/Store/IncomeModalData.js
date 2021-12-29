@@ -1,64 +1,38 @@
 const IncomeModalData = [
   {
     name: 'Income',
-    icon: '',
+    icon: 'wallet',
     typeOfIncomeList: [
       {
         id: '1',
-        name: 'IncomeChil1',
-        icon: '',
+        name: 'Income',
+        icon: 'wallet',
       },
       {
         id: '2',
-        name: 'IncomeChil2',
-        icon: '',
+        name: 'Money from errands',
+        icon: 'ios-construct',
       },
       {
         id: '3',
-        name: 'IncomeChil3',
-        icon: '',
+        name: 'Subsidize',
+        icon: 'ios-logo-usd',
       },
     ],
   },
   {
-    name: 'Income2',
-    icon: '',
+    name: 'Other (Income)',
+    icon: 'receipt',
     typeOfIncomeList: [
       {
         id: '4',
-        name: 'IncomeChil4',
-        icon: '',
+        name: 'Other (Income)',
+        icon: 'receipt',
       },
       {
         id: '5',
-        name: 'IncomeChil5',
-        icon: '',
-      },
-      {
-        id: '6',
-        name: 'IncomeChil6',
-        icon: '',
-      },
-    ],
-  },
-  {
-    name: 'Income3',
-    icon: '',
-    typeOfIncomeList: [
-      {
-        id: '7',
-        name: 'IncomeChil7',
-        icon: '',
-      },
-      {
-        id: '8',
-        name: 'IncomeChil8',
-        icon: '',
-      },
-      {
-        id: '9',
-        name: 'IncomeChil9',
-        icon: '',
+        name: 'Personal savings',
+        icon: 'person-add',
       },
     ],
   },
