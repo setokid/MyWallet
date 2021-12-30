@@ -233,24 +233,29 @@ export async function addSpending(description, amount, currency, id, date) {
   }
 }
 
-export async function addTarget(name, currency, total, date_end, description) {
+export async function addTarget(
+  description,
+  start_date,
+  end_date,
+  amount,
+  currency,
+) {
   let userToken;
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/addtarget';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/addusertarget`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        name: name,
-        currency: currency,
-        total: total,
-        date_end: date_end,
         description: description,
+        start_date: start_date,
+        end_date: end_date,
+        amount: amount,
+        currency: currency,
       }),
     });
   } catch (error) {
@@ -258,23 +263,23 @@ export async function addTarget(name, currency, total, date_end, description) {
   }
 }
 
-export async function addAmount(targetid, currency, amount, description) {
+export async function addAmount(id_target, amount, currency, rate_currency) {
   let userToken;
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/addamounttarget';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/addusertransactiontotarget`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        targetid: targetid,
-        currency: currency,
-        amount: amount,
-        description: description,
+        id_target:
+          '7e6047d69e1dd79d541a14fce2abd37fe74d9d383a3656b946138ea490adbb65',
+        amount: '85000',
+        currency: 'VND',
+        rate_currency: '1',
       }),
     });
   } catch (error) {
@@ -284,19 +289,19 @@ export async function addAmount(targetid, currency, amount, description) {
 
 export async function resetPassword(username) {}
 
-export async function updateUserName(username) {
+export async function updateUserName(ngaysinh, username) {
   let userToken;
   userToken = null;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/updateusername';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/changeinfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
+        ngaysinh: ngaysinh,
         username: username,
       }),
     });

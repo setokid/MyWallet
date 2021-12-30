@@ -13,6 +13,9 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {updateUserName} from '../Store/FetchAPI';
 
+import DateField from 'react-native-datefield';
+import moment from 'moment';
+
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,18 +23,19 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   const [userName, setUserName] = useState('');
-  const confirm = username => {
+  const [ngaySinh, setNgaySinh] = useState(new Date());
+  const tomorrow = moment(ngaySinh).add(1, 'day');
+  const today = tomorrow.toJSON().slice(0, 10);
+  const nDate =
+    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
+  const confirm = (ngaysinh, username) => {
     if (username != '') {
-      if (username != data.fullName) {
-        updateUserName(username);
-        Alert.alert('Successful', 'Successful update user name', [
-          {text: 'Okay'},
-        ]);
-        setUserName('');
-        closeModal();
-      } else {
-        Alert.alert('Error', 'New name is same as User name', [{text: 'Okay'}]);
-      }
+      updateUserName(ngaysinh, username);
+      Alert.alert('Successful', 'Successful update user info', [
+        {text: 'Okay'},
+      ]);
+      setUserName('');
+      closeModal();
     } else {
       Alert.alert('Error', 'User name cant be null', [{text: 'Okay'}]);
     }
@@ -64,7 +68,7 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
                     fontWeight: 'bold',
                     marginLeft: 3,
                   }}>
-                  {t(data.fullName)}
+                  {data != null ? t(data.username) : null}
                 </Text>
               </View>
               <TextInput
@@ -75,10 +79,30 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
                 placeholderTextColor={colors.value}
                 keyboardType="default"
               />
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: colors.value, marginTop: 20}}>
+                  {t('Date of birth: ')}
+                </Text>
+                <Text
+                  style={{
+                    color: colors.value,
+                    fontWeight: 'bold',
+                    marginLeft: 3,
+                    marginTop: 20,
+                  }}>
+                  {data != null ? t(data.ngaysinh) : null}
+                </Text>
+              </View>
+              <DateField
+                defaultValue={ngaySinh}
+                styleInput={styles.inputBorder}
+                containerStyle={{margin: 10}}
+                onSubmit={value => setNgaySinh(value)}
+              />
             </View>
             <View style={[styles.btn, {width: '100%'}]}>
               <Button
-                onPress={() => confirm(userName)}
+                onPress={() => confirm(nDate, userName)}
                 title="Confirm"
                 color="#6236FF"
                 style={styles.btn}
@@ -199,5 +223,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 10,
     borderRadius: 20,
+  },
+  inputBorder: {
+    width: '30%',
+    borderRadius: 8,
+    borderColor: '#cacaca',
+    borderWidth: 1,
   },
 });

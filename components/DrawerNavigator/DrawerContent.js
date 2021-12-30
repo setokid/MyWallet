@@ -82,7 +82,7 @@ export function DrawerContent({navigation, props}) {
                   {userData != null ? userData.username : 'UserName'}
                 </Title>
                 <Caption style={[styles.caption, {flexShrink: 1}]}>
-                  {userData.email}
+                  {userData != null ? userData.email : 'Email'}
                 </Caption>
               </View>
             </View>
@@ -93,14 +93,18 @@ export function DrawerContent({navigation, props}) {
                 {t('Total Blance')}
               </Paragraph>
               <Caption style={styles.moneyCaption}>
-                <NumberFormat
-                  value={userData.balance}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  renderText={(value, props) => (
-                    <Text {...props}>{value} VND</Text>
-                  )}
-                />
+                {userData != null ? (
+                  <NumberFormat
+                    value={userData.balance}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    renderText={(value, props) => (
+                      <Text {...props}>{value} VND</Text>
+                    )}
+                  />
+                ) : (
+                  <Text {...props}>VND</Text>
+                )}
               </Caption>
             </View>
           </View>

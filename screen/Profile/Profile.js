@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, ScrollView, StyleSheet, RefreshControl} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from 'react-native-paper';
 
@@ -10,11 +10,16 @@ import Security from '../../components/Pages/Security';
 import ChangeUserNameModal from '../../components/Modal/ChangeUserNameModal';
 import {getUserData} from '../../components/Store/FetchAPI';
 
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 export default function Profile({navigation}) {
   const {t} = useTranslation();
   const {colors2} = useTheme();
   const [changeUserNameModal, setChangeUserNameModal] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const openModal = input => {
     let type = input;
     if (type == 1) {
@@ -27,6 +32,11 @@ export default function Profile({navigation}) {
   const closeModal = () => {
     setChangeUserNameModal(false);
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     let cleanup = true;
@@ -42,10 +52,20 @@ export default function Profile({navigation}) {
     return () => {
       cleanup = false;
     };
-  }, []);
+  }, [refreshing]);
 
   return (
-    <ScrollView style={{backgroundColor: colors2.background}}>
+    <ScrollView
+      style={{backgroundColor: colors2.background}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <ChangeUserNameModal
+        data={userData.data}
+        showModal={changeUserNameModal}
+        closeModal={closeModal}
+        navigation={navigation}
+      />
       <AvatarSection />
       <View style={[styles.title]}>
         <Text style={{fontSize: 16, fontWeight: '500', color: colors2.title}}>
@@ -65,12 +85,6 @@ export default function Profile({navigation}) {
         </Text>
       </View>
       <Security />
-      <ChangeUserNameModal
-        data={userData}
-        showModal={changeUserNameModal}
-        closeModal={closeModal}
-        navigation={navigation}
-      />
     </ScrollView>
   );
 }

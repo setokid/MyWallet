@@ -20,16 +20,18 @@ import {addTarget, getTarget, addAmount} from '../../components/Store/FetchAPI';
 const screenWidth = Dimensions.get('screen').width;
 
 const AddTargetView = () => {
+  const [start_date, setStart_Date] = useState(new Date());
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  const today = date.toJSON().slice(0, 10);
-  const nDate =
+  const today = start_date.toJSON().slice(0, 10);
+  const endday = date.toJSON().slice(0, 10);
+  const start_Date =
     today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
 
-  const endDate = String(
-    today.slice(0, 4) + '-' + today.slice(5, 7) + '-' + today.slice(8, 10),
+  const end_Date = String(
+    endday.slice(8, 10) + '-' + endday.slice(5, 7) + '-' + endday.slice(0, 4),
   );
 
   const onChange = (event, selectedDate) => {
@@ -65,11 +67,17 @@ const AddTargetView = () => {
     setDescription('');
   };
 
-  const confirmAddTarget = (name, currency, total, date_end, description) => {
+  const confirmAddTarget = (
+    description,
+    start_date,
+    end_date,
+    amount,
+    currency,
+  ) => {
     if (total == null || total == 0) {
       Alert.alert('Error', 'Total cant be zero', [{text: 'Okay'}]);
     } else {
-      addTarget(name, currency, total, date_end, description);
+      addTarget(description, start_date, end_date, amount, currency);
       clearInput();
       Alert.alert('Successful', 'Successful extra target', [{text: 'Okay'}]);
     }
@@ -143,7 +151,7 @@ const AddTargetView = () => {
             <Button
               color={'gray'}
               onPress={showDatepicker}
-              title={String(nDate)}
+              title={String(start_Date)}
             />
           </View>
           {show && (
@@ -171,7 +179,13 @@ const AddTargetView = () => {
         <View style={styles.btnConfirm}>
           <Button
             onPress={() =>
-              confirmAddTarget(name, currency, total, endDate, description)
+              confirmAddTarget(
+                description,
+                start_Date,
+                end_Date,
+                total,
+                currency,
+              )
             }
             title={t('Confirm')}
           />
@@ -319,7 +333,7 @@ const AddTargetAmountView = ({targetId}) => {
           )}
         </View>
       </View>
-      <View style={styles.inputValue}>
+      {/* <View style={styles.inputValue}>
         <TextInput
           style={styles.inputNote}
           placeholderTextColor={colors.value}
@@ -328,7 +342,7 @@ const AddTargetAmountView = ({targetId}) => {
           placeholder={t('Description (Not required)')}
           keyboardType="default"
         />
-      </View>
+      </View> */}
       <View>
         <View style={styles.btnConfirm}>
           <Button
