@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import envs from '../../config/env';
 
-const API_URL = 'http://103.173.155.54:4000';
+const API_URL = 'http://104.154.46.80:8080';
 console.log(API_URL);
 
 export async function logIn(email, password) {
@@ -28,6 +28,7 @@ export async function logIn(email, password) {
         console.log('login', error);
       });
   } catch (error) {}
+  console.log(result);
   return result;
 }
 
@@ -62,7 +63,7 @@ export async function signUp(email, password) {
 export async function getUserData() {
   let userToken;
   userToken = null;
-  var resUserData = [];
+  var resUserData;
   try {
     userToken = await AsyncStorage.getItem('userToken');
     await fetch(`${API_URL}/api/info`, {
@@ -76,17 +77,18 @@ export async function getUserData() {
         if (!res.ok) {
           throw res.status;
         } else {
-          return (resUserData = res.json());
+          return res.json();
         }
       })
-      .then(resData => {})
+      .then(resData => {
+        resUserData = resData;
+      })
       .catch(error => {
         console.log('userdata', error);
       });
   } catch (error) {
     console.log('userdata', error);
   }
-  console.log(resUserData);
   return resUserData;
 }
 
@@ -96,8 +98,7 @@ export async function getTransaction() {
   var resUserTransaction = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/getrecenttransaction';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/info`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -127,12 +128,11 @@ export async function getTarget() {
   var resUserTarget = [];
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    const ApiUrl = 'http://35.193.29.249/userinfo/historytarget';
-    await fetch(ApiUrl, {
+    await fetch(`${API_URL}/api/seeallusertarget`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then(res => {
@@ -149,6 +149,7 @@ export async function getTarget() {
   } catch (error) {
     console.log('Target', error);
   }
+  console.log('sda', resUserTarget);
   return resUserTarget;
 }
 
@@ -308,4 +309,38 @@ export async function updateUserName(ngaysinh, username) {
   } catch (error) {
     console.log('updateusername', error);
   }
+}
+export async function updatePassWord(password, newpassword) {
+  let userToken;
+  userToken = null;
+  var resUpdatePassWord;
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    await fetch(`${API_URL}/api/changepassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        password: password,
+        newpassword: newpassword,
+      }),
+    })
+      .then(res => {
+        if (res.error != 'data and hash arguments required') {
+          return res.json();
+        }
+      })
+      .then(resData => {
+        return (resUpdatePassWord = resData);
+      })
+      .catch(error => {
+        console.log('updatepassword', error);
+      });
+  } catch (error) {
+    console.log('update password', error);
+  }
+  console.log('c', resUpdatePassWord);
+  return resUpdatePassWord;
 }

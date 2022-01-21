@@ -59,7 +59,7 @@ const SignIn = ({navigation}) => {
   }
 
   if (codeStatus != null && codeStatus != 'Thành công') {
-    Alert.alert('', codeStatus, [{text: 'Okay'}]);
+    Alert.alert('Login Fail!', codeStatus, [{text: 'Okay'}]);
     setCodeStatus();
     return;
   }

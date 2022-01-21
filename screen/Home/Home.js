@@ -39,30 +39,30 @@ const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const {colors} = useTheme();
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
   useEffect(() => {
     let cleanup = true;
     async function callApi() {
       if (cleanup) {
-        let resuserdata = await getUserData();
-        setUserData(resuserdata.data);
-        let resusertransaction = await getTransaction();
-        let resuertarget = await getTarget();
-        let resmodal = await getModal();
-        setUserTransaction(resusertransaction);
-        setUserTarget(resuertarget);
+        let resUserData = await getUserData();
+        // let resUserTransaction = await getTransaction();
+        // let resUerTarget = await getTarget();
+        setUserData(resUserData.data);
+        setUserTransaction(resUserTransaction);
+        setUserTarget(resUerTarget);
+        console.log('zxc', resUerTarget);
+        console.log('test');
       }
     }
-
     callApi();
     return () => {
       cleanup = false;
     };
   }, [refreshing]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   const openModal = input => {
     let type = input;

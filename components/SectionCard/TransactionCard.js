@@ -115,7 +115,7 @@ const TransactionCard = ({navigation, userTransaction}) => {
         {datatransaction != null ? (
           <FlatList
             scrollEnabled={false}
-            data={userTransaction.slice(0, 3)}
+            data={datatransaction.slice(0, 3)}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
               return <TransactionDetails item={item} key={index} />;

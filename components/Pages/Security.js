@@ -7,13 +7,13 @@ import {AuthContext} from '../Store/Context';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Security = () => {
+const Security = ({openModal}) => {
   const {signOut} = React.useContext(AuthContext);
   const {t} = useTranslation();
   const {colors, colors2} = useTheme();
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => openModal(2)}>
         <View style={styles.listItem}>
           <View style={styles.item}>
             <Text style={{color: colors.value, fontSize: 17}}>

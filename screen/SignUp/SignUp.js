@@ -33,7 +33,8 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [codeStatus, setCodeStatus] = useState();
+  const [loginMessage, setLoginMessage] = useState();
+  const [loginStatus, setLoginStatus] = useState();
 
   const {colors} = useTheme();
 
@@ -41,8 +42,9 @@ const SignUp = ({navigation}) => {
     if (email != '' && password != '' && confirmPassword != '') {
       if (password === confirmPassword) {
         let result = await signUp(email, password);
-        setCodeStatus(result.status);
-        setCodeStatus(result.result);
+        setLoginMessage(result.message);
+        setLoginStatus(result.status);
+        setLoginStatus(result.result);
       } else {
         Alert.alert(
           'Wrong Input!',
@@ -59,18 +61,18 @@ const SignUp = ({navigation}) => {
     }
   };
 
-  if (codeStatus == 'fail') {
-    Alert.alert('User already exists!', 'Đăng ký không thành công', [
-      {text: 'Okay'},
-    ]);
-    setCodeStatus();
+  if (loginStatus == 'fail') {
+    Alert.alert('Register Fail!', loginMessage, [{text: 'Okay'}]);
+    setLoginMessage();
+    setLoginStatus();
     return;
   }
 
-  if (codeStatus != null) {
-    if (codeStatus.message == 'Thành công') {
+  if (loginStatus != null) {
+    if (loginStatus == 'Thành công' || loginStatus == 'Thanh cong') {
       Alert.alert('Successful!', 'Đăng ký thành công', [{text: 'Okay'}]);
-      setCodeStatus();
+      setLoginMessage();
+      setLoginStatus();
       navigation.navigate('SignInScreen');
     }
   }

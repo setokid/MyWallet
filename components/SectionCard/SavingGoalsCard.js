@@ -93,7 +93,7 @@ const SavingGoalsCard = ({navigation, usertarget}) => {
         {usertarget != null ? (
           <FlatList
             scrollEnabled={false}
-            data={usertarget.slice(0, 3)}
+            data={usertarget}
             showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => {
               return <SavingGoalsDetails item={item} key={index} />;

@@ -8,6 +8,7 @@ import Theme from '../../components/Pages/Theme';
 import ProfileSettings from '../../components/Pages/ProfileSettings';
 import Security from '../../components/Pages/Security';
 import ChangeUserNameModal from '../../components/Modal/ChangeUserNameModal';
+import ChangePassWordModal from '../../components/Modal/ChangePassWordModal';
 import {getUserData} from '../../components/Store/FetchAPI';
 
 const wait = timeout => {
@@ -18,6 +19,7 @@ export default function Profile({navigation}) {
   const {t} = useTranslation();
   const {colors2} = useTheme();
   const [changeUserNameModal, setChangeUserNameModal] = useState(false);
+  const [changePassWordModal, setChangePassWordModal] = useState(false);
   const [userData, setUserData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const openModal = input => {
@@ -25,12 +27,14 @@ export default function Profile({navigation}) {
     if (type == 1) {
       setChangeUserNameModal(true);
     } else if (type == 2) {
+      setChangePassWordModal(true);
     } else if (type == 3) {
     }
   };
 
   const closeModal = () => {
     setChangeUserNameModal(false);
+    setChangePassWordModal(false);
   };
 
   const onRefresh = useCallback(() => {
@@ -43,7 +47,8 @@ export default function Profile({navigation}) {
     async function callApi() {
       if (cleanup) {
         let resuserdata = await getUserData();
-        setUserData(resuserdata);
+        setUserData(resuserdata.data);
+        console.log(resuserdata.data);
       }
     }
 
@@ -61,8 +66,14 @@ export default function Profile({navigation}) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <ChangeUserNameModal
-        data={userData.data}
+        data={userData}
         showModal={changeUserNameModal}
+        closeModal={closeModal}
+        navigation={navigation}
+      />
+      <ChangePassWoardModal
+        data={userData}
+        showModal={changePassWordModal}
         closeModal={closeModal}
         navigation={navigation}
       />
@@ -84,7 +95,7 @@ export default function Profile({navigation}) {
           {t('Security')}
         </Text>
       </View>
-      <Security />
+      <Security navigation={navigation} openModal={openModal} />
     </ScrollView>
   );
 }

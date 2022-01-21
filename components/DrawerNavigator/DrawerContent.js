@@ -79,7 +79,13 @@ export function DrawerContent({navigation, props}) {
               />
               <View style={styles.userInfoText}>
                 <Title style={[styles.title, {color: colors.value}]}>
-                  {userData != null ? userData.username : 'UserName'}
+                  {userData != null ? (
+                    <>
+                      {userData.username != '' ? userData.username : 'UserName'}
+                    </>
+                  ) : (
+                    'UserName'
+                  )}
                 </Title>
                 <Caption style={[styles.caption, {flexShrink: 1}]}>
                   {userData != null ? userData.email : 'Email'}
