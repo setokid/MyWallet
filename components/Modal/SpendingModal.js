@@ -108,7 +108,7 @@ export default function SpendingModal({
           <View style={styles.btn}>
             <Button
               onPress={() => closeModal()}
-              title="Close"
+              title={t('CLOSE')}
               color="#6236FF"
               style={styles.btn}
             />

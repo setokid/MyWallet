@@ -19,7 +19,7 @@ const WalletCard = ({userData, openModal, navigation}) => {
             <Text style={[styles.blanceTitle, {color: colors.value}]}>
               {t('Total Blance')}
             </Text>
-            {userData != null ? (
+            {userData.balance != null ? (
               <NumberFormat
                 value={userData.balance}
                 displayType={'text'}
@@ -36,7 +36,13 @@ const WalletCard = ({userData, openModal, navigation}) => {
                 )}
               />
             ) : (
-              <Text>...</Text>
+              <Text
+                style={[
+                  styles.blanceValue,
+                  {flexWrap: 'wrap', color: colors.value},
+                ]}>
+                {t('Loading...')}
+              </Text>
             )}
           </View>
 

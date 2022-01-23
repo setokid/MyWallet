@@ -48,7 +48,6 @@ export default function Profile({navigation}) {
       if (cleanup) {
         let resuserdata = await getUserData();
         setUserData(resuserdata.data);
-        console.log(resuserdata.data);
       }
     }
 
@@ -71,7 +70,7 @@ export default function Profile({navigation}) {
         closeModal={closeModal}
         navigation={navigation}
       />
-      <ChangePassWoardModal
+      <ChangePassWordModal
         data={userData}
         showModal={changePassWordModal}
         closeModal={closeModal}

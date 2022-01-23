@@ -117,7 +117,7 @@ export function DrawerContent({navigation, props}) {
 
           <Drawer.Section
             style={[styles.bottomDrawerSection, {color: colors.text}]}
-            title="Menu">
+            title={t('Menu')}>
             <DrawerItem
               labelStyle={{color: colors.value}}
               icon={({color, size}) => (
@@ -172,13 +172,13 @@ export function DrawerContent({navigation, props}) {
               }}
             />
           </Drawer.Section>
-          <Drawer.Section title="Theme" style={{color: colors.text}}>
+          <Drawer.Section title={t('Theme')} style={{color: colors.text}}>
             <TouchableRipple
               onPress={() => {
                 toggleTheme();
               }}>
               <View style={styles.preference}>
-                <Text style={{color: colors.value}}>Dark Mode</Text>
+                <Text style={{color: colors.value}}>{t('Dark Mode')}</Text>
                 <View pointerEvents="none">
                   <Switch
                     value={paperTheme.dark}

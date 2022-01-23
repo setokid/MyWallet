@@ -31,27 +31,22 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
   const [password, setPassword] = useState('');
   const [newpassword, setNewpassword] = useState('');
   const [resUpdate, setResUpdate] = useState();
-  console.log('b', resUpdate);
-  console.log(newpassword);
   const confirm = async (password, newpassword) => {
-    console.log('a', newpassword);
     if ((password != '') & (newpassword != '')) {
       updatePassWord(password, newpassword);
       let resUpdatePassWord = await updatePassWord();
       setResUpdate(resUpdatePassWord.error);
-      if (resUpdate == 'Thành công') {
-        Alert.alert('Successful', 'Successful update password', [
-          {text: 'Okay'},
+      if (password != newpassword) {
+        Alert.alert(t('Successful'), t('Successful update password'), [
+          {text: t('Okay')},
         ]);
         closeModal();
-      } else if (resUpdate == 'Sai mk') {
-        Alert.alert('Error', 'Wrong password', [{text: 'Okay'}]);
       } else {
-        console.log('sai');
+        Alert.alert(t('Error'), t('Wrong password'), [{text: t('Okay')}]);
       }
     } else {
-      Alert.alert('Error', 'Password or New Password can be null', [
-        {text: 'Okay'},
+      Alert.alert('Error', t('Password or New Password can be null'), [
+        {text: t('Okay')},
       ]);
     }
   };
@@ -90,7 +85,7 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
             ]}>
             <View style={styles.nameView}>
               <View style={{flexDirection: 'row'}}>
-                <Text style={{color: colors.value}}>{t('Password ')}</Text>
+                <Text style={{color: colors.value}}>{t('Password')}</Text>
               </View>
               <TextInput
                 style={[styles.inputName]}
@@ -102,7 +97,7 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
               />
               <View style={{flexDirection: 'row'}}>
                 <Text style={{color: colors.value, marginTop: 20}}>
-                  {t('New Password ')}
+                  {t('New PassWord')}
                 </Text>
               </View>
               <View style={styles.action}>
@@ -118,7 +113,7 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
               {state.isValidPassword ? (
                 <Animatable.View animation="fadeInLeft" duration={500}>
                   <Text style={styles.errorMsg}>
-                    Password phải từ 8 kí tự trở lên.
+                    {t('Password must be 8 characters or more.')}
                   </Text>
                 </Animatable.View>
               ) : null}
@@ -127,7 +122,7 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
             <View style={[styles.btn, {width: '100%'}]}>
               <Button
                 onPress={() => confirm(password, newpassword)}
-                title="Confirm"
+                title={t('Confirm')}
                 color="#6236FF"
                 style={styles.btn}
               />
@@ -136,7 +131,7 @@ export default function ChangePassWordModal({data, showModal, closeModal}) {
           <View style={styles.btn}>
             <Button
               onPress={() => closeModal()}
-              title="Close"
+              title={t('CLOSE')}
               color="#6236FF"
               style={styles.btn}
             />

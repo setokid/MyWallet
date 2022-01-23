@@ -4,39 +4,62 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
-  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
+import IncomeModalData from '../Store/IncomeModalData';
 
 function TransactionDetails({item}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
+  const [typeName, setTypeName] = useState('');
+  console.log('nametype', typeName, 'idtype', item.Record.id_spending);
+  {
+    IncomeModalData.map((item1, index) => {
+      if (
+        item1.typeOfIncomeList.id == item.Record.id_income &&
+        typeName == ''
+      ) {
+        if (item.Record.docType == 'incomeuser') {
+          console.log(item1.name);
+          setTypeName(item1.name);
+        }
+      }
+    });
+  }
 
-  const [date, setDate] = useState(item.dateOfCreated);
+  // console.log(typeName);
 
-  const today = date.slice(0, 10);
-  const nDate =
-    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
         <View style={styles.transactionsDetail}>
-          <View>
-            <Text style={[styles.detail, {color: colors.value}]}>
-              {item.description}
-            </Text>
-            <Text style={[styles.type, {color: colors.text}]}>
-              {item.nameType}
-            </Text>
-          </View>
+          {item.Record.docType == 'incomeuser' ? (
+            <View>
+              <Text style={[styles.detail, {color: colors.value}]}>
+                {item.Record.income_name}
+              </Text>
+              <Text style={[styles.type, {color: colors.text}]}>
+                {t(typeName)}
+              </Text>
+            </View>
+          ) : (
+            <View>
+              <Text style={[styles.detail, {color: colors.value}]}>
+                {item.Record.spend_name}
+              </Text>
+              <Text style={[styles.type, {color: colors.text}]}>
+                {t(typeName)}
+              </Text>
+            </View>
+          )}
         </View>
         <View>
-          {item.spend_or_income == true ? (
+          {item.Record.docType == 'incomeuser' ? (
             <NumberFormat
-              value={item.amount}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
@@ -44,7 +67,7 @@ function TransactionDetails({item}) {
                   <Text
                     style={[{flexWrap: 'wrap', color: '#1DCC70'}]}
                     {...props}>
-                    + {value} {item.currency}
+                    + {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -56,14 +79,14 @@ function TransactionDetails({item}) {
                         marginTop: 3,
                       },
                     ]}>
-                    {nDate}
+                    {item.Record.date_created}
                   </Text>
                 </View>
               )}
             />
           ) : (
             <NumberFormat
-              value={item.amount}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
@@ -71,7 +94,7 @@ function TransactionDetails({item}) {
                   <Text
                     style={[{flexWrap: 'wrap', color: '#FF396F'}]}
                     {...props}>
-                    - {value} {item.currency}
+                    - {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -83,7 +106,7 @@ function TransactionDetails({item}) {
                         marginTop: 3,
                       },
                     ]}>
-                    {nDate}
+                    {item.Record.date_created}
                   </Text>
                 </View>
               )}
@@ -97,8 +120,8 @@ function TransactionDetails({item}) {
 
 const TransactionCard = ({navigation, userTransaction}) => {
   const {t} = useTranslation();
-  const [datatransaction] = useState(userTransaction);
   const {colors} = useTheme();
+
   return (
     <View style={styles.section}>
       <View style={styles.transactionHeading}>
@@ -112,19 +135,22 @@ const TransactionCard = ({navigation, userTransaction}) => {
             <Text style={styles.viewAll}>{t('View All')}</Text>
           </TouchableOpacity>
         </View>
-        {datatransaction != null ? (
-          <FlatList
-            scrollEnabled={false}
-            data={datatransaction.slice(0, 3)}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => {
-              return <TransactionDetails item={item} key={index} />;
-            }}
-          />
+        {userTransaction != null ? (
+          // <FlatList
+          //   scrollEnabled={false}
+          //   data={userTransaction}
+          //   showsVerticalScrollIndicator={false}
+          //   renderItem={({data, Key}) => {
+          //     return <TransactionDetails item={data} key={Key} />;
+          //   }}
+          // />
+          userTransaction
+            .slice(0, 3)
+            .map((item, index) => (
+              <TransactionDetails item={item} key={index} />
+            ))
         ) : (
-          <View>
-            <Text>Khong co data</Text>
-          </View>
+          <ActivityIndicator size="large" />
         )}
       </View>
     </View>

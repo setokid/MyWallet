@@ -3,9 +3,8 @@ export default {
   Pages: 'Danh mục',
   Profile: 'Tài khoản',
   'Total Blance': 'Tổng số dư',
-  Withdraw: 'Chi phí',
-  Send: 'Chuyển tiền',
-  Deposit: 'Thu nhập',
+  Spending: 'Chi phí',
+  Target: 'Mục tiêu',
   Income: 'Thu nhập',
   Expenses: 'Chi phí',
   'Total Bills': 'Tổng hóa đơn',
@@ -29,4 +28,5 @@ export default {
   FAQ: 'Câu hỏi thường gặp',
   Support: 'Hỗ trợ',
   'Profile Setting': 'Thiết lập tài khoản',
+  'SELECT CATEGORY': 'Chọn danh mục',
 };

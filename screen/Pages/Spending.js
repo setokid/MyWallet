@@ -75,13 +75,16 @@ const Spending = ({route, navigation}) => {
     setCurrency('VND');
   };
 
-  const confirm = (currency, amount, description, id, date) => {
+  const confirm = async (currency, amount, description, id, date) => {
     if (amount == null || amount == 0) {
-      Alert.alert('Error', 'Amount cant be zero ', [{text: 'Okay'}]);
+      Alert.alert(t('Error'), t('Amount cant be zero'), [{text: t('Okay')}]);
     } else {
       addSpending(description, currency, amount, id, date);
+      let result = await addIncome();
+      if (result == 'Thành công')
+        Alert.alert(t('Successful'), t('Extra spending'), [{text: t('Okay')}]);
+      Alert.alert(t('Fail'), t('Extra spending'), [{text: t('Okay')}]);
       clearInput();
-      Alert.alert('Successful', 'Successful extra spending', [{text: 'Okay'}]);
     }
   };
 
@@ -104,7 +107,7 @@ const Spending = ({route, navigation}) => {
             style={[styles.input]}
             onChangeText={val => setAmount(val)}
             value={amount}
-            placeholder="Amount"
+            placeholder={t('Amount')}
             placeholderTextColor={colors.value}
             keyboardType="numeric"
           />
@@ -140,7 +143,7 @@ const Spending = ({route, navigation}) => {
             onPress={() => openModal()}>
             <Icon name="align-justify" color={colors.value} size={30} />
             <Text style={[styles.title, {color: colors.value, marginLeft: 10}]}>
-              {type != '' ? `${t(type)}` : 'Choose type of Income'}
+              {type != '' ? `${t(type)}` : t('Choose type of Spending')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -211,7 +214,7 @@ const Spending = ({route, navigation}) => {
         <View>
           <View style={styles.btnConfirm}>
             <Button
-              onPress={() => confirm(currency, amount, description, id, date)}
+              onPress={() => confirm(currency, amount, description, id, nDate)}
               title={t('Confirm')}
             />
           </View>

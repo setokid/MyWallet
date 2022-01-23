@@ -159,7 +159,7 @@ const SignUp = ({navigation}) => {
           {data.isValidUser ? (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
-                Username phải từ 4 kí tự trở lên.
+                {t('Username must be 4 or more characters.')}
               </Text>
             </Animatable.View>
           ) : null}
@@ -187,7 +187,7 @@ const SignUp = ({navigation}) => {
           {data.isValidPassword ? (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
-                Password phải từ 8 kí tự trở lên.
+                {t('Password must be 8 characters or more.')}
               </Text>
             </Animatable.View>
           ) : null}
@@ -215,7 +215,7 @@ const SignUp = ({navigation}) => {
           {data.isValidConfirmPassword ? (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
-                Password phải từ 8 kí tự trở lên.
+                {t('Password must be 8 characters or more.')}
               </Text>
             </Animatable.View>
           ) : null}

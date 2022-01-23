@@ -6,6 +6,7 @@ import {
   ScrollView,
   FlatList,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
@@ -14,34 +15,29 @@ import NumberFormat from 'react-number-format';
 import {getTarget} from '../../components/Store/FetchAPI';
 
 const SavingGoalsView = ({item}) => {
-  const progress = (item.current * 100) / item.total / 100;
+  const progress = (item.Record.current_balance / item.Record.amount) * 100;
   const percent = (progress * 100).toFixed(1);
   const {colors} = useTheme();
 
-  const [date, setDate] = useState(item.date_end);
-
-  const today = date.slice(0, 10);
-  const nDate =
-    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
         <View style={styles.savingGoalsDetails}>
           <View>
             <Text style={[styles.detail, {color: colors.value}]}>
-              {item.description}
+              {item.Record.name_target}
             </Text>
             <Text style={[styles.type, {color: colors.text}]}>{item.name}</Text>
           </View>
-          <View>
+          <View style={styles.targetView}>
             <NumberFormat
-              value={item.total}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
                 <View>
                   <Text style={[styles.type, {color: colors.value}]} {...props}>
-                    {value} {item.currency}
+                    {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -52,7 +48,7 @@ const SavingGoalsView = ({item}) => {
                         fontSize: 10,
                       },
                     ]}>
-                    End: {nDate}
+                    End: {item.Record.end_date}
                   </Text>
                 </View>
               )}
@@ -66,7 +62,7 @@ const SavingGoalsView = ({item}) => {
             color={'#6236FF'}
           />
           <Text style={[styles.percentText, {color: colors.value}]}>
-            {percent}%
+            {percent} %
           </Text>
         </View>
       </View>
@@ -80,7 +76,7 @@ const wait = timeout => {
 
 const SavingGoals = () => {
   const [userTarget, setUserTarget] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const {t} = useTranslation();
 
   const {colors, colors2} = useTheme();
@@ -98,6 +94,7 @@ const SavingGoals = () => {
       if (cleanup) {
         let resusertarget = await getTarget();
         setUserTarget(resusertarget);
+        setIsLoading(false);
       }
     }
 
@@ -121,15 +118,19 @@ const SavingGoals = () => {
               {t('Saving Goals')}
             </Text>
           </View>
-          <View>
-            <FlatList
-              data={userTarget}
-              showsVerticalScrollIndicator={false}
-              renderItem={({item, index}) => {
-                return <SavingGoalsView item={item} key={index} />;
-              }}
-            />
-          </View>
+          {isLoading == true ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <View>
+              <FlatList
+                data={userTarget}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item, index}) => {
+                  return <SavingGoalsView item={item} key={index} />;
+                }}
+              />
+            </View>
+          )}
         </View>
       </View>
     </ScrollView>

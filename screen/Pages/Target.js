@@ -75,11 +75,13 @@ const AddTargetView = () => {
     currency,
   ) => {
     if (total == null || total == 0) {
-      Alert.alert('Error', 'Total cant be zero', [{text: 'Okay'}]);
+      Alert.alert(t('Error'), t('Total cant be zero'), [{text: t('Okay')}]);
     } else {
       addTarget(description, start_date, end_date, amount, currency);
       clearInput();
-      Alert.alert('Successful', 'Successful extra target', [{text: 'Okay'}]);
+      Alert.alert(t('Successful'), t('Successful extra target'), [
+        {text: t('Okay')},
+      ]);
     }
   };
 
@@ -95,7 +97,7 @@ const AddTargetView = () => {
           style={[styles.input]}
           onChangeText={val => setTotal(val)}
           value={total}
-          placeholder="Target value"
+          placeholder={t('Target value')}
           placeholderTextColor={colors.value}
           keyboardType="numeric"
         />
@@ -241,12 +243,12 @@ const AddTargetAmountView = ({targetId}) => {
 
   const confirmAddAmountTarget = (targetid, currency, amount, description) => {
     if (amount == null || amount == 0) {
-      Alert.alert('Error', 'Amount cant be zero', [{text: 'Okay'}]);
+      Alert.alert(t('Error'), t('Amount cant be zero'), [{text: t('Okay')}]);
     } else {
       addAmount(targetid, currency, amount, description);
       clearInput();
-      Alert.alert('Successful', 'Successful extra amount target', [
-        {text: 'Okay'},
+      Alert.alert(t('Successful'), t('Extra amount target'), [
+        {text: t('Okay')},
       ]);
     }
   };
@@ -263,7 +265,7 @@ const AddTargetAmountView = ({targetId}) => {
           style={[styles.input]}
           onChangeText={val => setAmount(val)}
           value={amount}
-          placeholder="Amount"
+          placeholder={t('Amount')}
           placeholderTextColor={colors.value}
           keyboardType="numeric"
         />
@@ -452,7 +454,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#000',
-    marginRight: 50,
+    marginRight: 20,
     fontSize: 20,
   },
   from: {
@@ -483,7 +485,7 @@ const styles = StyleSheet.create({
   },
   btndateTimePicker: {
     width: screenWidth - 240,
-    marginLeft: 20,
+    marginLeft: 'auto',
     height: 40,
     justifyContent: 'center',
   },

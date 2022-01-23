@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {ProgressBar, Colors} from 'react-native-paper';
@@ -13,34 +13,29 @@ import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
 
 function SavingGoalsDetails({item}) {
-  const progress = (item.current * 100) / item.total / 100;
+  const progress = (item.Record.current_balance / item.Record.amount) * 100;
   const percent = (progress * 100).toFixed(1);
   const {colors} = useTheme();
 
-  const [date, setDate] = useState(item.date_end);
-
-  const today = date.slice(0, 10);
-  const nDate =
-    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
         <View style={styles.savingGoalsDetails}>
           <View>
             <Text style={[styles.detail, {color: colors.value}]}>
-              {item.description}
+              {item.Record.name_target}
             </Text>
             <Text style={[styles.type, {color: colors.text}]}>{item.name}</Text>
           </View>
           <View style={styles.targetView}>
             <NumberFormat
-              value={item.total}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
                 <View>
                   <Text style={[styles.type, {color: colors.value}]} {...props}>
-                    {value} {item.currency}
+                    {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -51,7 +46,7 @@ function SavingGoalsDetails({item}) {
                         fontSize: 10,
                       },
                     ]}>
-                    End: {nDate}
+                    End: {item.Record.end_date}
                   </Text>
                 </View>
               )}
@@ -91,18 +86,21 @@ const SavingGoalsCard = ({navigation, usertarget}) => {
           </TouchableOpacity>
         </View>
         {usertarget != null ? (
-          <FlatList
-            scrollEnabled={false}
-            data={usertarget}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => {
-              return <SavingGoalsDetails item={item} key={index} />;
-            }}
-          />
+          // <FlatList
+          //   scrollEnabled={false}
+          //   data={usertarget}
+          //   showsVerticalScrollIndicator={false}
+          //   renderItem={({item, index}) => {
+          //     return <SavingGoalsDetails item={item} key={index} />;
+          //   }}
+          // />
+          usertarget
+            .slice(0, 3)
+            .map((item, index) => (
+              <SavingGoalsDetails item={item} key={index} />
+            ))
         ) : (
-          <View>
-            <Text>Khong có data</Text>
-          </View>
+          <ActivityIndicator size="large" />
         )}
       </View>
     </View>

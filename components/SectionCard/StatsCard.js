@@ -1,13 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 // import {useTheme} from 'react-native-paper';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
 
-const StatsCard = ({userData1}) => {
+const StatsCard = ({income, spending}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
+  var incomeSum;
+  {
+    income != null
+      ? (incomeSum = income
+          .map(item => parseInt(item.Record.amount))
+          .reduce((prev, curr) => prev + curr))
+      : null;
+  }
+  var spendingSum;
+  {
+    spending != null
+      ? (spendingSum = spending
+          .map(item => parseInt(item.Record.amount))
+          .reduce((prev, curr) => prev + curr))
+      : null;
+  }
+
   return (
     <View style={[styles.section]}>
       <View style={[styles.sectionCard]}>
@@ -20,14 +37,14 @@ const StatsCard = ({userData1}) => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Income')}
             </Text>
-            {userData1 != null ? (
+            {income != null ? (
               <NumberFormat
-                value={userData1.incomeAmount}
+                value={incomeSum}
                 displayType={'text'}
                 thousandSeparator={true}
                 renderText={(value, props) => (
                   <Text style={[styles.values, {color: '#1DCC70'}]} {...props}>
-                    {value} {userData1.currency}
+                    {value} VND
                   </Text>
                 )}
               />
@@ -45,14 +62,14 @@ const StatsCard = ({userData1}) => {
             <Text style={[styles.title, {color: colors.text}]}>
               {t('Expenses')}
             </Text>
-            {userData1 != null ? (
+            {spending != null ? (
               <NumberFormat
-                value={userData1.spendingAmount}
+                value={spendingSum}
                 displayType={'text'}
                 thousandSeparator={true}
                 renderText={(value, props) => (
                   <Text style={[styles.values, {color: '#FF396F'}]} {...props}>
-                    {value} {userData1.currency}
+                    {value} VND
                   </Text>
                 )}
               />

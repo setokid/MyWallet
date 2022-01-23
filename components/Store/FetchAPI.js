@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import envs from '../../config/env';
 
-const API_URL = 'http://104.154.46.80:8080';
+const API_URL = 'http://35.226.163.44:8080';
 console.log(API_URL);
 
 export async function logIn(email, password) {
@@ -28,13 +28,12 @@ export async function logIn(email, password) {
         console.log('login', error);
       });
   } catch (error) {}
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
 export async function signUp(email, password) {
   var result = [];
-  console.log(`${API_URL}/register/`);
   try {
     await fetch(`${API_URL}/register/`, {
       method: 'POST',
@@ -56,7 +55,7 @@ export async function signUp(email, password) {
         console.log(error);
       });
   } catch (error) {}
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
@@ -95,31 +94,100 @@ export async function getUserData() {
 export async function getTransaction() {
   let userToken;
   userToken = null;
-  var resUserTransaction = [];
+  var resUserTransaction;
   try {
     userToken = await AsyncStorage.getItem('userToken');
-    await fetch(`${API_URL}/api/info`, {
+    await fetch(`${API_URL}/api/seeall`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: userToken,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then(res => {
         if (!res.ok) {
           throw res.status;
         } else {
-          return (resUserTransaction = res.json());
+          return res.json();
         }
       })
-      .then(resData => {})
+      .then(resData => {
+        return (resUserTransaction = resData.result);
+      })
       .catch(error => {
         console.log('Tran', error);
       });
   } catch (error) {
     console.log('Tran', error);
   }
+
   return resUserTransaction;
+}
+
+export async function getIncomeTransaction() {
+  let userToken;
+  userToken = null;
+  var resUserIncomeTransaction;
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    await fetch(`${API_URL}/api/seealluserincome`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw res.status;
+        } else {
+          return res.json();
+        }
+      })
+      .then(resData => {
+        return (resUserIncomeTransaction = resData.result);
+      })
+      .catch(error => {
+        console.log('Tran', error);
+      });
+  } catch (error) {
+    console.log('Tran', error);
+  }
+
+  return resUserIncomeTransaction;
+}
+
+export async function getSpenTransaction() {
+  let userToken;
+  userToken = null;
+  var resUserSpenTransaction;
+  try {
+    userToken = await AsyncStorage.getItem('userToken');
+    await fetch(`${API_URL}/api/seealluserspending`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw res.status;
+        } else {
+          return res.json();
+        }
+      })
+      .then(resData => {
+        return (resUserSpenTransaction = resData.result);
+      })
+      .catch(error => {
+        console.log('Tran', error);
+      });
+  } catch (error) {
+    console.log('Tran', error);
+  }
+
+  return resUserSpenTransaction;
 }
 
 export async function getTarget() {
@@ -139,17 +207,19 @@ export async function getTarget() {
         if (!res.ok) {
           throw res.status;
         } else {
-          return (resUserTarget = res.json());
+          return res.json();
         }
       })
-      .then(resData => {})
+      .then(resData => {
+        return (resUserTarget = resData.result);
+      })
       .catch(error => {
         console.log('Target', error);
       });
   } catch (error) {
     console.log('Target', error);
   }
-  console.log('sda', resUserTarget);
+  // console.log('sda', resUserTarget);
   return resUserTarget;
 }
 
@@ -189,6 +259,7 @@ export async function getTarget() {
 export async function addIncome(description, amount, currency, id, date) {
   let userToken;
   userToken = null;
+  var result;
   try {
     userToken = await AsyncStorage.getItem('userToken');
     await fetch(`${API_URL}/api/adduserincome`, {
@@ -202,17 +273,28 @@ export async function addIncome(description, amount, currency, id, date) {
         amount: amount,
         currency: currency,
         id_income: id,
-        date: date,
+        date_created: date,
       }),
-    });
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(resData => {
+        return (result = resData.result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   } catch (error) {
     console.log('addincome', error);
   }
+  return result;
 }
 
 export async function addSpending(description, amount, currency, id, date) {
   let userToken;
   userToken = null;
+  var result;
   try {
     userToken = await AsyncStorage.getItem('userToken');
     await fetch(`${API_URL}/api/adduserspending`, {
@@ -226,12 +308,22 @@ export async function addSpending(description, amount, currency, id, date) {
         amount: amount,
         currency: currency,
         id_spending: id,
-        date: date,
+        date_created: date,
       }),
-    });
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(resData => {
+        return (result = resData.result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   } catch (error) {
     console.log('addspending', error);
   }
+  return result;
 }
 
 export async function addTarget(
@@ -341,6 +433,6 @@ export async function updatePassWord(password, newpassword) {
   } catch (error) {
     console.log('update password', error);
   }
-  console.log('c', resUpdatePassWord);
+  // console.log('c', resUpdatePassWord);
   return resUpdatePassWord;
 }

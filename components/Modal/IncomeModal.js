@@ -13,7 +13,6 @@ import {useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useTheme} from '@react-navigation/native';
 import {List} from 'react-native-paper';
-import IncomeModalData from '../Store/IncomeModalData';
 
 const screenWidth = Dimensions.get('screen').width;
 const windowWidth = Dimensions.get('window').width;
@@ -100,7 +99,7 @@ export default function IncomeModal({data, closeModal, showModal, navigation}) {
           <View style={styles.btn}>
             <Button
               onPress={() => closeModal()}
-              title="Close"
+              title={t('CLOSE')}
               color="#6236FF"
               style={styles.btn}
             />

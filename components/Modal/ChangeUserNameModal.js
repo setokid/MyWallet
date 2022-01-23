@@ -31,13 +31,13 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
   const confirm = (ngaysinh, username) => {
     if (username != '') {
       updateUserName(ngaysinh, username);
-      Alert.alert('Successful', 'Successful update user info', [
-        {text: 'Okay'},
+      Alert.alert(t('Successful'), t('Successful update user info'), [
+        {text: t('Okay')},
       ]);
       setUserName('');
       closeModal();
     } else {
-      Alert.alert('Error', 'User name cant be null', [{text: 'Okay'}]);
+      Alert.alert(t('Error'), t('User name cant be null'), [{text: t('Okay')}]);
     }
   };
   return (
@@ -103,7 +103,7 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
             <View style={[styles.btn, {width: '100%'}]}>
               <Button
                 onPress={() => confirm(nDate, userName)}
-                title="Confirm"
+                title={t('Confirm')}
                 color="#6236FF"
                 style={styles.btn}
               />
@@ -112,7 +112,7 @@ export default function ChangeUserNameModal({data, showModal, closeModal}) {
           <View style={styles.btn}>
             <Button
               onPress={() => closeModal()}
-              title="Close"
+              title={t('CLOSE')}
               color="#6236FF"
               style={styles.btn}
             />

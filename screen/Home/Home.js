@@ -1,6 +1,12 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
-import {ScrollView, StyleSheet, RefreshControl, StatusBar} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import WalletCard from '../../components/SectionCard/WalletCard';
@@ -17,7 +23,8 @@ import {
   getUserData,
   getTransaction,
   getTarget,
-  getModal,
+  getIncomeTransaction,
+  getSpenTransaction,
 } from '../../components/Store/FetchAPI';
 
 console.disableYellowBox = true;
@@ -31,12 +38,13 @@ const Home = ({navigation}) => {
   const [incomeModal, setIncomeModal] = useState(false);
   const [spendingModal, setSpendingModal] = useState(false);
   const [newWalletModal, setNewWalletModal] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [userTransaction, setUserTransaction] = useState([]);
-  const [userTarget, setUserTarget] = useState([]);
-  const [modal, setModal] = useState();
+  const [userTransaction, setUserTransaction] = useState();
+  const [userTarget, setUserTarget] = useState();
   const [refreshing, setRefreshing] = useState(false);
+  const [userIncomeTran, setUserIncomeTran] = useState();
+  const [userSpenTran, setUserSpenTran] = useState();
   const {colors} = useTheme();
 
   useEffect(() => {
@@ -44,13 +52,16 @@ const Home = ({navigation}) => {
     async function callApi() {
       if (cleanup) {
         let resUserData = await getUserData();
-        // let resUserTransaction = await getTransaction();
-        // let resUerTarget = await getTarget();
+        let resUserTransaction = await getTransaction();
+        let resUserTarget = await getTarget();
+        let resUserIncomeTransaction = await getIncomeTransaction();
+        let resUserSpenTransaction = await getSpenTransaction();
         setUserData(resUserData.data);
         setUserTransaction(resUserTransaction);
-        setUserTarget(resUerTarget);
-        console.log('zxc', resUerTarget);
-        console.log('test');
+        setUserTarget(resUserTarget);
+        setUserIncomeTran(resUserIncomeTransaction);
+        setUserSpenTran(resUserSpenTransaction);
+        setIsLoading(false);
       }
     }
     callApi();
@@ -98,7 +109,11 @@ const Home = ({navigation}) => {
         openModal={openModal}
         userData={userData}
       />
-      <StatsCard userData1={userData} navigation={navigation} />
+      <StatsCard
+        navigation={navigation}
+        income={userIncomeTran}
+        spending={userSpenTran}
+      />
       <TransactionCard
         userTransaction={userTransaction}
         navigation={navigation}

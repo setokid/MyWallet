@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -16,30 +17,29 @@ import NumberFormat from 'react-number-format';
 const TransactionView = ({item}) => {
   const {t} = useTranslation();
   const {colors} = useTheme();
-
-  const [date, setDate] = useState(item.dateOfCreated);
-
-  const today = date.slice(0, 10);
-  const nDate =
-    today.slice(8, 10) + '/' + today.slice(5, 7) + '/' + today.slice(0, 4);
+  const [typeName, setTypeName] = useState();
+  // console.log(typeName);
 
   return (
     <View>
       <View style={[styles.detailsCard, {backgroundColor: colors.background}]}>
         <View style={styles.transactionsDetail}>
           <View>
-            <Text style={[styles.detail, {color: colors.value}]}>
-              {item.description}
-            </Text>
-            <Text style={[styles.type, {color: colors.text}]}>
-              {item.nameType}
-            </Text>
+            {item.Record.docType == 'incomeuser' ? (
+              <Text style={[styles.detail, {color: colors.value}]}>
+                {item.Record.income_name}
+              </Text>
+            ) : (
+              <Text style={[styles.detail, {color: colors.value}]}>
+                {item.Record.spend_name}
+              </Text>
+            )}
           </View>
         </View>
         <View>
-          {item.spend_or_income == true ? (
+          {item.Record.docType == 'incomeuser' ? (
             <NumberFormat
-              value={item.amount}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
@@ -47,7 +47,7 @@ const TransactionView = ({item}) => {
                   <Text
                     style={[{flexWrap: 'wrap', color: '#1DCC70'}]}
                     {...props}>
-                    + {value} {item.currency}
+                    + {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -59,14 +59,14 @@ const TransactionView = ({item}) => {
                         marginTop: 3,
                       },
                     ]}>
-                    {nDate}
+                    {item.Record.date_created}
                   </Text>
                 </View>
               )}
             />
           ) : (
             <NumberFormat
-              value={item.amount}
+              value={item.Record.amount}
               displayType={'text'}
               thousandSeparator={true}
               renderText={(value, props) => (
@@ -74,7 +74,7 @@ const TransactionView = ({item}) => {
                   <Text
                     style={[{flexWrap: 'wrap', color: '#FF396F'}]}
                     {...props}>
-                    - {value} {item.currency}
+                    - {value} {item.Record.currency}
                   </Text>
                   <Text
                     style={[
@@ -86,7 +86,7 @@ const TransactionView = ({item}) => {
                         marginTop: 3,
                       },
                     ]}>
-                    {nDate}
+                    {item.Record.date_created}
                   </Text>
                 </View>
               )}
@@ -106,7 +106,7 @@ const screenheight = Dimensions.get('window').height;
 
 const Transaction = () => {
   const [userTransaction, setUserTransaction] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const {t} = useTranslation();
 
   const {colors, colors2} = useTheme();
@@ -124,6 +124,7 @@ const Transaction = () => {
       if (cleanup) {
         let resusertransaction = await getTransaction();
         setUserTransaction(resusertransaction);
+        setIsLoading(false);
       }
     }
 
@@ -136,7 +137,7 @@ const Transaction = () => {
 
   return (
     <ScrollView
-      style={{height: screenheight}}
+      style={{height: screenheight, backgroundColor: colors2.background}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
@@ -147,15 +148,19 @@ const Transaction = () => {
               {t('Transaction')}
             </Text>
           </View>
-          <View style={styles.transactions}>
-            <FlatList
-              data={userTransaction}
-              showsVerticalScrollIndicator={false}
-              renderItem={({item, index}) => {
-                return <TransactionView item={item} key={index} />;
-              }}
-            />
-          </View>
+          {isLoading == true ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <View style={styles.transactions}>
+              <FlatList
+                data={userTransaction}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item, index}) => {
+                  return <TransactionView item={item} key={index} />;
+                }}
+              />
+            </View>
+          )}
         </View>
       </View>
     </ScrollView>
